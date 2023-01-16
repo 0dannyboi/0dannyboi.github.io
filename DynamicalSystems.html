@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
@@ -31,96 +33,102 @@ and is wrapped around the whole page content, except for the footer in this exam
   <div class="w3-card-4 w3-margin w3-white">
     <img src="/collage_web.png" alt="Nature" style="width:100%">
     <div class="w3-container">
-      <h3><b>About This Page</b></h3>
+      <center><h3><b>Introduction</b></h3></center>
     </div>
-
     <div class="w3-container">
       <p>    
-         I believe computational modeling has been an indispensable tool in cementing my understanding of physical phenomena and mathematical concepts. 
-         Before I started learning Python, I viewed coding as a tool that was only accessible to developers maintaining a website or the software engineers 
-         keeping my laptop running. I also pictured physics research as a cross-talk between experimentalists and theorists carefully refining their models. 
-         However, after tinkering around with some simple code I wrote to model elastic collisions, I realized the utility of computation when my velocity 
-         histograms tended towards the Maxwell-Boltzmann distribution that I learned about in thermal physics. Although I wasn't entirely sure what to do with my
-         future, I quickly realized that I wanted it to be where computation and physics overlap. As a result, much of this codebase contains numerical procedures
-        in Python and Mathematica I wrote to help me gain more intuition for the problem sets I worked through.
+         Dynamical systems is the branch of mathematics that studies the behavior of a system under the repeated application of a set of rules. Some example use cases include: modeling the population of an ecosystem containing predators and prey, describing the set of configurations a double pendulum can occupy, and modeling the convection of a fluid being heated.
+</p>
+      <p>
+	In the most rudimentary cases, we can place a dynamical system into one of two groups based on how the system evolves over time. If the changes occur in countable steps such that the configuration at a step or iteration, \(x_i\),  determines the configuration of the following iteration, \(x_{i+1}\), the system is discrete. If we cannot divide the behavior of the system into discrete steps, the dynamics are continuous. In such a case, the evolution of the system is typically modeled by differential equations.
+
           
       </p>
-      <p> 
-          I am also interested in computational physics as a research tool in and of itself. Not only has computation made it possible to study specific results in 
-          exotic fields like quantum chromodynamics and numerical relativity, but it has also helped formalize general concepts like chaos and ergodicity. 
-          As a result, much of the code is the numerical procedures I used as a part of research projects in high-energy physics and material science. 
+      <center><h6>Discrete Dynamical Systems</h6></center>
+      <p>
+ Some of the simplest dynamical systems take the form of discrete recurrence relations, where the value at some integer step, \(x_n\), depends on the value at the previous integer step, \(x_{n - 1}\). A common definition that uses this notation is the factorial function defined over the non-negative integers:
+
       </p>
+      \[(n+1)! = (n+1) \cdot n! \]
+      <p>
+Where \(0!\) is defined as \(1\). Starting from this value, it is easy to define the factorial function for the consecutive integers:
+        \[ 1! = 0! * 1 = 1 * 1 \xrightarrow{} 1 \text{, } \] 
+        \[ 2! = 1! * 2 = 1 * 2 \xrightarrow{}2 \text{, } \]
+       \[ 3! = 2! * 3 = 2 * 3 \xrightarrow{} 6 \text{ ...} \]
+</p>
       
        <p>  
-          The rest of this page showcases the code I used to analyze data collected from lab coursework or public data sets. These experiences provided me with practice 
-          cleaning data, finding 'good' questions to investigate, and presenting findings in a concise and informative form. In these cases, I focus more on algorithms and techniques.
-          </p>
-      
-      <p>  
-          The links to the right organize the projects by a general category based on content (i.e. Dynamical Systems, Quantum Mechanics) and/or type of algorithm (i.e. Monte Carlo, Backtracking).  </p>
+         The prototypical example of a discrete dynamical system is the logistic map, which describes the dynamics of a population in terms of a reproduction rate, \(r\). At any particular iteration, \(n\), we can define the ratio of the population to the system’s carrying capacity as \(x_n\), a value between 0 and 1.
+       </p>
+      \[ x_{n+1} = r * x_n (1 - x_n)\]
+      <p>
+        Intuitively, the reproduction rate tends to increase the population. However, the model accounts for resource scarcity through the factor \((1 - x_n)\), which decreases linearly with the population. As a result, the population tends to increase linearly as \(x_{n+1} \approx r * x_n \) for small populations. As the population approaches the carrying capacity ( \( x_n \sim 1 \) ), the resource scarcity factor approaches 0, driving the population towards 0. Further pages investigate the logistic map's dynamics, showing a range of rich features including chaos.
+      </p>
+      <center><h6>Continuous Dynamical Systems</h6></center>
+      <p>
+        A simple  continuous dynamical system can be realized by considering a pendulum consisting of a mass, \( m \), suspended on a massless rod of length \(L \). The equations of motion can be obtained by computing the Lagrangian, \(\mathcal{L} = T - U\) and evaluating the Euler-Lagrange equation:
+        \[ \frac{d }{d t} \frac{\partial \mathcal{L} }{\partial \dot{\theta}} = \frac{\partial \mathcal{L}}{\partial \theta} \]
+ 
+ Where the kinetic energy of the system is:
+        \[ T = \frac{m L^2}{2} \dot{\theta}^2 \]
+ 
+ and the potential energy of the system is:
+        \[ U = m g L (1 - \cos(\theta)) \]
+ 
+The equation of motion of the system becomes:
+        \[ \ddot{\theta} = - \frac{g}{L} \sin(\theta) \]
+We can rewrite this second order differential equation as a coupled set of first order ODEs:
+        \[\frac{d \theta}{d t} = \dot{\theta} \]
+        \[\frac{d \dot{\theta}}{d t} = \frac{g}{L} \sin(\theta) \]
+Further pages show how this representation  allows us to visually represent the dynamics of this system.
+      </p>
     </div>
   </div>
 <!-- END BLOG ENTRIES -->
 </div>
 
 <!-- Introduction menu -->
- 
-  <!-- Posts -->
-  <div class="w3-card w3-margin">
-    <div class="w3-container w3-padding">
-      <h4>Project Categories</h4>
-    </div>
+<div class="w3-col l4">
+  <!-- About Card -->
+  <div class="w3-card w3-margin w3-margin-top">
+    <div class="w3-container w3-white">
+     <div class="w3-container w3-padding">
+      <h4>Popular Posts</h4>
     <ul class="w3-ul w3-hoverable w3-white">
       <li class="w3-padding-16">
-        <img src="/wheresthebif.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Dynamical Systems</span><br>
+        <img src="/w3images/workshop.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Lorem</span><br>
         <br>
         <br>
-        <span>Studies the time evolution of discrete and continuous systems under the repeated application of a set of rules.</span>
+        <span>Sed mattis nunc</span>
       </li>
       <li class="w3-padding-16">
         <img src="/w3images/gondol.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Quantum</span><br>
-        <br>
-        <br>
+        <span class="w3-large">Ipsum</span><br>
         <span>Praes tinci sed</span>
       </li> 
       <li class="w3-padding-16">
         <img src="/w3images/skies.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Condensed Matter</span><br>
-        <br>
-        <br>
+        <span class="w3-large">Dorum</span><br>
         <span>Ultricies congue</span>
-      </li>   
-      <li class="w3-padding-16">
-        <img src="/w3images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Magnetism</span><br>
-        <br>
-        <br>
-        <span>Lorem ipsum dipsum</span>
-      </li> 
-      <li class="w3-padding-16">
-        <img src="/w3images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Data</span><br>
-        <br>
-        <br>
-        <span>Lorem ipsum dipsum</span>
       </li>
-      <li class="w3-padding-16">
+      <h4>My Dynamical Systems Projects</h4>
+      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
         <img src="/w3images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large">Miscellaneous</span><br>
-        <br>
-        <br>
+        <span class="w3-large"><a href="https://0dannyboi.github.io/DynamicalSystems">Discrete Dynamical Systems</a></span><br>
         <span>Lorem ipsum dipsum</span>
-      </li>
+      </li>  
     </ul>
   </div>
-  <hr> 
- 
 
+      
+ 
+  
   
 <!-- END Introduction Menu -->
 </div>
+    
+
 
 <!-- END GRID -->
 </div><br>
