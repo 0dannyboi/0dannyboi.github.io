@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Discrete Dynamical Systems</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head>
+<body class="w3-light-grey">
+
+<!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+<div class="w3-content" style="max-width:1400px">
+
+<!-- Header -->
+<header class="w3-container w3-center w3-padding-32"> 
+  <h1><b>Discrete Dynamical Systems</b></h1>
+  <p>Welcome to Danny Foster's journey learning how to model and analyze the world!</p>
+</header>
+
+<!-- Grid -->
+<div class="w3-row">
+
+<!-- Blog entries -->
+<div class="w3-col l8 s12">
+  <!-- Blog entry -->
+  <div class="w3-card-4 w3-margin w3-white">
+    <img src="/collage_web.png" alt="Nature" style="width:100%">
+    <div class="w3-container">
+      <center><h3><b>The Logistic Map</b></h3></center>
+      <center><h5>Please check out the Python code I used to study the map <a href="here">here.</a></h5></center>
+    </div>
+    <div class="w3-container">
+     The prototypical example of a discrete dynamical system is the logistic map, which describes the dynamics of a population in terms of a reproduction rate, \(r\). At any particular iteration, \(n\), we can define the ratio of the population to the system’s carrying capacity as \(x_n\), a value between 0 and 1.
+       </p>
+      \[ x_{n+1} = r * x_n (1 - x_n)\]
+      <p>
+        Intuitively, the reproduction rate tends to increase the population. However, the model accounts for resource scarcity through the factor \((1 - x_n)\), which decreases linearly with the population. As a result, the population tends to increase linearly as \(x_{n+1} \approx r * x_n \) for small populations. As the population approaches the carrying capacity ( \( x_n \sim 1 \) ), the resource scarcity factor approaches 0, driving the population towards 0.
+      <center><h6>Orbits and Cobweb Plots</h6></center>
+      <p>
+ We can describe the trajectory that the system takes from some initial condition \(x_0 \) by looking at the set of values the system covers. This set \( \{x_0, x_1, x_2, ... \} \) is a particular orbit.
+</p>
+      
+       <p>  
+         For 1-dimensional maps, such as the logistic map it can be easy to determine if a particular orbit diverges, converges towards a particular value (or cycle of values), or does something else by tracing the orbits under iteration. The cobweb plot is a common visual representation for the orbits of 1-dimensional systems. The basic structure of the algorithm is as follows:
+       </p>
+      <p>
+        \(1\). Plot the line \(y = x\) and the map \(f\) as \(y = f(x)\). <br> 
+        <br> 
+        \(2\). Note the fixed points found where the line \(y = x\) intersects \(f\). The values of these fixed points are invariant under the map \(f\). An orbit that arrives here will not leave.<br>
+        <br> 
+        \(3\). Draw a vertical line from the initial condition to the curve \(y=f(x)\). This line starts at \(
+        \left(x_0, 0 \right)
+        \) and leads to the point \(
+        \left(x_0, f(x_0) \right)
+        \). <br> <br> 
+       \(4\). Draw a horizontal line from the point on \(f(x)\) from step 3 to the line \(y = x\). This line starts at \(
+        \left(x_0, f(x_0) \right)
+        \) and leads to \(
+        \left(f(x_0), f(x_0) \right)
+        \)<br> <br> 
+        \(5\). Draw a vertical line from the value \(\left(f(x), f(x)\right)\) on the line \(y = x \) towards the map \(f\). The point we land on here is \( \left(f(x), f(f(x))\right) \).<br><br> 
+        \(6\). Repeat on from step 4.<br><br> 
+        To produce a cobweb plot using my code, I define an instance of my class 'discrete_map'. The string expression representing the discrete map is passed as the first argument. The string representing our variable being mapped and a parameter of the map are passed as the second and third arguments:
+        <pre>
+  <code>
+    s = discrete_map("a * x * (1 - x)", "x", "a")
+    ani = s.cobweb_animation(2.7, 100, 0.2)
+    # ani takes the arguments:
+    # (parameter, number of iterations, initial condition)
+  </code>
+</pre>
+       Using the above parameters:
+    the following animation is produced:
+    <br><br>
+    <center><IMG SRC="image1.gif"></center>
+      </p>
+      <center><h6>Continuous Dynamical Systems</h6></center>
+      <p>
+        A simple  continuous dynamical system can be realized by considering a pendulum consisting of a mass, \( m \), suspended on a massless rod of length \(L \). The equations of motion can be obtained by computing the Lagrangian, \(\mathcal{L} = T - U\) and evaluating the Euler-Lagrange equation:
+        \[ \frac{d }{d t} \frac{\partial \mathcal{L} }{\partial \dot{\theta}} = \frac{\partial \mathcal{L}}{\partial \theta} \]
+ 
+ Where the kinetic energy of the system is:
+        \[ T = \frac{m L^2}{2} \dot{\theta}^2 \]
+ 
+ and the potential energy of the system is:
+        \[ U = m g L (1 - \cos(\theta)) \]
+ 
+The equation of motion of the system becomes:
+        \[ \ddot{\theta} = - \frac{g}{L} \sin(\theta) \]
+We can rewrite this second order differential equation as a coupled set of first order ODEs:
+        \[\frac{d \theta}{d t} = \dot{\theta} \]
+        \[\frac{d \dot{\theta}}{d t} = \frac{g}{L} \sin(\theta) \]
+Further pages show how this representation  allows us to visually represent the dynamics of this system.
+      </p>
+    </div>
+  </div>
+<!-- END BLOG ENTRIES -->
+</div>
+
+<!-- Introduction menu -->
+<div class="w3-col l4">
+  <!-- About Card -->
+  <div class="w3-card w3-margin w3-margin-top">
+    <div class="w3-container w3-white">
+     <div class="w3-container w3-padding">
+      <h4>Popular Posts</h4>
+    <ul class="w3-ul w3-hoverable w3-white">
+      <li class="w3-padding-16">
+        <img src="/w3images/workshop.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Lorem</span><br>
+        <br>
+        <br>
+        <span>Sed mattis nunc</span>
+      </li>
+      <li class="w3-padding-16">
+        <img src="/w3images/gondol.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Ipsum</span><br>
+        <span>Praes tinci sed</span>
+      </li> 
+      <li class="w3-padding-16">
+        <img src="/w3images/skies.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Dorum</span><br>
+        <span>Ultricies congue</span>
+      </li>
+      <h4>Popular Posts</h4>
+      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+        <img src="/w3images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Mingsum</span><br>
+        <span>Lorem ipsum dipsum</span>
+      </li>  
+    </ul>
+  </div>
+
+      
+ 
+  
+  
+<!-- END Introduction Menu -->
+</div>
+    
+
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END w3-content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-dark-grey w3-padding-32 w3-margin-top">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+</body>
+</html>
