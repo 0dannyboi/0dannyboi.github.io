@@ -117,6 +117,20 @@ We can also expect initial conditions starting near 0 to be pushed away for thes
 This is exactly what we see when we set the initial condition as \(x_0 = 0.02\):
   <br><br>
     <center><IMG SRC="\002.gif"></center>
+
+The cobweb plot allows us to visualize the orbits on the logistic map for a particular initial condition and parameter. On the other hand, a bifurcation diagram shows how the long term behavior of the logistic map across varying values of the parameter \(a\).
+ The following algorithm provides a method of producing a bifurcation diagram:
+ <br><br>
+  \(1.\) Define a set of parameters \( \{a_0, a_1, ... a_N \}\) that form the x-axis.
+  <br><br>
+  \(2.\) Chose an initial condition, \( x_0 \).
+<br><br>
+ \(3.\) For each parameter, iterate \(M\) times from \(x_0\) and plot the final \(m\) values on the y-axis.
+  <br><br>
+  Using the 'discrete_map' instance \(s\) above, it is straightforward to generate a bifurcation diagram. Here, I show the bifurcation diagram using 200 values of \(a\) from 0 to 4. The initial condition is \(x_0 = 0.2\) and the plot shows the final 90 iterations out of 500 for each value of \(a\).
+  \[\text{s.bifurcate(0, 4, 500, 90, 0.2)}\]
+ The following (annotated) plot is the result:
+  <center><IMG SRC="\bifurcation_02_copy.png"></center>
       </p>
     </div>
   </div>
