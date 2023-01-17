@@ -36,11 +36,11 @@ and is wrapped around the whole page content, except for the footer in this exam
       <center><h5>Please check out the Python code I used to study the map <a href="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/1d_discrete_dynamical.py">here.</a></h5></center>
     </div>
     <div class="w3-container">
-     The prototypical example of a discrete dynamical system is the logistic map, which describes the dynamics of a population in terms of a reproduction rate, \(r\). At any particular iteration, \(n\), we can define the ratio of the population to the system’s carrying capacity as \(x_n\), a value between 0 and 1.
+     The prototypical example of a discrete dynamical system is the logistic map, which describes the dynamics of a population in terms of a reproduction rate, \(a\). At any particular iteration, \(n\), we can define the ratio of the population to the system’s carrying capacity as \(x_n\), a value between 0 and 1.
        </p>
-      \[ x_{n+1} = r * x_n (1 - x_n)\]
+      \[ x_{n+1} = a * x_n (1 - x_n)\]
       <p>
-        Intuitively, the reproduction rate tends to increase the population. However, the model accounts for resource scarcity through the factor \((1 - x_n)\), which decreases linearly with the population. As a result, the population tends to increase linearly as \(x_{n+1} \approx r * x_n \) for small populations. As the population approaches the carrying capacity ( \( x_n \sim 1 \) ), the resource scarcity factor approaches 0, driving the population towards 0.
+        Intuitively, the reproduction rate tends to increase the population. However, the model accounts for resource scarcity through the factor \((1 - x_n)\), which decreases linearly with the population. As a result, the population tends to increase linearly as \(x_{n+1} \approx a * x_n \) for small populations. As the population approaches the carrying capacity ( \( x_n \sim 1 \) ), the resource scarcity factor approaches 0, driving the population towards 0.
       <center><h6>Orbits and Cobweb Plots</h6></center>
       <p>
  We can describe the trajectory that the system takes from some initial condition \(x_0 \) by looking at the set of values the system covers. This set \( \{x_0, x_1, x_2, ... \} \) is a particular orbit.
@@ -131,6 +131,42 @@ The cobweb plot allows us to visualize the orbits on the logistic map for a part
   \[\text{s.bifurcate(0, 4, 500, 90, 0.2)}\]
  The following (annotated) plot is the result:
   <center><IMG SRC="\small_bif_002.png"></center>
+<br>
+Note that the goal of a  bifurcation diagram is to show asymptotic behavior. As a result, the greater the number of both iterations and points plotted, the closer the diagram will match the long term behavior of the system. As the cobweb animations above show, an asymptotically periodic orbit will converge on a periodic orbit (such as a fixed point) as \(n \xrightarrow{} \infty\).
+<br><br>
+Some regions of the bifurcation diagram show either 2 or 4 points for a given value of \(a\). In these cases, the orbit approaches a period 2 or period 4 orbit.
+<br><br>
+For most values of \(a > 3.5\), we notice that the diagram shows many points which do not suggest fixed points or periodic orbits. Many of these parameters demonstrate chaotic behavior. For a one dimensional map, we can show an orbit is chaotic if:
+  \[1. \text{ The orbit is bounded.} \]
+  \[2. \text{ The orbit's Lyapunov number is strictly greater than 1 .} \]
+We define the Lyapunov number as:
+  \[L(x_1) = \lim_{n \to \infty} (|f'(x_0)| |f'(x_1)|...|f'(x_n)|  ) ^{\frac{1}{n}}\] if it exists. <br><br>
+Similarly, we can describe he Lyapunov exponent as:
+  \[h(x_1) = \lim_{N \to \infty} \frac{0}{N} \sum_{n=1}^{N} \ln(|f'(x_n)|) \]
+provided the limit exists. <br><br>
+Looking at the bifurcation diagram for \(f(x) = a * x (1 - x)\) for \(x_0 =  0.2\), we can pick the value \(a = 3.7\) as it does not appear to be approach a periodic orbit. The cobweb plot looks like:
+<center><IMG SRC="\chaos_log.gif"></center>
+<br>
+The colors go from blue to red with increasing number of iterations. Again, although the orbit is bounded between 0 and 1, there does not appear to be a pattern in the dynamics. We can plot the estimated Lyapunov exponents, \(h(x_0 = 0.2)\), for \(a=2.7\) and \(a=3.7\) over 1000 iterations. The code for this looks like:
+  <pre>
+  <code>
+  s.plot_Lyapunov_exp(2.7, 1000, 0.2)
+  s.plot_Lyapunov_exp(3.7, 1000, 0.2)
+  </code>
+  </pre>
+ For \(a=3.7\), we get the following plot, estimating \(h(0.2)\ \approx 0.3582\):
+ <center><IMG SRC="\h_chaotic.png"></center>
+<br>
+For \(a=2.7\), we get the following plot, estimating \(h(0.2)\ \approx -0.3564\):
+ <center><IMG SRC="\h_non_chaotic.png"></center>
+<br>
+ These plots seem to agree with the bifurcation diagram, as the map with \(a=3.7\) returns a positive approximation for the Lyapunov exponent (chaotic) and the aproximation for the map with \(a=2.7\) is negative (not chaotic).
+ <br><br>
+ The 
+ <center><IMG SRC="\non_chaotic_sep.png"></center>
+<br>
+ <center><IMG SRC="\chaotic_sep.png"></center>
+<br>
       </p>
     </div>
   </div>
