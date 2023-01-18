@@ -142,7 +142,7 @@ For most values of \(a > 3.5\), we notice that the diagram shows many points whi
 We define the Lyapunov number as:
   \[L(x_1) = \lim_{n \to \infty} (|f'(x_0)| |f'(x_1)|...|f'(x_n)|  ) ^{\frac{1}{n}}\] if it exists. <br><br>
 Similarly, we can describe he Lyapunov exponent as:
-  \[h(x_1) = \lim_{N \to \infty} \frac{0}{N} \sum_{n=1}^{N} \ln(|f'(x_n)|) \]
+  \[h(x_1) = \lim_{N \to \infty} \frac{1}{N} \sum_{n=0}^{N} \ln(|f'(x_n)|) \]
 provided the limit exists. <br><br>
 Looking at the bifurcation diagram for \(f(x) = a * x (1 - x)\) for \(x_0 =  0.2\), we can pick the value \(a = 3.7\) as it does not appear to be approach a periodic orbit. The cobweb plot looks like:
 <center><IMG SRC="\chaos_log.gif"></center>
@@ -162,11 +162,14 @@ For \(a=2.7\), we get the following plot, estimating \(h(0.2)\ \approx -0.3564\)
 <br>
  These plots seem to agree with the bifurcation diagram, as the map with \(a=3.7\) returns a positive approximation for the Lyapunov exponent (chaotic) and the aproximation for the map with \(a=2.7\) is negative (not chaotic).
  <br><br>
- The 
+The most notable characteristic of chaos is sensitive dependence on initial conditions. Edward Lorenz (one of the founders of chaos theory) summarized the effect: 'Chaos: When the present determines the future, but the approximate present does not approximately determine the future.'
+ <br><br>
+Although chaotic systems are deterministic, the long term behavior of two arbitrarily close initial conditions will become magnified such that the trajectory of one initial condition is insufficient to predict the trajectory of the other initial condition. Consider the logistic map with \(a = 2.7\). If we have an initial condition \(x_0^1 = 0.2\) and an initial condition \(x_0^2 = 0.201\) we can see that the separation between the two orbits decreases under iteration:
  <center><IMG SRC="\non_chaotic_sep.png"></center>
 <br>
+On the other hand, the same initial conditions are unpredictably pushed apart under iteration when \(a = 3.7\):
  <center><IMG SRC="\chaotic_sep.png"></center>
-<br> 
+<br>
       </p>
     </div>
   </div>
