@@ -36,18 +36,20 @@ and is wrapped around the whole page content, except for the footer in this exam
       <center><h5>Please check out the Python code I used to study the map <a href="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/1d_discrete_dynamical.py">here.</a></h5></center>
     </div>
     <div class="w3-container">
+     While taking a course on dynamical systems, I wrote some code to help verify my solutions and gain more intuition for the material. In addition to plotting functions, the code provides an object-oriented framework to symbolically solve and numerically estimate fixed points, stability, and Lyapunov exponents for 1-dimensional discrete maps with a single parameter. This page serves as an overview of the functionality of my code. Although this page offers some mathematical background, it is not meant to be rigorous or comprehensive. Additional resources are listed at the bottom of the page.
+<br><br>
      The prototypical example of a discrete dynamical system is the logistic map, which describes the dynamics of a population in terms of a reproduction rate, \(a\). At any particular iteration, \(n\), we can define the ratio of the population to the system’s carrying capacity as \(x_n\), a value between 0 and 1.
        </p>
       \[ x_{n+1} = a * x_n (1 - x_n)\]
       <p>
-        Intuitively, the reproduction rate tends to increase the population. However, the model accounts for resource scarcity through the factor \((1 - x_n)\), which decreases linearly with the population. As a result, the population tends to increase linearly as \(x_{n+1} \approx a * x_n \) for small populations. As the population approaches the carrying capacity ( \( x_n \sim 1 \) ), the resource scarcity factor approaches 0, driving the population towards 0.
+        Intuitively, the reproduction rate tends to increase the population. However, the model also accounts for resource scarcity through the factor \((1 - x_n)\), which decreases linearly with the population. As a result, the population tends to increase linearly as \(x_{n+1} \approx a * x_n \) for small populations. As the population approaches the carrying capacity ( \( x_n \sim 1 \) ), the resource scarcity factor approaches 0, driving the population towards 0.
       <center><h6>Orbits and Cobweb Plots</h6></center>
       <p>
- We can describe the trajectory that the system takes from some initial condition \(x_0 \) by looking at the set of values the system covers. This set \( \{x_0, x_1, x_2, ... \} \) is a particular orbit.
+ We can describe the trajectory that the system takes from some initial condition \(x_0 \) by looking at the set of values the system covers. This set, \( \{x_0, x_1, x_2, ... \} \), is a particular orbit.
 </p>
       
        <p>  
-         For 1-dimensional maps, such as the logistic map it can be easy to determine if a particular orbit diverges, converges towards a particular value (or cycle of values), or does something else by tracing the orbits under iteration. The cobweb plot is a common visual representation for the orbits of 1-dimensional systems. The basic structure of the algorithm is as follows:
+         For 1-dimensional maps, such as the logistic map, it can be easy to determine if a particular orbit diverges, converges towards a particular value (or cycle of values), or does something else by tracing the orbits under iteration. The cobweb plot is a common visual representation of the orbits of 1-dimensional systems. The basic structure of the algorithm used in my code is:
        </p>
       <p>
         \(1\). Plot the line \(y = x\) and the map \(f\) as \(y = f(x)\). <br> 
@@ -65,8 +67,8 @@ and is wrapped around the whole page content, except for the footer in this exam
         \left(f(x_0), f(x_0) \right)
         \)<br> <br> 
         \(5\). Draw a vertical line from the value \(\left(f(x), f(x)\right)\) on the line \(y = x \) towards the map \(f\). The point we land on here is \( \left(f(x), f(f(x))\right) \).<br><br> 
-        \(6\). Repeat on from step 4.<br><br> 
-        To produce a cobweb plot using <a href="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/1d_discrete_dynamical.py">my code</a>, I define an instance of my class 'discrete_map'. The string expression representing the discrete map is passed as the first argument. The string representing our variable being mapped and a parameter of the map are passed as the second and third arguments:
+        \(6\). Repeat from step 4 on.<br><br> 
+        To produce a cobweb plot using <a href="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/1d_discrete_dynamical.py">my code</a>, I define an instance of my class 'discrete_map'. The string expression representing the discrete map is passed as the first argument. The string representing our variable being mapped and a parameter of the map is passed as the second and third arguments:
         <pre>
   <code>
     from 1d_discrete_dynamical import*
@@ -85,7 +87,7 @@ and is wrapped around the whole page content, except for the footer in this exam
       </p>
       <center><h6>Features of Orbits</h6></center>
       <p>
-        From the cowbeb plot above for \( x_{n+1} = 2.7 x_n (1 - x_n) \) for \( x_0 = 0.2 \), we can see that the orbit appears to converge around the fixed point on the right side. For the logistic map, we can show that for  a > 0, there will be two fixed points. Using the instance \(s\) defined above, we can find the two fixed points:
+        From the cobweb plot above for \( x_{n+1} = 2.7 x_n (1 - x_n) \) for \( x_0 = 0.2 \), we can see that the orbit appears to converge around the fixed point on the right side. For the logistic map, we can show that for  a > 1, there will be two fixed points. Using the instance \(s\) defined above, we can find the two fixed points:
                 <pre>
   <code>
     In: s.fixed_points()
@@ -118,8 +120,8 @@ This is exactly what we see when we set the initial condition as \(x_0 = 0.02\):
   <br><br>
     <center><IMG SRC="\002.gif"></center>
 
-The cobweb plot allows us to visualize the orbits on the logistic map for a particular initial condition and parameter. On the other hand, a bifurcation diagram shows how the long term behavior of the logistic map across varying values of the parameter \(a\).
- The following algorithm provides a method of producing a bifurcation diagram:
+The cobweb plot allows us to visualize the orbits on the logistic map for a particular initial condition and parameter. On the other hand, a bifurcation diagram shows how the long-term behavior of the logistic map across varying values of the parameter \(a\).
+ The following algorithm provides a method for producing a bifurcation diagram:
  <br><br>
   \(1.\) Define a set of parameters \( \{a_0, a_1, ... a_N \}\) that form the x-axis.
   <br><br>
@@ -132,22 +134,22 @@ The cobweb plot allows us to visualize the orbits on the logistic map for a part
  The following (annotated) plot is the result:
   <center><IMG SRC="\small_bif_002.png"></center>
 <br>
-Note that the goal of a  bifurcation diagram is to show asymptotic behavior. As a result, the greater the number of both iterations and points plotted, the closer the diagram will match the long term behavior of the system. As the cobweb animations above show, an asymptotically periodic orbit will converge on a periodic orbit (such as a fixed point) as \(n \xrightarrow{} \infty\).
+Note that the goal of a  bifurcation diagram is to show asymptotic behavior. As a result, the greater the number of both iterations and points plotted, the closer the diagram will match the long-term behavior of the system. As the cobweb animations above show, an asymptotically periodic orbit will converge on a periodic orbit (such as a fixed point) as \(n \xrightarrow{} \infty\).
 <br><br>
 Some regions of the bifurcation diagram show either 2 or 4 points for a given value of \(a\). In these cases, the orbit approaches a period 2 or period 4 orbit.
 <br><br>
-For most values of \(a > 3.5\), we notice that the diagram shows many points which do not suggest fixed points or periodic orbits. Many of these parameters demonstrate chaotic behavior. For a one dimensional map, we can show an orbit is chaotic if:
-  \[1. \text{ The orbit is bounded.} \]
-  \[2. \text{ The orbit's Lyapunov number is strictly greater than 1 .} \]
+For most values of \(a > 3.5\), we notice that the diagram shows many points which do not suggest fixed points or periodic orbits. Many of these parameters demonstrate chaotic behavior. For a one-dimensional map, we can show an orbit is chaotic if:
+  \[1. \text{ The orbit is bounded &} \]
+  \[2. \text{ The orbit's Lyapunov number is strictly greater than 1.} \]
 We define the Lyapunov number as:
   \[L(x_1) = \lim_{n \to \infty} (|f'(x_0)| |f'(x_1)|...|f'(x_n)|  ) ^{\frac{1}{n}}\] if it exists. <br><br>
 Similarly, we can describe he Lyapunov exponent as:
   \[h(x_1) = \lim_{N \to \infty} \frac{1}{N} \sum_{n=0}^{N} \ln(|f'(x_n)|) \]
 provided the limit exists. <br><br>
-Looking at the bifurcation diagram for \(f(x) = a * x (1 - x)\) for \(x_0 =  0.2\), we can pick the value \(a = 3.7\) as it does not appear to be approach a periodic orbit. The cobweb plot looks like:
+Looking at the bifurcation diagram for \(f(x) = a * x (1 - x)\) for \(x_0 =  0.2\), we can pick the value \(a = 3.7\) as it does not appear to approach a periodic orbit. The cobweb plot looks like:
 <center><IMG SRC="\chaos_log.gif"></center>
 <br>
-The colors go from blue to red with increasing number of iterations. Again, although the orbit is bounded between 0 and 1, there does not appear to be a pattern in the dynamics. We can plot the estimated Lyapunov exponents, \(h(x_0 = 0.2)\), for \(a=2.7\) and \(a=3.7\) over 1000 iterations. The code for this looks like:
+The colors go from blue to red with an increasing number of iterations. Again, although the orbit is bounded between 0 and 1, there does not appear to be a pattern in the dynamics. We can plot the estimated Lyapunov exponents, \(h(x_0 = 0.2)\), for \(a=2.7\) and \(a=3.7\) over 1000 iterations. The code for this looks like:
   <pre>
   <code>
   s.plot_Lyapunov_exp(2.7, 1000, 0.2)
@@ -160,14 +162,16 @@ The colors go from blue to red with increasing number of iterations. Again, alth
 For \(a=2.7\), we get the following plot, estimating \(h(0.2)\ \approx -0.3564\):
  <center><IMG SRC="\h_non_chaotic.png"></center>
 <br>
- These plots seem to agree with the bifurcation diagram, as the map with \(a=3.7\) returns a positive approximation for the Lyapunov exponent (chaotic) and the aproximation for the map with \(a=2.7\) is negative (not chaotic).
+ These plots seem to agree with the bifurcation diagram, as the map with \(a=3.7\) returns a positive approximation for the Lyapunov exponent (chaotic) and the approximation for the map with \(a=2.7\) is negative (not chaotic).
  <br><br>
-The most notable characteristic of chaos is sensitive dependence on initial conditions. Edward Lorenz (one of the founders of chaos theory) summarized the effect: 'Chaos: When the present determines the future, but the approximate present does not approximately determine the future.'
+The most notable characteristic of chaos is the display of sensitive dependence on initial conditions. Edward Lorenz (one of the founders of chaos theory) summarized the effect: 'Chaos: When the present determines the future, but the approximate present does not approximately determine the future.'
  <br><br>
-Although chaotic systems are deterministic, the long term behavior of two arbitrarily close initial conditions will become magnified such that the trajectory of one initial condition is insufficient to predict the trajectory of the other initial condition. Consider the logistic map with \(a = 2.7\). If we have an initial condition \(x_0^1 = 0.2\) and an initial condition \(x_0^2 = 0.201\) we can see that the separation between the two orbits decreases under iteration:
+Although chaotic systems are deterministic, the long-term behavior of two arbitrarily close initial conditions will become magnified such that the trajectory of one initial condition is insufficient to predict the trajectory of the other initial condition. Consider the logistic map with \(a = 2.7\). If we have an initial condition \(x_0^1 = 0.2\) and an initial condition \(x_0^2 = 0.201\) we can see that the separation between the two orbits decreases under iteration:
+  \[\text{s.plot_sep(2.7, 100, 0.2, 0.201)} \]
  <center><IMG SRC="\non_chaotic_sep.png"></center>
 <br>
 On the other hand, the same initial conditions are unpredictably pushed apart under iteration when \(a = 3.7\):
+  \[\text{s.plot_sep(3.7, 100, 0.2, 0.201)} \]
  <center><IMG SRC="\chaotic_sep.png"></center>
 <br>
       </p>
@@ -202,7 +206,7 @@ On the other hand, the same initial conditions are unpredictably pushed apart un
         <span>Ultricies congue</span>
       </li>
       <h4>Popular Posts</h4>
-      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+      <li class="w3-padding-16">
         <img src="/w3images/rock.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">
         <span class="w3-large">Mingsum</span><br>
         <span>Lorem ipsum dipsum</span>
