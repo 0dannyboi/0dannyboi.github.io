@@ -172,7 +172,7 @@ tr:nth-child(3n) td {
 	<tr>
 		<button id="clear" onclick ="reset_grid()" class ="r_button">Clear Grid</button>
 		<button id="update" onclick ="Solve()" class ="b_button">Solve</button>
-		<button id="show_hide_hints" onclick="get_hints()" class ="g_button">Show Hints</button>
+		<button id="show_hide_hints" onclick="get_hints()" class ="g_button">Get Hints</button>
 		<button id="restore" onclick="restore_default()" class ="p_button">Example</button>
 	</tr>
 </table>
@@ -951,7 +951,7 @@ function get_hints() {
      let but = document.querySelector("#show_hide_hints");
      if (HintQ) {
 	HintQ = 0;
-	but.innerHTML = "Show Hints";
+	but.innerHTML = "Get Hints";
      }
      else {
 	but.innerHTML = "Hide Hints";
@@ -984,7 +984,7 @@ function reset_grid(){
 	error_bar.innerText = String.fromCharCode(160);
 	if (HintQ){
 		let but = document.querySelector("#show_hide_hints");
-		but.innerHTML = "Show Hints";
+		but.innerHTML = "Get Hints";
 		for (let i=0; i<81; i++){
 			let cell = document.querySelector("#i" + i);
 			let upperHint = cell.querySelector('.upper-hint');
@@ -1053,7 +1053,7 @@ function restore_default(){
 	error_bar.innerText = String.fromCharCode(160);
 	if (HintQ){
 		let but = document.querySelector("#show_hide_hints");
-		but.innerHTML = "Show Hints";
+		but.innerHTML = "Get Hints";
 		for (let i=0; i<81; i++){
 			let cell = document.querySelector("#i" + i);
 			let upperHint = cell.querySelector('.upper-hint');
