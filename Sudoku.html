@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html>
+  <style>
+table { /*Grid Style*/
+	background: LavenderBlush;
+	margin: auto;
+	border-collapse: collapse;
+	border: 2px solid black;
+}
+
+td {
+	position: relative;
+	height: 55px;
+	width: 55px;
+	text-align: center;
+	font-size: 24px;
+	border: 1px solid black;
+}
+
+.top-left,
+.top-right,
+.bottom-left,
+.bottom-right {
+	border-width: 0;
+}
+
+.top-left::before {
+	content: None;
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 2px solid black;
+	border-left: 2px solid black;
+}
+
+.top-right::before {
+	content: None;
+	display: block;
+	width: 0;
+	height: 0;
+	border-top: 2px solid black;
+	border-right: 2px solid black;
+}
+
+.bottom-left::before {
+	content: None;
+	display: block;
+	width: 0;
+	height: 0;
+	border-bottom: 2px solid black;
+	border-left: 2px solid black;
+}
+
+.bottom-right::before {
+	content: None;
+	display: block;
+	width: 0;
+	height: 0;
+	border-bottom: 2px solid black;
+	border-right: 2px solid black;
+}
+
+.upper-hint { /* Upper Row of Hints (allowed values (1-5) for a cell) */
+	font-size: 14px;
+	position: absolute;
+	color: green;
+	top: 0px;
+	left: 0px;
+	right: 0;
+	margin: auto;
+	white-space: nowrap;
+}
+
+.lower-hint { /* Lower Row of Hints (allowed values (6-9) for a cell) */
+	font-size: 14px;
+	position: absolute;
+	color: green;
+	top: 40px;
+	left: 0px;
+	right: 0;
+	margin: auto;
+	white-space: nowrap;
+}
+
+.centerli {
+  text-align: center;
+  list-style-position: inside;
+}
+
+.g_button { /* Green Hint Button Styling */
+  position: relative;
+  background: #4CAF50; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 15px 32px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make it a block element */
+  width: 145px; /* Fixed width */
+  font-size: 16px; /* Font size */
+  margin: 4px 2px; /* Add some margin */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a drop shadow */
+}
+
+.r_button { /* Red Clear Grid Button Styling */
+  position: relative;
+  background: Tomato; /* Red background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 15px 32px; /* Padding */
+  width: 300px
+  height: 100px
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make it a block element */
+  font-size: 16px; /* Font size */
+  margin: 4px 2px; /* Add some margin */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a drop shadow */
+}
+
+
+.b_button { /* Blue Solve Button Styling */
+  position: relative;
+  background: #0099ff; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 15px 32px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make it a block element */
+  font-size: 16px; /* Font size */
+  margin: 4px 2px; /* Add some margin */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a drop shadow */
+}
+
+.p_button { /* Purple (Reset Default Example Grid) Button Styling */
+  position: relative;
+  background: Plum; /* Purple (Plum) background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 15px 32px; /* Padding */
+  text-align: center; /* Center text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make it a block element */
+  font-size: 16px; /* Font size */
+  margin: 4px 2px; /* Add some margin */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Add a drop shadow */
+}
+
+td:nth-child(3n),
+td:nth-child(6n) {
+	border-right-width: 2px;
+}
+
+tr:nth-child(3n) td {
+	border-bottom-width: 2px;
+}
+</style>
+<head>
+<title>Quantum</title>
+ <center>
+<h1>Sudoku Solver</h1>
+<h3 id="error_box" style="color:#FF0000">&nbsp</h3>
+<table>
+	<tr>
+		<button id="clear" onclick ="reset_grid()" class ="r_button">Clear Grid</button>
+		<button id="update" onclick ="Solve()" class ="b_button">Solve</button>
+		<button id="show_hide_hints" onclick="get_hints()" class ="g_button">Get Hints</button>
+		<button id="restore" onclick="restore_default()" class ="p_button">Example</button>
+	</tr>
+</table>
+</center>
+	<table>
+		<tr>
+			<td id="i0" class="top-left">
+  				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+  				<span class="upper-hint"></span>
+  				<span class="lower-hint"></span>
+</td>
+			<td id="i1">
+				<span class="number" contenteditable="true" maxlength="1">7</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i2">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i3" class="top-right">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i4">
+				<span class="number" contenteditable="true" maxlength="1">2</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i5">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i6" class="top-left">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i7">
+				<span class="number" contenteditable="true" maxlength="1">4</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i8">
+				<span class="number" contenteditable="true" maxlength="1">6</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i9">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i10">
+				<span class="number" contenteditable="true" maxlength="1">6</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i11"">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i12">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i13">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i14">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i15">
+				<span class="number" contenteditable="true" maxlength="1">8</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i16">
+				<span class="number" contenteditable="true" maxlength="1">9</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i17">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i18">
+				<span class="number" contenteditable="true" maxlength="1">2</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i19">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i20">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i21">
+				<span class="number" contenteditable="true" maxlength="1">8</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i22">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i23">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i24">
+				<span class="number" contenteditable="true" maxlength="1">7</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i25">
+				<span class="number" contenteditable="true" maxlength="1">1</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i26">
+				<span class="number" contenteditable="true" maxlength="1">5</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i27" class="bottom-left">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i28">
+				<span class="number" contenteditable="true" maxlength="1">8</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i29">
+				<span class="number" contenteditable="true" maxlength="1">4</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i30" class="bottom-right">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i31">
+				<span class="number" contenteditable="true" maxlength="1">9</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i32">
+				<span class="number" contenteditable="true" maxlength="1">7</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i33" class="bottom-left">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i34">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i35">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i36">
+				<span class="number" contenteditable="true" maxlength="1">7</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i37">
+				<span class="number" contenteditable="true" maxlength="1">1</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i38">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i39">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i40">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i41">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i42">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i43">
+				<span class="number" contenteditable="true" maxlength="1">5</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i44">
+				<span class="number" contenteditable="true" maxlength="1">9</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i45">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i46">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i47">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i48">
+				<span class="number" contenteditable="true" maxlength="1">1</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i49">
+				<span class="number" contenteditable="true" maxlength="1">3</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i50">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i51">
+				<span class="number" contenteditable="true" maxlength="1">4</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i52">
+				<span class="number" contenteditable="true" maxlength="1">8</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i53">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i54" class="top-left">
+				<span class="number" contenteditable="true" maxlength="1">6</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i55">
+				<span class="number" contenteditable="true" maxlength="1">9</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i56">
+				<span class="number" contenteditable="true" maxlength="1">7</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i57" class="top-right">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i58">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i59">
+				<span class="number" contenteditable="true" maxlength="1">2</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i60" class="top-left">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i61">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i62">
+				<span class="number" contenteditable="true" maxlength="1">8</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i63">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i64">
+				<span class="number" contenteditable="true" maxlength="1">5</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i65">
+				<span class="number" contenteditable="true" maxlength="1">8</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i66">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i67">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i68">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i69">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i70">
+				<span class="number" contenteditable="true" maxlength="1">6</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i71">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td id="i72">
+				<span class="number" contenteditable="true" maxlength="1">4</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i73">
+				<span class="number" contenteditable="true" maxlength="1">3</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i74">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i75">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i76">
+				<span class="number" contenteditable="true" maxlength="1">8</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i77">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i78">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i79">
+				<span class="number" contenteditable="true" maxlength="1">7</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+			<td id="i80">
+				<span class="number" contenteditable="true" maxlength="1">&nbsp</span>
+				<span class="upper-hint">
+				</span>
+				<span class="lower-hint">
+				</span>
+			</td>
+		</tr>
+	</table>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+</head>
+<body class="w3-light-grey">
+
+<!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+<div class="w3-content" style="max-width:1400px">
+
+
+<!-- Grid -->
+<div class="w3-row">
+
+<!-- Blog entries -->
+<div class="w3-col l8 s12">
+  <!-- Blog entry -->
+  <div class="w3-card-4 w3-margin w3-white">
+    <div class="w3-container">
+  
+      <center><h2><b>About</b></h2></center>
+    </div>
+    <div class="w3-container">
+      <p>    
+         Thanks to its simple rules and clean grid structure, Sudoku has become a staple of puzzle books and newspapers around the globe. Although most of us are familiar with the Japense name, Sudoku (数独), the modern format for this puzzle is the brainchild of the American puzzlemaker <a href="https://sudoku.com/how-to-play/where-was-sudoku-invented/">Howard Garns.</a>
+</p>
+<p>
+As a brief recap, Sudoku is a logic-based puzzle consisting of a 9 x 9 grid with the end goal of assigning a digit (1 - 9) to each of the cells. In order to be a valid solution, three simple rules must be obeyed in each cell:
+<ol class="centerli">
+  <li>Each cell must be assigned a number distinct from those inhabiting the same column. </li>
+  <object data="/SudokuPageResources/ValidColumn.svg" width="300" height="300"> </object>
+  <li>Each cell must be assigned a number distinct from those inhabiting the same row.</li>
+  <object data="/SudokuPageResources/ValidRow.svg" width="300" height="300"> </object>
+  <li>Each cell must be assigned a number distinct from those inhabiting the same 3 x 3 subgrid.</li>
+  <object data="/SudokuPageResources/ValidSubGrid.svg" width="300" height="300"> </object>
+</ol>
+
+</p>
+   <center><img src="/QuantumFolder/boole_table.png" alt="Boole Table"></center>
+      <p>
+Instead of relying on two different classical voltage levels in the form of a bit, most quantum computers rely on an analogous <i>qubit</i>. As opposed to 
+          
+      </p>
+      <center><h6>Discrete Dynamical Systems</h6></center>
+      <p>
+ Some of the simplest dynamical systems take the form of discrete recurrence relations, where the value at some integer step, \(x_n\), depends on the value at the previous integer step, \(x_{n - 1}\). A common definition that uses this notation is the factorial function defined over the non-negative integers:
+
+      </p>
+      \[(n+1)! = (n+1) \cdot n! \]
+      <p>
+Where \(0!\) is defined as \(1\). Starting from this value, it is easy to define the factorial function for the consecutive integers:
+        \[ 1! = 0! * 1 = 1 * 1 \xrightarrow{} 1 \text{, } \] 
+        \[ 2! = 1! * 2 = 1 * 2 \xrightarrow{}2 \text{, } \]
+       \[ 3! = 2! * 3 = 2 * 3 \xrightarrow{} 6 \text{ ...} \]
+</p>
+      
+       <p>  
+         The prototypical example of a discrete dynamical system is the logistic map, which describes the dynamics of a population in terms of a reproduction rate, \(r\). At any particular iteration, \(n\), we can define the ratio of the population to the system’s carrying capacity as \(x_n\), a value between 0 and 1.
+       </p>
+      \[ x_{n+1} = r * x_n (1 - x_n)\]
+      <p>
+        Intuitively, the reproduction rate tends to increase the population. However, the model accounts for resource scarcity through the factor \((1 - x_n)\), which decreases linearly with the population. As a result, the population tends to increase linearly as \(x_{n+1} \approx r * x_n \) for small populations. As the population approaches the carrying capacity ( \( x_n \sim 1 \) ), the resource scarcity factor approaches 0, driving the population towards 0. Further pages investigate the logistic map's dynamics, showing a range of rich features including chaos.
+      </p>
+      <center><h6>Continuous Dynamical Systems</h6></center>
+      <p>
+        A simple  continuous dynamical system can be realized by considering a pendulum consisting of a mass, \( m \), suspended on a massless rod of length \(L \). The equations of motion can be obtained by computing the Lagrangian, \(\mathcal{L} = T - U\) and evaluating the Euler-Lagrange equation:
+        \[ \frac{d }{d t} \frac{\partial \mathcal{L} }{\partial \dot{\theta}} = \frac{\partial \mathcal{L}}{\partial \theta} \]
+ 
+ Where the kinetic energy of the system is:
+        \[ T = \frac{m L^2}{2} \dot{\theta}^2 \]
+ 
+ and the potential energy of the system is:
+        \[ U = m g L (1 - \cos(\theta)) \]
+ 
+The equation of motion of the system becomes:
+        \[ \ddot{\theta} = - \frac{g}{L} \sin(\theta) \]
+We can rewrite this second order differential equation as a coupled set of first order ODEs:
+        \[\frac{d \theta}{d t} = \dot{\theta} \]
+        \[\frac{d \dot{\theta}}{d t} = - \frac{g}{L} \sin(\theta) \]
+Further pages show how this representation  allows us to visually represent the dynamics of this system.
+      </p>
+    </div>
+  </div>
+<!-- END BLOG ENTRIES -->
+</div>
+
+<!-- Introduction menu -->
+ <div class="w3-col l4">
+<div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>My Dynamical Systems Projects</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+        <img src="/wheresthebif.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large"><a href="https://0dannyboi.github.io/DiscreteDynamicalSystems">Discrete Dynamical Systems</a></span><br>
+        <span>An analysis of the logistic map using a custom framework.</span>
+      </li>  
+      <div class="w3-container w3-padding">
+      <h4><a href="https://0dannyboi.github.io/">Home</a></h4>
+    </div>
+       
+
+      
+    </ul>
+  </div>
+  <hr> 
+
+      
+ 
+  
+  
+<!-- END Introduction Menu -->
+</div>
+    
+
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END w3-content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-dark-grey w3-padding-32 w3-margin-top">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+<script>
+
+// Find all Sudoku number cells
+const numberElements = document.querySelectorAll('.number');
+
+// Loop through each number cell and add the event handler
+// to only allow single digit inputs
+numberElements.forEach(element => {
+  element.addEventListener('input', () => {
+    // Remove all non-numeric characters and limit to one digit
+    element.textContent = element.textContent.replace(/[^1-9]/g,'').substring(0,1);
+  });
+});
+
+function validateInput(event) {
+  const input = event.target.innerText;
+  const validCharacters = ["&nbsp;", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+  for (let i = 0; i < input.length; i++) {
+    if (!validCharacters.includes(input[i])) {
+      event.preventDefault();
+      return;
+    }
+  }
+};
+
+var HintQ = 0; // Condition of 'Show' / 'Hide' Hints Button
+
+const numspace = [1, 2, 3, 4, 5, 6, 7, 8, 9]; // Set of all possible values for any Sudoku cell
+
+const row_col_space = [...Array(9).keys()]; // Indices of Rows and Columns
+
+const inds = [...Array(81).keys()]; // Indices of Cells in Grid
+
+const g_0 =  [0, 7, 0, 0, 2, 0, 0, 4, 6, // Default 'Example' Grid
+	    0, 6, 0, 0, 0, 0, 8, 9, 0,
+	    2, 0, 0, 8, 0, 0, 7, 1, 5,
+	    0, 8, 4, 0, 9, 7, 0, 0, 0,
+	    7, 1, 0, 0, 0, 0, 0, 5, 9,
+    	0, 0, 0, 1, 3, 0, 4, 8, 0,
+	    6, 9, 7, 0, 0, 2, 0, 0, 8,
+	    0, 5, 8, 0, 0, 0, 0, 6, 0,
+	    4, 3, 0, 0, 8, 0, 0, 7, 0];
+
+var grid = [...g_0]; // Initialize Global Grid Variable with Example Grid
+
+var given_inds; // Initialize Global Variable Representing Indices of Provided Values
+var given_vals; // Initialize Global Variable Representing Provided Values
+
+function row(i) { // Return the Row Containing and Index
+	return Math.floor(i / 9);
+};
+
+function col(i) { // Return the Column Containing and Index
+	return i % 9;
+};
+
+function first_row(i) { // Return the First Row of the (3x3) Sub-grid Containing an Index
+	return 3 * Math.floor(row(i) / 3);
+};
+
+function first_col(i) { // Return the First Column of the (3x3) Sub-grid Containing an Index
+	return 3 * Math.floor(col(i) / 3);
+};
+
+function row_col_to_ind(r, c) { // Return the Index for a (Row, Column) Coordinate
+	return 9 * r + c;
+
+};
+
+// Returns the Indices of all Other Cells in the Row Containing a Particular Index
+function row_mates(i) {
+	let r = row(i);
+	let c = col(i);
+	let avail_cols = row_col_space.filter(x => (x != c));
+	return avail_cols.map(x => row_col_to_ind(r, x));
+	
+};
+
+// Returns the Indices of all Other Cells in the Column Containing a Particular Index
+function col_mates(i) {
+	let r = row(i);
+	let c = col(i);
+	let avail_rows = row_col_space.filter(x => (x != r));
+	return avail_rows.map(x => row_col_to_ind(x, c));
+	
+};
+
+ // Returns the Indices of all Other Cells in the (3x3) Sub-grid Containing a Particular Index
+function cell_mates(i) {
+    let mates = [];
+    let f_c = first_col(i);
+    let f_r = first_row(i);
+    for (let c = f_c; c < (f_c + 3); c++) {
+        for (let r = f_r; r < (f_r + 3); r++) {
+            let ind = c + 9 * r;
+            if (ind != i){
+                mates.push(ind);
+            };
+        };  
+    };
+    return mates;
+};
+
+
+// Returns the indices and values of the 'given' cells using current value of 'grid' 
+function update_given_inds() {
+    given_inds = inds.filter(x => (grid[x] > 0));
+    given_vals = given_inds.filter(x => grid[x]);
+};
+
+
+// Returns the available values for a given index using current value of 'grid' 
+function AvailableVals(ind) {
+    let neighbors = cell_mates(ind).concat(row_mates(ind).concat(col_mates(ind)));
+    let neighbor_vals = neighbors.map(x => grid[x]);
+    return numspace.filter(x => (!neighbor_vals.includes(x)));
+};
+
+// Returns a Boolean indicating whether a particular value
+// is allowed at the provided index for the current state of the grid. 
+function AvailableQ(ind, val){
+    return AvailableVals(ind).includes(val);
+};
+
+// Updates current state of the grid using the input values
+function update_grid() {
+	for (let i=0; i<81; i++){
+		let cell = document.querySelector("#i" + i);
+		let cell_number = cell.querySelector('.number').innerText;
+		if ((cell_number == String.fromCharCode(160)) || (cell_number == undefined)){
+			grid[i] = 0;
+		}
+		else{
+			grid[i] = parseInt(cell_number);
+		}
+	};
+};
+
+
+// Computes & Displays the allowed values for every (empty/non-given) cell.
+// Updates the grid variable using current input values using ValidQ().
+// Checks if grid is solvable using ValidQ().
+// If grid is valid, returns hints, otherwise colors cells with errors
+// red and displays error message.
+function get_hints() {
+    ValidGridQ();
+    let free_cells = inds.filter(x => (!given_inds.includes(x)))
+    free_cells.forEach((element) => {
+        let cell = document.querySelector("#i" + element);
+        if (cell) {
+            let upperHint = cell.querySelector('.upper-hint');
+            let lowerHint = cell.querySelector('.lower-hint');
+            if (upperHint && lowerHint) {
+		if (HintQ) {
+			upperHint.innerHTML = "";
+                	lowerHint.innerHTML = "";
+		}
+		else {
+			let lower_str = "";
+			let upper_str = "";
+			let available = AvailableVals(element);
+			for (let k = 1; k < 6; k++){
+				if (available.includes(k)){
+					upper_str += k;
+				}
+				else {
+					upper_str += " ";
+				}
+				upper_str += " ";
+			};
+			upperHint.innerHTML = upper_str;
+			for (let k = 6; k < 10; k++){
+				if (available.includes(k)){
+					lower_str += k;
+				}
+				else {
+					lower_str += " ";
+				}
+				lower_str += " ";
+			};
+			lowerHint.innerHTML = lower_str;
+	        }
+            }
+        }
+    });
+     let but = document.querySelector("#show_hide_hints");
+     if (HintQ) {
+	HintQ = 0;
+	but.innerHTML = "Get Hints";
+     }
+     else {
+	but.innerHTML = "Hide Hints";
+	HintQ = 1;
+     }
+};
+
+// Updates and uses current state of grid to determine if the
+// grid is solvable.
+function ValidGridQ(){
+	update_grid();
+	update_given_inds();
+	let good_grid = true;
+	for (let i=0; i<81; i++){
+		if ((grid[i] > 0) & (!AvailableQ(i, grid[i]))){
+			good_grid = false;
+			let cell = document.querySelector("#i" + i);
+			cell.querySelector('.number').style.color = "red";
+			let error_bar = document.querySelector("#error_box");
+			error_bar.innerText = "1 or more errors found in grid!"
+		};
+		
+	};
+	return good_grid;
+};
+
+// Clears all values assigned to grid and displays empty grid.
+function reset_grid(){
+	let error_bar = document.querySelector("#error_box");
+	error_bar.innerText = String.fromCharCode(160);
+	if (HintQ){
+		let but = document.querySelector("#show_hide_hints");
+		but.innerHTML = "Get Hints";
+		for (let i=0; i<81; i++){
+			let cell = document.querySelector("#i" + i);
+			let upperHint = cell.querySelector('.upper-hint');
+            		let lowerHint = cell.querySelector('.lower-hint');
+			upperHint.innerHTML = String.fromCharCode(160);
+			lowerHint.innerHTML = String.fromCharCode(160);
+		};
+		HintQ = 0;
+	};
+	for (let i=0; i<81; i++){
+		grid[i] = 0;
+		let cell = document.querySelector("#i" + i);
+		cell.querySelector('.number').style.color = "black";
+		cell.querySelector('.number').innerText = String.fromCharCode(160);
+	};
+
+};
+
+                                                       
+// Performs backtracking algorithm to solve the puzzle.
+function Solve(){
+	if (ValidGridQ()) {
+    		const to_find = inds.filter(x => (!given_inds.includes(x)));
+    		const final = to_find.length;
+    		let map_ind = 0;
+    		let count = 0;
+    		while ((count < 300000) && (map_ind > -1) && (map_ind < final)){
+        		count ++;
+        		let update = false;
+        		for (let i = grid[to_find[map_ind]] + 1; i < 10; i++){
+            			if (AvailableQ(to_find[map_ind], i)){
+                			grid[to_find[map_ind]] = i;
+                			update = true;
+                			break;
+            			}
+        		};
+        		if (update) {
+            			map_ind += 1;
+        		}
+        		else {
+            			grid[to_find[map_ind]] = 0;
+            			map_ind -= 1;
+        		};
+   		};
+    		if (map_ind == -1){
+        		let error_bar = document.querySelector("#error_box");
+			error_bar.innerText = "Error Solving Puzzle!";
+    		}
+		else {
+			to_find.forEach((element) => {
+				let cell = document.querySelector("#i" + element);
+				cell.querySelector('.number').style.color = "green";
+				cell.querySelector('.number').innerText = grid[element];
+				
+			})
+		};
+    
+	};
+};
+
+
+function restore_default(){
+	grid = [...g_0];
+	update_given_inds();
+	let error_bar = document.querySelector("#error_box");
+	error_bar.innerText = String.fromCharCode(160);
+	if (HintQ){
+		let but = document.querySelector("#show_hide_hints");
+		but.innerHTML = "Get Hints";
+		for (let i=0; i<81; i++){
+			let cell = document.querySelector("#i" + i);
+			let upperHint = cell.querySelector('.upper-hint');
+            		let lowerHint = cell.querySelector('.lower-hint');
+			upperHint.innerHTML = String.fromCharCode(160);
+			lowerHint.innerHTML = String.fromCharCode(160);
+		};
+		HintQ = 0;
+	};
+	for (let i=0; i<81; i++){
+		let cell = document.querySelector("#i" + i);
+		cell.querySelector('.number').style.color = "black";
+		if (g_0[i] == 0) {
+			cell.querySelector('.number').innerText = String.fromCharCode(160);
+		}
+		else {
+			cell.querySelector('.number').innerText = grid[i];
+		};
+	};
+	
+};
+
+
+</script>
+</body>
+</html>
