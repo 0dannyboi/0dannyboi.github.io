@@ -1,3 +1,4 @@
+</center> 
 <html>
    <head>
       <meta charset="UTF-8">
@@ -121,6 +122,62 @@
       body,h1,h2,h3,h4,h5 {
       font-family: "Raleway"
       }
+      .top {
+      border-top-width: 2px;
+      background: LavenderBlush;
+      }
+      .topLeft {
+      border-top-width: 2px;
+      border-left-width: 2px;
+      background: LavenderBlush;
+      }
+      .topRight {
+      border-top-width: 2px;
+      border-right-width: 2px;
+      background: LavenderBlush;
+      }
+      .bottom {
+      border-bottom-width: 2px;
+      background: LavenderBlush;
+      }
+      .bottomLeft {
+      border-bottom-width: 2px;
+      border-left-width: 2px;
+      background: LavenderBlush;
+      }
+      .bottomRight {
+      border-bottom-width: 2px;
+      border-right-width: 2px;
+      background: LavenderBlush;
+      }
+      .table2 { /*Grid Style*/
+      background: None;
+      margin: auto;
+      border-collapse: collapse;
+      border: None;
+      }
+      .right {
+      border-right-width: 2px;
+      background: LavenderBlush;
+      }
+      .left {
+      border-left-width: 2px;
+      background: LavenderBlush;
+      }
+      pre {
+      background-color: #f4f4f4;
+      display: inline-block;
+      padding: 10px;
+      overflow-x: auto;
+      }
+      code {
+      display: block;
+      }
+      code::before {
+      content: counter();
+      padding-right: 10px;
+      color: #999;
+      }
    </style>
    <body class="w3-light-grey">
       <div class="w3-content" style="max-width:1400px">
@@ -168,7 +225,7 @@
                         <h4>Backtracking Algorithm</h4>
                      </center>
                      <p>
-                        The algorithm this program uses to solve a Sudoku puzzle differs from the method a human might use as it relies on a brute force approach. Given an unsolved Sudoku grid, the program searches for a solution by testing all possible values in the state space of the puzzle until a solution is found or all possible options are exhausted. Note that finding a solution with this algorithm does not imply the solution is unique. As an example, you can clear the grid above using the 'Clear Grid' button and then press 'Solve.' The cleared grid can be imagined as the entire space of solutions for all Sudoku puzzles, demonstrating that this configuration does not have a single unique solution. However, the algorithm has no difficulty producing a solution.                                                  
+                        The algorithm this program uses to solve a Sudoku puzzle differs from the method a human might use as it relies on a brute force approach. Given an unsolved Sudoku grid, the program searches for a solution by testing all possible values in the state space of the puzzle until a solution is found or all possible options are exhausted. Note that finding a solution with this algorithm does not imply the solution is unique. As an example, you can clear the grid above using the 'Clear Grid' button and then press 'Solve.' The cleared grid can be imagined as the entire space of solutions for all Sudoku puzzles, demonstrating that this configuration does not have a single unique solution (it is <em>compatible</em> with <b>all</b> valid Sudoku puzzles). However, the algorithm has no difficulty producing a solution.                                                  
                      </p>
                      <center>
                         <h5>Toy Puzzle</h5>
@@ -240,11 +297,67 @@
                         <h5>Tree Traversal</h5>
                      </center>
                      <p>
-                        The backtracking algorithm for solving a Sudoku is especially appealing because the tree structure allows for a simple visualization.
+                        The backtracking algorithm for solving Sudoku is especially appealing because it can be visualized as a tree. For example, consider a (4 x 4) Sudoku containing the colors <span style="color:red">red</span>, <span style="color:green">green</span>, <span style="color:blue">blue</span>, and <span style="color:yellow">yellow</span> insted of the numbers \( \{1, 2, 3, 4 \} \).
                      </p>
                      <center>
                         <object data="/SudokuPageResources/4x4Color.svg" width="300" height="300"> </object>
                      </center>
+                     <p>
+                        In my representation, unknown squares are represented by white. In order to find a solution to the puzzle, the algorithm requires you to test each square in a particular order by testing over all of the colors in a particular order. Here, each cell is tested from left to right and then top to bottom. Additionally, each trial color is tested in the order (red, yellow, green, blue).
+                     </p>
+                     <p>
+                        Maintaining this consistent order allows us to implement a depth-first search over the space of possible solutions. If a trial value satisfies the 3 Sudoku rules for a particular blank cell, we accept it and move on the next cell. For any Sudoku grid with at least one solution, this procedure will produce a solution. 
+                     </p>
+                     <p>In order to fully grasp the algorithm, we need to consider how it handles trial values assigned to a cell in which they do not belong. With an incomplete grid, it is possible that an accepted trial value will not return a valid solution if that particular value belongs to an unassigned neighboring cell. In such a case, the accepted value will be unavailable in the neighboring cell in which it actually belongs. Eventually, the algorithm will reach a cell for which it runs out of values to try. Reaching a cell which cannot be assigned a value alerts the algorithm that at least one previous trial value was incorrectly assigned. In response, the algorithm returns to the most recent cell that it assigned a value to (backtracks) and tests the result of assigning the current value plus 1 to the cell. If the trial value previously assigned to that cell is less than 9, the search can continue forward again, repeating the previous steps on each of the new cells it covers. Otherwise, it attempts to remedy the next most recently-assigned value and repeats the previous steps until one of two termination conditions is reached.
+                     <p>
+                        The first termination condition represents the puzzle being solved. This is reached when there are no remaining cells to be filled in. If this condition is reached, the algorithm can be exited. For the JavaScript implentation used in this page, the algorithm function returns and the global <i>grid</i> variable reflects the solution.
+                     </p>
+                     <p>
+                        The second termination condition represents an unsolvable puzzle. In such a case, the algorithm has backtracked to the first unassigned cell, unsuccessfully tries a trial value of 9, and has searched all possible solutions. THe function also returns.
+                     </p>
+                     <p>
+                        If the algorithm is searching for a solution on a branch where all of the cells from \(0 \) to \( n - 1 \) match the corresponding values in one of the grid's valid solutions, any further subbranches will not backtrack to an index before \( n \). As described above, the backtracking algorithm 
+                     </p>
+                     <br>
+                     Here is an example recursive implementation of the algorithm in Python:
+                     </p>
+                     <pre>
+                  <code class="line numbers">
+'''
+* ind = position of blank cell
+* given = indicies of all provided cells
+* it = trial value to assign to blank cell with an index given by ind
+'''
+ def Solve(ind, grid, given, it):
+    # we cannot change any provided values
+    if ind in given:
+        if ind == 80: # we reached end of the grid
+            return grid
+        else:
+            if(ind == 0): # error case
+                return False
+            return Solve(ind + it, grid, given, it) # move on to next index
+    else:
+        current = grid[ind]
+        if current == 9 and it == -1: # a previous trial value must be incorrect as
+            # we reached the end of possible values for this index
+            grid[ind] = 0 # reset the trial value to zero 
+            return Solve(ind + it, grid, given, it)
+        for i in range(current + 1, 10): # go to next value to try at this index
+            if AvailableQ(ind, i, grid):
+                grid[ind] = i # accept successful value
+                if ind == 80:
+                    return grid # successful completion
+                else:
+                    return Solve(ind + 1, grid, given, 1) # move on to increasing index
+        # From here on, the trial values did not work at current index,
+        # so we reset the value and try to find a value for the previous index.
+        grid[ind]=0
+        if ind == 0:
+            return False
+        else:
+            return Solve(ind - 1, grid, given, -1)</code>
+                 </pre>
                   </div>
                </div>
             </div>
@@ -253,48 +366,48 @@
    </body>
    <script>
       const g_0 =  [0, 7, 0, 0, 2, 0, 0, 4, 6, // Default 'Example' Grid
-       0, 6, 0, 0, 0, 0, 8, 9, 0,
-       2, 0, 0, 8, 0, 0, 7, 1, 5,
-       0, 8, 4, 0, 9, 7, 0, 0, 0,
-       7, 1, 0, 0, 0, 0, 0, 5, 9,
-      	0, 0, 0, 1, 3, 0, 4, 8, 0,
-       6, 9, 7, 0, 0, 2, 0, 0, 8,
-       0, 5, 8, 0, 0, 0, 0, 6, 0,
-       4, 3, 0, 0, 8, 0, 0, 7, 0];
+      	    0, 6, 0, 0, 0, 0, 8, 9, 0,
+      	    2, 0, 0, 8, 0, 0, 7, 1, 5,
+      	    0, 8, 4, 0, 9, 7, 0, 0, 0,
+      	    7, 1, 0, 0, 0, 0, 0, 5, 9,
+          	0, 0, 0, 1, 3, 0, 4, 8, 0,
+      	    6, 9, 7, 0, 0, 2, 0, 0, 8,
+      	    0, 5, 8, 0, 0, 0, 0, 6, 0,
+      	    4, 3, 0, 0, 8, 0, 0, 7, 0];
       
       var SudokuTable = document.querySelector("#SudokuTable");
       
       function createSudokuGrid(){
-      for (let rowNumber = 0; rowNumber < 9; rowNumber ++){
-      let myRow = document.createElement("tr");
-      for (let colNumber = 0; colNumber < 9; colNumber ++){
-        let myInd = 9 * rowNumber + colNumber;
-        let myCell = document.createElement("td");
-        myCell.setAttribute("id", "i" + myInd);
-        let num = 0;
-        if (g_0[myInd] === 0){
-          num = String.fromCharCode(160);
-        } else {
-          num = g_0[myInd];
-        };
-        let numSpan = document.createElement("span");
-        let upperHintSpan = document.createElement("span");
-        let lowerHintSpan = document.createElement("span");
-        numSpan.classList.add("number");
-        upperHintSpan.classList.add("upperHint");
-        lowerHintSpan.classList.add("lowerHint");
-        let numTxt = document.createTextNode(num);
-        numSpan.contentEditable = "true";
-        numSpan.setAttribute("maxlength", 1);
-        numSpan.appendChild(numTxt);
-        myCell.appendChild(numSpan);
-        myCell.appendChild(upperHintSpan);
-        myCell.appendChild(lowerHintSpan);
-        myRow.appendChild(myCell);
-        };
-      SudokuTable.appendChild(myRow);
-      };
-      };
+        for (let rowNumber = 0; rowNumber < 9; rowNumber ++){
+          let myRow = document.createElement("tr");
+          for (let colNumber = 0; colNumber < 9; colNumber ++){
+            let myInd = 9 * rowNumber + colNumber;
+            let myCell = document.createElement("td");
+            myCell.setAttribute("id", "i" + myInd);
+            let num = 0;
+            if (g_0[myInd] === 0){
+              num = String.fromCharCode(160);
+            } else {
+              num = g_0[myInd];
+            };
+            let numSpan = document.createElement("span");
+            let upperHintSpan = document.createElement("span");
+            let lowerHintSpan = document.createElement("span");
+            numSpan.classList.add("number");
+            upperHintSpan.classList.add("upperHint");
+            lowerHintSpan.classList.add("lowerHint");
+            let numTxt = document.createTextNode(num);
+            numSpan.contentEditable = "true";
+            numSpan.setAttribute("maxlength", 1);
+            numSpan.appendChild(numTxt);
+            myCell.appendChild(numSpan);
+            myCell.appendChild(upperHintSpan);
+            myCell.appendChild(lowerHintSpan);
+            myRow.appendChild(myCell);
+            };
+          SudokuTable.appendChild(myRow);
+          };
+       };
       
       createSudokuGrid();
       
@@ -304,22 +417,22 @@
       // Loop through each number cell and add the event handler
       // to only allow single digit inputs
       numberElements.forEach(element => {
-      element.addEventListener('input', () => {
-      // Remove all non-numeric characters and limit to one digit
-      element.textContent = element.textContent.replace(/[^1-9]/g,'').substring(0,1);
-      });
+        element.addEventListener('input', () => {
+          // Remove all non-numeric characters and limit to one digit
+          element.textContent = element.textContent.replace(/[^1-9]/g,'').substring(0,1);
+        });
       });
       
       
       function validateInput(event) { // Ensure input value is a number
-      const input = event.target.innerText;
-      const validCharacters = ["&nbsp;", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-      for (let i = 0; i < input.length; i++) {
-      if (!validCharacters.includes(input[i])) {
-        event.preventDefault(); // Reject nonnumeric input
-        return
-      };
-      };
+        const input = event.target.innerText;
+        const validCharacters = ["&nbsp;", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        for (let i = 0; i < input.length; i++) {
+          if (!validCharacters.includes(input[i])) {
+            event.preventDefault(); // Reject nonnumeric input
+            return
+          };
+        };
       };
       
       var hintQ = 0; // Condition of 'Show' / 'Hide' Hints Button
@@ -336,93 +449,93 @@
       var givenVals; // Initialize Global Variable Representing Provided Values
       
       function row(i) { // Return the Row Containing and Index
-      return Math.floor(i / 9);
+      	return Math.floor(i / 9);
       };
       
       function col(i) { // Return the Column Containing and Index
-      return i % 9;
+      	return i % 9;
       };
       
       function firstRow(i) { // Return the First Row of the (3x3) Sub-grid Containing an Index
-      return 3 * Math.floor(row(i) / 3);
+      	return 3 * Math.floor(row(i) / 3);
       };
       
       function firstCol(i) { // Return the First Column of the (3x3) Sub-grid Containing an Index
-      return 3 * Math.floor(col(i) / 3);
+      	return 3 * Math.floor(col(i) / 3);
       };
       
       function rowColToInd(r, c) { // Return the Index for a (Row, Column) Coordinate
-      return 9 * r + c;
+      	return 9 * r + c;
       
       };
       
       // Returns the Indices of all Other Cells in the Row Containing a Particular Index
       function rowMates(i) {
-      let r = row(i);
-      let c = col(i);
-      let availCols = rowColSpace.filter(x => (x != c));
-      return availCols.map(x => rowColToInd(r, x));
+      	let r = row(i);
+      	let c = col(i);
+      	let availCols = rowColSpace.filter(x => (x != c));
+      	return availCols.map(x => rowColToInd(r, x));
       };
       
       // Returns the Indices of all Other Cells in the Column Containing a Particular Index
       function colMates(i) {
-      let r = row(i);
-      let c = col(i);
-      let availRows = rowColSpace.filter(x => (x != r));
-      return availRows.map(x => rowColToInd(x, c));
-      
+      	let r = row(i);
+      	let c = col(i);
+      	let availRows = rowColSpace.filter(x => (x != r));
+      	return availRows.map(x => rowColToInd(x, c));
+      	
       };
       
-      // Returns the Indices of all Other Cells in the (3x3) Sub-grid Containing a Particular Index
+       // Returns the Indices of all Other Cells in the (3x3) Sub-grid Containing a Particular Index
       function cellMates(i) {
-      let mates = [];
-      let fC = firstCol(i);
-      let fR = firstRow(i);
-      for (let c = fC; c < (fC + 3); c++) {
-          for (let r = fR; r < (fR + 3); r++) {
-              let ind = c + 9 * r;
-              if (ind != i){
-                  mates.push(ind);
-              };
-          };  
-      };
-      return mates;
+          let mates = [];
+          let fC = firstCol(i);
+          let fR = firstRow(i);
+          for (let c = fC; c < (fC + 3); c++) {
+              for (let r = fR; r < (fR + 3); r++) {
+                  let ind = c + 9 * r;
+                  if (ind != i){
+                      mates.push(ind);
+                  };
+              };  
+          };
+          return mates;
       };
       
       
       // Returns the indices and values of the 'given' cells using current value of 'grid' 
       function updateGivenInds() {
-      givenInds = inds.filter(x => (grid[x] > 0));
-      givenVals = givenInds.filter(x => grid[x]);
+          givenInds = inds.filter(x => (grid[x] > 0));
+          givenVals = givenInds.filter(x => grid[x]);
       };
       
       
       // Returns the available values for a given index using current value of 'grid' 
       function availableVals(ind) {
-      let neighbors = cellMates(ind).concat(rowMates(ind).concat(colMates(ind)));
-      let neighborVals = neighbors.map(x => grid[x]);
-      return numSpace.filter(x => (!neighborVals.includes(x)));
+          let neighbors = cellMates(ind).concat(rowMates(ind).concat(colMates(ind)));
+          let neighborVals = neighbors.map(x => grid[x]);
+          return numSpace.filter(x => (!neighborVals.includes(x)));
       };
       
       
       // Returns a Boolean indicating whether a particular value
       // is allowed at the provided index for the current state of the grid. 
       function availableQ(ind, val){
-      return availableVals(ind).includes(val);
+          return availableVals(ind).includes(val);
       };
       
       // Updates current state of the grid using the input values
       function updateGrid() {
-      for (let i=0; i<81; i++){
-      let cell = document.querySelector("#i" + i);
-      let cellNumber = cell.querySelector('.number').innerText;
-      if ((cellNumber == String.fromCharCode(160)) || (cellNumber == undefined)){
-      grid[i] = 0;
-      }
-      else{
-      grid[i] = parseInt(cellNumber);
-      }
-      };
+      	for (let i=0; i<81; i++){
+      		let cell = document.querySelector("#i" + i);
+      		let cellNumber = cell.querySelector('.number').innerText;
+      		if ((cellNumber == String.fromCharCode(160)) || (cellNumber == undefined)){
+      			grid[i] = 0;
+      		}
+      		else{
+      			grid[i] = parseInt(cellNumber);
+      		}
+      	};
       };
       
       // Computes & Displays the allowed values for every (empty/non-given) cell.
@@ -431,230 +544,231 @@
       // If grid is valid, returns hints, otherwise colors cells with errors
       // red and displays error message.
       function getHints() {
-      validGridQ();
-      let freeCells = inds.filter(x => (!givenInds.includes(x)))
-      freeCells.forEach((element) => {
-          let cell = document.querySelector("#i" + element);
-          if (cell) {
-              let upperHint = cell.querySelector('.upperHint');
-              let lowerHint = cell.querySelector('.lowerHint');
-              if (upperHint && lowerHint) {
-      if (hintQ) {
-      upperHint.innerHTML = "";
-                  	lowerHint.innerHTML = "";
-      }
-      else {
-      let lowerStr = "";
-      let upperStr = "";
-      let available = availableVals(element);
-      for (let k = 1; k < 6; k++){
-      if (available.includes(k)){
-      	upperStr += k;
-      }
-      else {
-      	upperStr += " ";
-      }
-      upperStr += " ";
-      };
-      upperHint.innerHTML = upperStr;
-      for (let k = 6; k < 10; k++){
-      if (available.includes(k)){
-      	lowerStr += k;
-      }
-      else {
-      	lowerStr += " ";
-      }
-      lowerStr += " ";
-      };
-      lowerHint.innerHTML = lowerStr;
-           }
+          validGridQ();
+          let freeCells = inds.filter(x => (!givenInds.includes(x)))
+          freeCells.forEach((element) => {
+              let cell = document.querySelector("#i" + element);
+              if (cell) {
+                  let upperHint = cell.querySelector('.upperHint');
+                  let lowerHint = cell.querySelector('.lowerHint');
+                  if (upperHint && lowerHint) {
+      		if (hintQ) {
+      			upperHint.innerHTML = "";
+                      	lowerHint.innerHTML = "";
+      		}
+      		else {
+      			let lowerStr = "";
+      			let upperStr = "";
+      			let available = availableVals(element);
+      			for (let k = 1; k < 6; k++){
+      				if (available.includes(k)){
+      					upperStr += k;
+      				}
+      				else {
+      					upperStr += " ";
+      				}
+      				upperStr += " ";
+      			};
+      			upperHint.innerHTML = upperStr;
+      			for (let k = 6; k < 10; k++){
+      				if (available.includes(k)){
+      					lowerStr += k;
+      				}
+      				else {
+      					lowerStr += " ";
+      				}
+      				lowerStr += " ";
+      			};
+      			lowerHint.innerHTML = lowerStr;
+      	        }
+                  }
               }
-          }
-      });
-       let but = document.querySelector("#showHideHints");
-       if (hintQ) {
-      hintQ = 0;
-      but.innerHTML = "Get Hints";
-       }
-       else {
-      but.innerHTML = "Hide Hints";
-      hintQ = 1;
-       }
+          });
+           let but = document.querySelector("#showHideHints");
+           if (hintQ) {
+      	hintQ = 0;
+      	but.innerHTML = "Get Hints";
+           }
+           else {
+      	but.innerHTML = "Hide Hints";
+      	hintQ = 1;
+           }
       };
       
       
       // Updates and uses current state of grid to determine if the
       // grid is solvable.
       function validGridQ(){
-      updateGrid();
-      updateGivenInds();
-      let goodGrid = true;
-      for (let i=0; i<81; i++){
-      if ((grid[i] > 0) & (!availableQ(i, grid[i]))){
-      goodGrid = false;
-      let cell = document.querySelector("#i" + i);
-      cell.querySelector('.number').style.color = "red";
-      let errorBar = document.querySelector("#errorBox");
-      errorBar.innerText = "1 or more errors found in grid!"
-      };
-      
-      };
-      return goodGrid;
+      	updateGrid();
+      	updateGivenInds();
+      	let goodGrid = true;
+      	for (let i=0; i<81; i++){
+      		if ((grid[i] > 0) & (!availableQ(i, grid[i]))){
+      			goodGrid = false;
+      			let cell = document.querySelector("#i" + i);
+      			cell.querySelector('.number').style.color = "red";
+      			let errorBar = document.querySelector("#errorBox");
+      			errorBar.innerText = "1 or more errors found in the grid!"
+      		};
+      		
+      	};
+      	return goodGrid;
       };
       
       
       // Clears all values assigned to grid and displays empty grid.
       function resetGrid(){
-      let errorBar = document.querySelector("#errorBox");
-      errorBar.innerText = String.fromCharCode(160);
-      if (hintQ){
-      let but = document.querySelector("#showHideHints");
-      but.innerHTML = "Get Hints";
-      for (let i=0; i<81; i++){
-      let cell = document.querySelector("#i" + i);
-      let upperHint = cell.querySelector('.upperHint');
-              		let lowerHint = cell.querySelector('.lowerHint');
-      upperHint.innerHTML = String.fromCharCode(160);
-      lowerHint.innerHTML = String.fromCharCode(160);
-      };
-      hintQ = 0;
-      };
-      for (let i=0; i<81; i++){
-      grid[i] = 0;
-      let cell = document.querySelector("#i" + i);
-      cell.querySelector('.number').style.color = "black";
-      cell.querySelector('.number').innerText = String.fromCharCode(160);
-      };
+      	let errorBar = document.querySelector("#errorBox");
+      	errorBar.innerText = String.fromCharCode(160);
+      	if (hintQ){
+      		let but = document.querySelector("#showHideHints");
+      		but.innerHTML = "Get Hints";
+      		for (let i=0; i<81; i++){
+      			let cell = document.querySelector("#i" + i);
+      			let upperHint = cell.querySelector('.upperHint');
+                  		let lowerHint = cell.querySelector('.lowerHint');
+      			upperHint.innerHTML = String.fromCharCode(160);
+      			lowerHint.innerHTML = String.fromCharCode(160);
+      		};
+      		hintQ = 0;
+      	};
+      	for (let i=0; i<81; i++){
+      		grid[i] = 0;
+      		let cell = document.querySelector("#i" + i);
+      		cell.querySelector('.number').style.color = "black";
+      		cell.querySelector('.number').innerText = String.fromCharCode(160);
+      	};
       };
       
-                                                         
+                                                             
       // Performs backtracking algorithm to solve the puzzle.
       function solve(){
-      if (validGridQ()) {
-      		const toFind = inds.filter(x => (!givenInds.includes(x)));
-      		const final = toFind.length;
-      		let mapInd = 0;
-      		let count = 0;
-      		while ((count < 300000) && (mapInd > -1) && (mapInd < final)){
-          		count ++;
-          		let update = false;
-          		for (let i = grid[toFind[mapInd]] + 1; i < 10; i++){
-              			if (availableQ(toFind[mapInd], i)){
-                  			grid[toFind[mapInd]] = i;
-                  			update = true;
-                  			break;
-              			}
-          		};
-          		if (update) {
-              			mapInd += 1;
+      	if (validGridQ()) {
+          		const toFind = inds.filter(x => (!givenInds.includes(x)));
+          		const final = toFind.length;
+          		let mapInd = 0;
+          		let count = 0;
+          		while ((count < 300000) && (mapInd > -1) && (mapInd < final)){
+              		count ++;
+              		let update = false;
+              		for (let i = grid[toFind[mapInd]] + 1; i < 10; i++){
+                  			if (availableQ(toFind[mapInd], i)){
+                      			grid[toFind[mapInd]] = i;
+                      			update = true;
+                      			break;
+                  			}
+              		};
+              		if (update) {
+                  			mapInd += 1;
+              		}
+              		else {
+                  			grid[toFind[mapInd]] = 0;
+                  			mapInd -= 1;
+              		};
+         		};
+          		if (mapInd == -1){
+              		let errorBar = document.querySelector("#errorBox");
+      			error_bar.innerText = "Error Solving Puzzle!";
           		}
-          		else {
-              			grid[toFind[mapInd]] = 0;
-              			mapInd -= 1;
-          		};
+      		else {
+      			toFind.forEach((element) => {
+      				let cell = document.querySelector("#i" + element);
+      				cell.querySelector('.number').style.color = "green";
+      				cell.querySelector('.number').innerText = grid[element];
+      				
+      			})
+      		};
+          
       	};
-      		if (mapInd == -1){
-          		let errorBar = document.querySelector("#errorBox");
-      error_bar.innerText = "Error Solving Puzzle!";
-      		}
-      else {
-      toFind.forEach((element) => {
-      let cell = document.querySelector("#i" + element);
-      cell.querySelector('.number').style.color = "green";
-      cell.querySelector('.number').innerText = grid[element];
-      
-      })
-      };
-      
-      };
       };
       
       
       function restoreDefault(){
-      grid = [...g_0];
-      updateGivenInds();
-      let errorBar = document.querySelector("#errorBox");
-      errorBar.innerText = String.fromCharCode(160);
-      if (hintQ){
-      let but = document.querySelector("#showHideHints");
-      but.innerHTML = "Get Hints";
-      for (let i=0; i<81; i++){
-      let cell = document.querySelector("#i" + i);
-      let upperHint = cell.querySelector('.upperHint');
-              		let lowerHint = cell.querySelector('.lowerHint');
-      upperHint.innerHTML = String.fromCharCode(160);
-      lowerHint.innerHTML = String.fromCharCode(160);
-      };
-      hintQ = 0;
-      };
-      for (let i = 0; i < 81; i++){
-      let cell = document.querySelector("#i" + i);
-      cell.querySelector('.number').style.color = "black";
-      if (g_0[i] == 0) {
-      cell.querySelector('.number').innerText = String.fromCharCode(160);
-      }
-      else {
-      cell.querySelector('.number').innerText = grid[i];
-      };
-      };
+      	grid = [...g_0];
+      	updateGivenInds();
+      	let errorBar = document.querySelector("#errorBox");
+      	errorBar.innerText = String.fromCharCode(160);
+      	if (hintQ){
+      		let but = document.querySelector("#showHideHints");
+      		but.innerHTML = "Get Hints";
+      		for (let i=0; i<81; i++){
+      			let cell = document.querySelector("#i" + i);
+      			let upperHint = cell.querySelector('.upperHint');
+                  		let lowerHint = cell.querySelector('.lowerHint');
+      			upperHint.innerHTML = String.fromCharCode(160);
+      			lowerHint.innerHTML = String.fromCharCode(160);
+      		};
+      		hintQ = 0;
+      	};
+      	for (let i = 0; i < 81; i++){
+      		let cell = document.querySelector("#i" + i);
+      		cell.querySelector('.number').style.color = "black";
+      		if (g_0[i] == 0) {
+      			cell.querySelector('.number').innerText = String.fromCharCode(160);
+      		}
+      		else {
+      			cell.querySelector('.number').innerText = grid[i];
+      		};
+      	};
       };
       
       var iter = 0; // global frame index which specifies index of (x, y) permutation pair to be added to animation
       var backtrackTable = document.querySelector("#backtrackTable");
       function initbacktrackTable() { // populate table with 'invisible' values corresponding to each (x, y) pair's sum and inequality conditions to maintain consistent spacing 
-      let sumRow = document.querySelector("#sum");
-      let ineqRow = document.querySelector("#ineq");
-      for (let ind = 0; ind < 16; ind++){
-      let xVal = Math.floor(ind / 4) + 1; 
-      let yVal = ind % 4 + 1;
-      let sumCell = document.createElement("td");
-      let ineqCell = document.createElement("td");
-      sumCell.innerHTML = xVal + yVal;
-      sumCell.setAttribute("id", "sum" + ind);
-      sumRow.appendChild(sumCell); 
-      sumCell.style.color = "LavenderBlush";
-      ineqCell.setAttribute("id", "ineq" + ind);
-      if (xVal > yVal) {
-        ineqCell.innerHTML = "✓";
-      } else {
-        ineqCell.innerHTML = "×";
-      };
-      ineqCell.style.color = "LavenderBlush";  // hide values by making text color background color for the table class
-      ineqRow.appendChild(ineqCell); 
-      };
+        let sumRow = document.querySelector("#sum");
+        let ineqRow = document.querySelector("#ineq");
+        for (let ind = 0; ind < 16; ind++){
+          let xVal = Math.floor(ind / 4) + 1; 
+          let yVal = ind % 4 + 1;
+          let sumCell = document.createElement("td");
+          let ineqCell = document.createElement("td");
+          sumCell.innerHTML = xVal + yVal;
+          sumCell.setAttribute("id", "sum" + ind);
+          sumRow.appendChild(sumCell); 
+          sumCell.style.color = "LavenderBlush";
+          ineqCell.setAttribute("id", "ineq" + ind);
+          if (xVal > yVal) {
+            ineqCell.innerHTML = "✓";
+          } else {
+            ineqCell.innerHTML = "×";
+          };
+          ineqCell.style.color = "LavenderBlush";  // hide values by making text color background color for the table class
+          ineqRow.appendChild(ineqCell); 
+        };
       };
       
       function updateBacktrackTable() { // returns the current frame of the search process as indexed by the global 'iter' variable
-      if (iter === 9) { // animation stops at index of (x, y) pair to reflect the backtracking algorithm's endpoint when valid solution is found
-      for (let i = 0; i < 10; i++){ //reset table to the blank frame
-        let sumCell = document.querySelector("#sum" + i);
-        let ineqCell = document.querySelector("#ineq" + i);
-        sumCell.style.color = "LavenderBlush";
-        ineqCell.style.color = "LavenderBlush";
-      };
-      iter = 0; // restart iteration of search animation
-      } else { // make the condition values visible for the (x, y) pair with an index specified by iter
-      let sumCell = document.querySelector("#sum" + iter);
-      let ineqCell = document.querySelector("#ineq" + iter);
-      let xVal = Math.floor(iter / 4) + 1;
-      let yVal = iter % 4 + 1;
-      if ((xVal + yVal) === 4) {
-        sumCell.style.color = "green";
-        if (xVal > yVal) {
-          ineqCell.style.color = "green";
-        } else {
-          ineqCell.style.color = "red";
+        if (iter === 9) { // animation stops at index of (x, y) pair to reflect the backtracking algorithm's endpoint when valid solution is found
+          for (let i = 0; i < 10; i++){ //reset table to the blank frame
+            let sumCell = document.querySelector("#sum" + i);
+            let ineqCell = document.querySelector("#ineq" + i);
+            sumCell.style.color = "LavenderBlush";
+            ineqCell.style.color = "LavenderBlush";
+          };
+          iter = 0; // restart iteration of search animation
+        } else { // make the condition values visible for the (x, y) pair with an index specified by iter
+          let sumCell = document.querySelector("#sum" + iter);
+          let ineqCell = document.querySelector("#ineq" + iter);
+          let xVal = Math.floor(iter / 4) + 1;
+          let yVal = iter % 4 + 1;
+          if ((xVal + yVal) === 4) {
+            sumCell.style.color = "green";
+            if (xVal > yVal) {
+              ineqCell.style.color = "green";
+            } else {
+              ineqCell.style.color = "red";
+            };
+          } else {
+            sumCell.style.color = "red";
+          };
+          iter++; // step animation to next frame
         };
-      } else {
-        sumCell.style.color = "red";
-      };
-      iter++; // step animation to next frame
-      };
-      
+        
       };
       
       initbacktrackTable(); // initialize table
       
       setInterval(updateBacktrackTable, 500); // periodically update animation frame every 500 ms
+         
    </script>
 </html>
