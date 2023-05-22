@@ -327,6 +327,7 @@
 * ind = position of blank cell
 * given = indicies of all provided cells
 * it = trial value to assign to blank cell with an index given by ind
+The algorithm is initialized by running Solve(0, grid, given, 1)
 '''
  def Solve(ind, grid, given, it):
     # we cannot change any provided values
