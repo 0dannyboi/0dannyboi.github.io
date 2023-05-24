@@ -122,48 +122,6 @@
       body,h1,h2,h3,h4,h5 {
       font-family: "Raleway"
       }
-      .top {
-      border-top-width: 2px;
-      background: LavenderBlush;
-      }
-      .topLeft {
-      border-top-width: 2px;
-      border-left-width: 2px;
-      background: LavenderBlush;
-      }
-      .topRight {
-      border-top-width: 2px;
-      border-right-width: 2px;
-      background: LavenderBlush;
-      }
-      .bottom {
-      border-bottom-width: 2px;
-      background: LavenderBlush;
-      }
-      .bottomLeft {
-      border-bottom-width: 2px;
-      border-left-width: 2px;
-      background: LavenderBlush;
-      }
-      .bottomRight {
-      border-bottom-width: 2px;
-      border-right-width: 2px;
-      background: LavenderBlush;
-      }
-      .table2 { /*Grid Style*/
-      background: None;
-      margin: auto;
-      border-collapse: collapse;
-      border: None;
-      }
-      .right {
-      border-right-width: 2px;
-      background: LavenderBlush;
-      }
-      .left {
-      border-left-width: 2px;
-      background: LavenderBlush;
-      }
       pre {
       background-color: #f4f4f4;
       display: inline-block;
@@ -178,11 +136,18 @@
       padding-right: 10px;
       color: #999;
       }
+      .codeContainer {
+      text-align: center;
+      }
+      .codeContainer pre {
+      display: inline-block;
+      text-align: left;
+      }
    </style>
    <body class="w3-light-grey">
       <div class="w3-content" style="max-width:1400px">
          <div class="w3-row">
-            <div class="w3-col l8 s12">
+            <div>
                <div class="w3-card-4 w3-margin w3-white">
                   <div class="w3-container">
                      <center>
@@ -203,7 +168,7 @@
                         <h2>Background</h2>
                         <h3>The Puzzle</h3>
                      </center>
-                     <p>Due to its simple rules and clean grid structure, Sudoku has become a staple of puzzle books and newspapers around the globe. Although most of us are familiar with the Japense name, Sudoku (数独), the modern format for this puzzle is the brainchild of American puzzlemaker <a href="https://sudoku.com/how-to-play/where-was-sudoku-invented/">Howard Garns.</a> We can thank <a href="https://en.wikipedia.org/wiki/Maki_Kaji">Maki Kaji's</a> efforts to popularize the puzzle for replacing Garns' <i>creative</i> title "Number Place" with "Sudoku."</p>
+                     <p>Due to its simple rules and clean grid structure, Sudoku has become a staple of puzzle books and newspapers around the globe. Although most of us are familiar with the Japanese name, Sudoku (数独), the modern format for this puzzle is the brainchild of American puzzlemaker <a href="https://sudoku.com/how-to-play/where-was-sudoku-invented/">Howard Garns.</a> We can thank <a href="https://en.wikipedia.org/wiki/Maki_Kaji">Maki Kaji's</a> efforts to popularize the puzzle for replacing Garns' <i>creative</i> title "Number Place" with "Sudoku."</p>
                      <p>
                         As a brief recap, Sudoku is a logic-based puzzle consisting of a 9 x 9 grid with the end goal of assigning a digit (1 - 9) to each of the cells. In order for a completed grid to be a valid solution, three simple rules must be obeyed:
                      <ol class="centerli">
@@ -219,13 +184,13 @@
                         <h2>The Code</h2>
                      </center>
                      <p>
-                        At first glance, a program to solve Sudokus might seem contrary to the puzzle spirit as it strips the user of the creativity and problem-solving needed to complete the puzzle. However, I believe that this tool can help beginners by showing hints and offering immediate feedback in the form of a solution. Most importantly, I enjoy the process of turning an idea into a functioning algorithm because the process is identical to solving a puzzle. In this case, the solution is able to produce any solution to a whole class of puzzles! 
+                        At first glance, a program to solve Sudokus might seem contrary to the puzzle spirit as it strips the user of the creativity and problem-solving needed to complete the puzzle. However, I believe this tool can help beginners by showing hints and offering immediate feedback in the form of a solution. Most importantly, I enjoy the process of turning an idea into a functioning algorithm because the process is identical to solving a puzzle. In this case, the solution is able to produce any solution to a whole class of puzzles! 
                      </p>
                      <center>
                         <h4>Backtracking Algorithm</h4>
                      </center>
                      <p>
-                        The algorithm this program uses to solve a Sudoku puzzle differs from the method a human might use as it relies on a brute force approach. Given an unsolved Sudoku grid, the program searches for a solution by testing all possible values in the state space of the puzzle until a solution is found or all possible options are exhausted. Note that finding a solution with this algorithm does not imply the solution is unique. As an example, you can clear the grid above using the 'Clear Grid' button and then press 'Solve.' The cleared grid can be imagined as the entire space of solutions for all Sudoku puzzles, demonstrating that this configuration does not have a single unique solution (it is <em>compatible</em> with <b>all</b> valid Sudoku puzzles). However, the algorithm has no difficulty producing a solution.                                                  
+                        The algorithm this program uses to solve a Sudoku puzzle differs from the method a human might use as it relies on a brute-force approach. Given an unsolved Sudoku grid, the program searches for a solution by testing all possible values in the state space of the puzzle until a solution is found or all possible options are exhausted. Note that finding a solution with this algorithm does not imply the solution is unique. As an example, you can clear the grid above using the 'Clear Grid' button and then press 'Solve.' The cleared grid can be imagined as the entire space of solutions for all Sudoku puzzles, demonstrating that this configuration does not have a single unique solution (it is <em>compatible</em> with <b>all</b> valid Sudoku puzzles). However, the algorithm has no difficulty producing a solution.                                                  
                      </p>
                      <center>
                         <h5>Toy Puzzle</h5>
@@ -291,13 +256,13 @@
                         </tr>
                      </table>
                      <p>
-                        Note that the computer searches over the space of all pairs \( (x, y) \) where both \( x \) and \( y \) belong to the set \( \{1, 2, 3, 4 \} \). At each pair, it tests if the above conditions are met. Although the computer calculates the sum \( x + y = 4\) at every pair, it only checks the inequality \( x > y\) at the pairs \(\{ (1,3), (2,2), (3,1)\}\) because these are the pairs which add to 4. It would be inefficient to check if the second condition, \( x > y\), is met for the pairs that do not satisfy the first condition, \( x + y = 4\) as the solution requires BOTH conditions to be met.
+                        Note that the computer searches over the space of all pairs \( (x, y) \) where both \( x \) and \( y \) belong to the set \( \{1, 2, 3, 4 \} \). At each pair, it tests if the above conditions are met. Although the computer calculates the sum \( x + y = 4\) at every pair, it only checks the inequality \( x > y\) at the pairs \(\{ (1,3), (2,2), (3,1)\}\) because these are the pairs that add to 4. It would be inefficient to check if the second condition, \( x > y\), is met for the pairs that do not satisfy the first condition, \( x + y = 4\) as the solution requires BOTH conditions to be met.
                      </p>
                      <center>
                         <h5>Tree Traversal</h5>
                      </center>
                      <p>
-                        The backtracking algorithm for solving Sudoku is especially appealing because it can be visualized as a tree. For example, consider a (4 x 4) Sudoku containing the colors <span style="color:red">red</span>, <span style="color:green">green</span>, <span style="color:blue">blue</span>, and <span style="color:yellow">yellow</span> insted of the numbers \( \{1, 2, 3, 4 \} \).
+                        The backtracking algorithm for solving Sudoku is especially appealing because it can be visualized as a tree. For example, consider a (4 x 4) Sudoku containing the colors <span style="color:red">red</span>, <span style="color:green">green</span>, <span style="color:blue">blue</span>, and <span style="color:yellow">yellow</span> instead of the numbers \( \{1, 2, 3, 4 \} \).
                      </p>
                      <center>
                         <object data="/SudokuPageResources/4x4Color.svg" width="300" height="300"> </object>
@@ -308,9 +273,9 @@
                      <p>
                         Maintaining this consistent order allows us to implement a depth-first search over the space of possible solutions. If a trial value satisfies the 3 Sudoku rules for a particular blank cell, we accept it and move on the next cell. For any Sudoku grid with at least one solution, this procedure will produce a solution. 
                      </p>
-                     <p>In order to fully grasp the algorithm, we need to consider how it handles trial values assigned to a cell in which they do not belong. With an incomplete grid, it is possible that an accepted trial value will not return a valid solution if that particular value belongs to an unassigned neighboring cell. In such a case, the accepted value will be unavailable in the neighboring cell in which it actually belongs. Eventually, the algorithm will reach a cell for which it runs out of values to try. Reaching a cell which cannot be assigned a value alerts the algorithm that at least one previous trial value was incorrectly assigned. In response, the algorithm returns to the most recent cell that it assigned a value to (backtracks) and tests the result of assigning the current value plus 1 to the cell. If the trial value previously assigned to that cell is less than 9, the search can continue forward again, repeating the previous steps on each of the new cells it covers. Otherwise, it attempts to remedy the next most recently-assigned value and repeats the previous steps until one of two termination conditions is reached.
+                     <p>In order to fully grasp the algorithm, we need to consider how it handles trial values assigned to a cell in which they do not belong. With an incomplete grid, it is possible that an accepted trial value will not return a valid solution if that particular value belongs to an unassigned neighboring cell. In such a case, the accepted value will be unavailable in the neighboring cell in which it actually belongs. Eventually, the algorithm will reach a cell for which it runs out of values to try. Reaching a cell which cannot be assigned a value alerts the algorithm that at least one previous trial value was incorrectly assigned. In response, the algorithm returns to the most recent cell to which it assigned a value (backtracks) and tests the result of assigning the current value plus 1 to the cell. If the trial value previously assigned to that cell is less than 9, the search can continue forward again, repeating the previous steps on each of the new cells it covers. Otherwise, it attempts to remedy the next most recently-assigned value and repeats the previous steps until one of two termination conditions is reached.
                      <p>
-                        The first termination condition represents the puzzle being solved. This is reached when there are no remaining cells to be filled in. If this condition is reached, the algorithm can be exited. For the JavaScript implentation used in this page, the algorithm function returns and the global <i>grid</i> variable reflects the solution.
+                        The first termination condition represents the puzzle being solved. This is reached when there are no remaining cells to be filled in. If this condition is reached, the algorithm can be exited. For the JavaScript implementation used in this page, the algorithm function updates the global <i>grid</i> variable.
                      </p>
                      <p>
                         The second termination condition represents an unsolvable puzzle. In such a case, the algorithm has backtracked to the first unassigned cell, unsuccessfully tries a trial value of 9, and has searched all possible solutions. THe function also returns.
@@ -321,12 +286,13 @@
                      <br>
                      Here is an example recursive implementation of the algorithm in Python:
                      </p>
-                     <pre>
-                  <code class="line numbers">
+                     <div class = "codeContainer">
+                        <pre>
+                  <code>
 '''
 * ind = position of blank cell
 * given = indicies of all provided cells
-* it = trial value to assign to blank cell with an index given by ind
+* it = direction of tree traversal; +1 for down and -1 for up
 The algorithm is initialized by running Solve(0, grid, given, 1)
 '''
  def Solve(ind, grid, given, it):
@@ -359,6 +325,7 @@ The algorithm is initialized by running Solve(0, grid, given, 1)
         else:
             return Solve(ind - 1, grid, given, -1)</code>
                  </pre>
+                     </div>
                   </div>
                </div>
             </div>
