@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Ising Model</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+.myTable {
+ margin: auto;
+ border-collapse: collapse;
+}
+.mytd {
+ position: relative;
+ text-align: center;
+ height: 25px;
+ width: 25px;
+ border: 1px solid black;
+}
+  .hb {
+ position: relative;
+ text-align: center;
+ height: 100px;
+ width: 100px;
+ border: 1px solid black;
+ background:salmon;
+  }
+  .mce {
+ position: relative;
+ text-align: center;
+ height: 25px;
+ width: 25px;
+ border: 1px solid black;
+ background: LightGray;
+   .row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+} 
+   
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-theme-l1">Logo</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Clients</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Partners</a>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-container">
+      <center><h1 class="w3-text-teal">Square Lattice Ising Model</h1></center>
+      <p>The Ising Model is one of the earliest treatments of ferromagnetism in statistical mechanics. The model, although first proposed by Wilhelm Lenz in 1920, takes its name from one of Lenz's students, Ernest Ising,  who made headway formalizing the theory describing the  1-dimensional model.</p>
+      <center><h3 class = "w3-text-teal">Basic Definitions</h3></center>
+      <p>
+        Although many variations of this model exist, I will consider the model characterized by a square lattice of spins which can either be in the state \(1\) (spin-up) or \(-1\) (spin-down). Each spin is coupled to its nearest neighbors (above, below, left, right) with a constant, \(J_{i,j}\). In general cases, the coupling depends on the specific pair of spins, however this value will be the same for all pairs of spins in the model. The table below demonstrates how a (3x3) lattice may be populated by the two spin states.
+      </p>
+      <center>
+      <table class="myTable">
+        <tr>
+          <td class = "mytd" style="color:blue">&#8595</td>
+          <td class = "mytd" style="color:red">&#8593</td>
+          <td class = "mytd" style="color:blue">&#8595</td>
+        </tr>
+        <tr>
+          <td class = "mytd" style="color:blue">&#8595</td>
+          <td class = "mytd" style="color:blue">&#8595</td>
+          <td class = "mytd" style="color:red">&#8593</td>
+        </tr>
+        <tr>
+          <td class = "mytd" style="color:blue">&#8595</td>
+          <td class = "mytd" style="color:red">&#8593</td>
+          <td class = "mytd" style="color:blue">&#8595</td>
+        </tr>
+      </table>
+      </center>
+      <p>
+        Classically, the magnetization, \(M\), of a solid is the volume density of magnetic dipole moments. Here, we will define the absolute magnetization, \(M\), of an \(N \times N\) configuration to be the absolute value of the average spin, \( \sigma_i \), per site.
+        \[ M = \left| \frac{1}{N^2} \sum_{i = 0}^{N^2} \sigma_i \right| \]
+Additionally, the expression for the energy of our configuration in an external field, \(h\) is:
+        \[ E = -J \sum_{i,j} \sigma_i \sigma_j - h \sum_{i} \sigma_i \]
+        There are a few interesting cases that can be observed:
+        
+        <ol>
+          <li>J = 0. The energy is minimized by spins aligning with an external field. The coupling between neighboring spins does not contribute to the energy. We expect to observe paramagnetic ordering of the system.</li>
+          <li>J &lt 0. Again, the energy is minimized by spins aligning with an external field. However, the coupling between neighboring spins does contribute to the energy, and is minimized by neighboring spins opposing each other. We expect to observe antiferromagnetic ordering of the system.</li>
+          <li>J &gt 0.(The case we will consider.) Once more, the energy is minimized by spins aligning with an external field. However, the coupling between neighboring spins does contribute to the energy, and is minimized by neighboring spins aligning with each other. We expect to observe ferromagnetic ordering of the system.</li>
+          </ol>
+      However, we will be considering the case where there is no external field:
+      \[ E = -J \sum_{i, j} \sigma_i \sigma_j \]
+      </p>
+    <center><h3 class = "w3-text-teal">The Canonical Ensemble</h3></center>
+    <p>
+      Through the theromdynamic identity, we can show that for a particular system with a constant number of particles, \(N\), and constant volume \(V\), the temperature, \(T\), entropy, \(S\), and internal energy \(U\) are related by:
+      \[ \frac{1}{T} = \left( \frac{\partial S}{\partial U}\right)_{N, V} \]
+Additionally, the entropy, \(S\), for a macrostate, \( \mu \), is defined in terms of the number of microstates associated with it: the multiplicity, \(\Omega\).
+      \[ S(\mu) = k_B \ln(\Omega(\mu)) \]
+In order to study the behavior of the system across different temperature scales, we will consider our spin lattice to be in thermal equilibrium with a heat reservoir at a temperature \(T\). The combination of the heat bath and spin lattice form a canonical ensemble.
+    </p>
+    <center>
+    <table class = "myTable">
+      
+        
+        <td class = "mce">System \(\epsilon_S = U_0 - \epsilon_R\)</td>
+      
+      </table>
+    <table class = "myTable">
+      
+        <td class = "hb">Heat Bath \(\epsilon_R = U_0 - \epsilon_S\)</td>
+        
+      
+      </table>
+      </center>
+      <p>
+        On the figure above, the internal energy of both the reservoir and system are defined in complementary terms as the internal energy of the system is \(U_0 = \epsilon_R + \epsilon_S\).
+      </p>
+    <p>
+      In order to arrive at the probability of the system having an internal energy \(\epsilon_i\), we can consider the probability of the reservoir being in the energy state \(\epsilon_R = U_0 - \epsilon_i\). This value will be proportional to the number of states satisfying this condition, which is given by the multiplicity.
+      \[ P_S(\epsilon_i) = P_R(U_0 - \epsilon_i) \propto  \Omega(U_0 - \epsilon_i)\]
+Where the multiplicity can be expressed in terms of the entropy:
+      \[ \Omega_R(U_0 - \epsilon_i) = \exp{ \left( \frac{S_R(U_0 - \epsilon_i)}{k_B} \right)} \]
+We can Taylor expand the entropy about \(U_0\) to first order taking \(\epsilon_i \ll U_0\):
+      \[ S_R(U_0 - \epsilon_i) \approx S_R(U_0) - \epsilon_i \frac{d S_R}{d U}   \]
+      As \(N\) and \(V\) are constant we can refer to the thermodynamic identity to replace the derivative in the expression with inverse temperature:
+       \[ S_R(U_0 - \epsilon_i) \approx S_R(U_0) - \epsilon_i \frac{1}{T}   \]
+      Returning the following for our probability:
+      \[P_S(\epsilon_i) \propto \exp{\left(\frac{S_R(U_0) - \epsilon_i/T}{k_B}\right)} = \exp{\left(S_R(U_0) / k_B \right)} \exp{\left(- \frac{\epsilon_i} { k_B T }\right)} \]
+    
+      Which is a constant multiplied by a function of \(\epsilon_i\). We can show that for a set of \(\epsilon_i \) where the probability obeys \(P(\epsilon_i) \propto c~ f(\epsilon_i) \):
+      \[ P(\epsilon_i) = \frac{f(\epsilon_i)}{\sum_i f(\epsilon_i)}  \]
+      Here our function of \(\epsilon_i\) is the Boltzmann factor:
+    </p>
+    <div style="font-size:24px;">
+      \[ e^{-\frac{\epsilon_i}{k_B T}} \]
+    </div>
+    <p>
+      And we introduce the partition function:
+    </p>
+    <div style="font-size:22px;">
+      \[Z = \sum_i e^{-\frac{\epsilon_i}{k_B T}} \]
+    </div>
+    <p>
+      As the Ising Model can be described through a canonical ensemble, the probability of certain configurations of spins are determined by their respective energies for any temperature. As a result, this leads to a special symmetry in the system. If each spin is flipped (multiplied by -1), the sign of the total of all spins changes (and the total's magnitude is the same), while the energy of the configuration remains the same.
+      \[ E' = -J \sum_{i, j} (-\sigma_i) (-\sigma_j) = -J \sum_{i, j} \sigma_i \sigma_j = E \]
+    </p>
+    <center><h3 class = "w3-text-teal">Markov Chain Monte Carlo Methods</h3></center>
+    <p>
+      One of the more interesting phenomena associated with ferromagnetism is the presence of a Curie temperature. Bringing a ferromagnet above this temperature induces a phase transition which can be observed as changes in the magnetic susceptibility and the loss of any spontaneous magnetization. This is part of the motivation for using statistical tools to study the influence of temperature on the system.
+    </p>
+    <p>
+      Depending on the temperature, thermal fluctuations will disorient spins away from their neighbors into alternate configurations with probabilities given by the Boltzmann factors. As the Boltzmann factor corresponding to a configuration with energy \(\epsilon_i\) is given by \(e^{-\frac{\epsilon_i}{k_B T}}\), each macrostate with energy \(\epsilon_i\) has a nonzero probability for \(T > 0\). This demonstrates the ergodicity of the system. As a direct consequence, we can calculate ensemble averages of the magnetization and energy on a sufficiently long trajectory of the system through phase space. As each of the transitions between states depends only on the current state of the system, it can be modelled by a Markov Process.
+    </p>
+    <p>
+      Additionally, seeking to sample from the equilibrium distribution, we seek an algorithm with the property of detailed balance. At equilibrium, the probability of transferring \(A \xrightarrow{} B\) will be equal to the probability of transferring \(B \xrightarrow{} A\). If our Markov Process has a stationary distribution, \(\pi\), then the following expression summarizes detailed balance:
+    </p>
+    <div style="font-size: 20px;">
+      \[ \pi_i p_{i \xrightarrow{} j} = \pi_j p_{j \xrightarrow{} i} ~~ \forall ~i, j\]
+    </div>
+    <p>
+      Where \(\pi_i\) is the probability of being in state \(i\) given the stationary distribution \(\pi\) and \(p_{i \xrightarrow{} j}\) is the probability of transferring from state \(i\) to state \(j\) in one step given all possible transitions leaving state \(i\).
+    </p>
+      <center><h4 class = "w3-text-teal">Metropolis-Hastings Algorithm</h4></center>
+    <p>
+      One such algorithm which satisfies the criteria above is the Metropolis-Hastings Algorithm. The system is sampled by considering the energy difference between the current state and a state in which a random spin is flipped.
+     <ol style="text-align: center;
+  list-style-position: inside;">
+        <li>Choose a random spin to flip.</li>
+        <li>Compute the change in energy, \(\Delta E\).</li>
+        <li>If \(\Delta E \lt 0\) accept new configuration.</li>
+        <li>Otherwise, pick a random \(r \) ,  \(0 \leq r \lt 1\). <br> Accept proposed spin flip only if \(\exp(- \Delta E / k_B T) \gt r\).</li>
+        </ol>
+    Ultimately, the acceptance condition states that we flip the spin with a probability:
+     \[ A(\Delta E) = \min \left(1, \exp{\left( \frac{-\Delta E}{k_B T} \right)} \right)\]
+    
+    To verify the condition of detailed balance for this algorithm, consider a proposed spin flip from a state with energy \(x\) to one with energy \(y\) where \( x \lt y\).
+    Letting \(\beta = 1 / (k_B T) \), the probability of the configuration being in a state with energy \(x\) at temperature \(T~\) is:
+    \[ P(x) = \frac{e^{- \beta x}}{Z} \]
+    Where Z is the canonical partition function. Having \(\Delta E_{x \xrightarrow{} y} > 0\), The acceptance condition becomes:
+    \[ A(\Delta E_{x \xrightarrow{} y}) = \min \left(1, \exp{\left( -\beta \Delta E_{x \xrightarrow{} y} \right)} \right) =  \exp{\left( -\beta \Delta E_{x \xrightarrow{} y} \right)}\]
+    The flow of probability from state \(x\) to \(y\) is the product of the acceptance condition and \(P(x)\):
+    \[ \pi_x p_{x \xrightarrow{} y} = P(x) A(\Delta E_{x \xrightarrow{} y}) = \frac{e^{- \beta x}}{Z} \exp{\left( -\beta \Delta E_{x \xrightarrow{} y} \right)} = \frac{\exp(- \beta y)}{Z} \]
+    For the reverse process, \(\Delta E_{y \xrightarrow{} x} = -\Delta E_{x \xrightarrow{} y}\) so that \(\Delta E_{y \xrightarrow{} x} \lt 0\). Therefore, this process is always accepted. We then find that:
+    \[ \pi_y p_{y \xrightarrow{} x} = P(y) A(\Delta E_{y \xrightarrow{} x}) = \frac{\exp(-\beta y)}{Z} \left(1 \right) =  \frac{\exp(-\beta y)}{Z} = \pi_x p_{x \xrightarrow{} y} \]
+    And we have shown that the Metropolis-Hastings Algorithm satisfies detailed balance.
+    </p>
+  <center><h3 class = "w3-text-teal">Verifying the Algorithm</h3></center>
+  <p>
+  In order to verify that the algorithm accurately samples from the partition function, we can compare the simulated expectation values \(\langle M \rangle\) and \(\langle E \rangle\) to the values computed analytically.
+  </p>
+  <p>
+    Recall that the energy of the system, as well as the magnitude of the magnetization, is invariant under the flipping of every spin. Working on a lattice with an odd number of spins, we can show that every configuration with a magnetization \(m_k > 0\) and energy \(E_k\) can be paired with a flipped configuration having magnetization \(-m_k\) and energy \(E_k\).
+  </p>
+  <p>
+    In order to compute the ensemble averages, we need a method to iterate over each configuration in the state space once and only once. First, we can notice, that for a grid containing \(N\) spins on each side, there is a total of \(N^2\) spins which can each be assigned one of \(2\) spins, bringing the total number of configurations to:
+    \[\prod_{k=1}^{N^2} 2 = 2 ^ {\left(N^2\right)}\] 
+Additionally, as each lattice site can be occupied by one of two spins, it is quite natural to represent each state as a binary number with \(N^2\) bits. In this representation the spins \(\{-1, 1\}\) are mapped to the bits \(\{0, 1\}\). Due to the symmetry of the system under spin inversion, we can cut the number of states to study in half by focusing on the first \(2 ^ {\left(N^2 - 1\right)}\) states. The other half of the states consists of states which are the one's complements of the first half of the states. As a result, the proportion of states having an energy \(\epsilon_i\) and absolute magnetization \(M_i\) in the first \(2 ^ {\left(N^2 - 1\right)}\) states is the same as the respective proportions in the last \(2 ^ {\left(N^2 - 1\right)}\) as well as in the entire state space.
+  </p>
+  <p>
+    The exact spectrum of energies for the 3x3 Ising model with fixed boundaries was computed by iterating over the first 256 states. I assigned each state a base-10 "identity" by mapping the sequence of spins (with indices increasing left to right then top to bottom) to a binary number with the most-significant bit corresponding to the spin in the state's zero index. The partition function was then computed for \(0 \leq \beta \leq 9.99\), which allowing a straightforward calculation of the relative probabilities for each microstate, as well as the expectation values of \(E\) and \(M\) as a function of \(\beta\).
+  </p>
+  <p>
+    These values were compared to the corresponding simulated values using the Metropolis-Hastings Algorithm. As each run is initialized with a random state (which we have no reason to believe is representative of the equilibrium state), the system is cycled through 1000 sweeps (each sweep being \(N^2 = 9\) update steps) before collection over 1000 sweeps.
+    The following
+    "MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png"
+    "MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png"
+  </p>
+  <div class ="row">
+    <div class = "column">
+      <img src = "MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png"
+    </div>
+      <div class = "column">
+      <img src = "MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png"
+    </div>
+  </div>
+
+      
+    </div>
+    
+  </div>
+
+ 
+
+
+
+  <!-- Pagination -->
+  
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>
