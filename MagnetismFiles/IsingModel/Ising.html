@@ -252,9 +252,7 @@ Additionally, as each lattice site can be occupied by one of two spins, it is qu
   </p>
   <p>
     These values were compared to the corresponding simulated values using the Metropolis-Hastings Algorithm. As each run is initialized with a random state (which we have no reason to believe is representative of the equilibrium state), the system is cycled through 1000 sweeps (each sweep being \(N^2 = 9\) update steps) before collection over 1000 sweeps.
-    The following
-    "MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png"
-    "MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png"
+    The following plots show the expectation values of energy and magnetization as a function of \(\beta\) for both the simulation and theory:
   </p>
   <center>
   <div class ="row">
@@ -264,10 +262,34 @@ Additionally, as each lattice site can be occupied by one of two spins, it is qu
       <div class = "column">
       <img src = "/MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png" height="500">
     </div>
-    </center>
   </div>
-
-      
+  </center>
+  <p>
+    Both of the plots demonstrate a strong argeement between the simulation and theory across a range of temperatures. In order to confirm that my implementation of the Metropolis-Hastings algorithm approaches the desired equilibrium distribution, we can compare the relative occurences of each state in the simulation to the theoretical values. As the whole state space of microstates are available in the simulation, we need to map any state with an identity, \(i \gt 255\), to its ones' complement, \(i^* \lt 256\), in order to match the theoretical distribution over the reduced state space. The following plots compare the theoretical and simulated values across a comprehensive range of \(\beta\) values:
+  </p>
+  <center>
+  <img src = "/MagnetismFiles/IsingModel/Validation/Identities.png" height="500">
+  </center>
+  <p>
+    On each the plots, the simulated probabilities of each micostate tend to cluster near the corresponding theoretical probabilities. However, the plots illustrate a trend of the simulation fitting the theory more accurately with increasing \(\beta\), which is confirmed by an analysis of the Kullback–Leibler divergence as a function of \(\beta\).
+  </p>
+      <center>
+  <img src = "/MagnetismFiles/IsingModel/Validation/IdentitiesKLD.png" height="500">
+  </center>
+  <p>
+    Note that the simulated distribution more closely approaches the theoretical distribution for higher values of \(\beta\). Additionally, note how the distributions diverge around the critical value of \(\beta\), demonstrating the difficulty in using the Metropolis-Hastings algorithm around the phase transition. Around the critical point, the correlation length of the system diverges, making it difficult to capture the behavior of the system using local updates. However, the next section discusses the use of cluster aglorithms to combat the "critical slowing down" and other inefficiencies stemming from slow updates.
+  </p>
+  <center><h3 class = "w3-text-teal">Improving Efficiency with the Wolff Algorithm</h3></center>
+  <p>
+    While the detailed proof is beyond the scope of this page, it is worth mentioning that certain algorithms, such as the Wolff Algorithm, can generate a Markov Chain that converges to a stationary distribution consistent with the Boltzmann distribution of the system. This is achieved by updating clusters of spins collectively rather than individual spins. The algorithm can be described as:
+  </p>
+  <ol style="text-align: center;
+  list-style-position: inside;">
+        <li>Choose a random spin to seed the cluster.</li>
+        <li>Draw a bond to one of the seed's nearest neighbors which share the same spin state. <br>Accept the bond with a probability \(P = 1 - \exp(-2 \beta J)\).</li>
+        <li>Repeat step 2 once for each site added to the cluster until no more sites are added.</li>
+        <li>Flip the spins of each site in the cluster.</li>
+        </ol>
     </div>
     
   </div>
