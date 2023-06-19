@@ -257,24 +257,24 @@ Additionally, as each lattice site can be occupied by one of two spins, it is qu
   <center>
   <div class ="row">
     <div class = "column">
-      <img src = "/MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png" height="500">
+      <img src = "/MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png" height="400">
     </div>
       <div class = "column">
-      <img src = "/MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png" height="500">
+      <img src = "/MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png" height="400">
     </div>
   </div>
   </center>
   <p>
-    Both of the plots demonstrate a strong argeement between the simulation and theory across a range of temperatures. In order to confirm that my implementation of the Metropolis-Hastings algorithm approaches the desired equilibrium distribution, we can compare the relative occurences of each state in the simulation to the theoretical values. As the whole state space of microstates are available in the simulation, we need to map any state with an identity, \(i \gt 255\), to its ones' complement, \(i^* \lt 256\), in order to match the theoretical distribution over the reduced state space. The following plots compare the theoretical and simulated values across a comprehensive range of \(\beta\) values:
+    Both of the plots demonstrate a strong agreement between the simulation and theory across a range of temperatures. In order to confirm that my implementation of the Metropolis-Hastings algorithm approaches the desired equilibrium distribution, we can compare the relative occurences of each state in the simulation to the theoretical values. As the whole state space of microstates are available in the simulation, we need to map any state with an identity, \(i \gt 255\), to its ones' complement, \(i^* \lt 256\), in order to match the theoretical distribution over the reduced state space. The following plots compare the theoretical and simulated values across a comprehensive range of \(\beta\) values:
   </p>
   <center>
-  <img src = "/MagnetismFiles/IsingModel/Validation/Identities.png" height="800">
+  <img src = "/MagnetismFiles/IsingModel/Validation/Identities.png" height="600">
   </center>
   <p>
-    On each the plots, the simulated probabilities of each micostate tend to cluster near the corresponding theoretical probabilities. However, the plots illustrate a trend of the simulation fitting the theory more accurately with increasing \(\beta\), which is confirmed by an analysis of the Kullback–Leibler divergence as a function of \(\beta\).
+    On each of the plots, the simulated probabilities of each microstate tend to cluster near the corresponding theoretical probabilities. However, the plots illustrate a trend of the simulation fitting the theory more accurately with increasing \(\beta\), which is confirmed by an analysis of the Kullback–Leibler divergence as a function of \(\beta\).
   </p>
       <center>
-  <img src = "/MagnetismFiles/IsingModel/Validation/IdentitiesKLD.png" height="500">
+  <img src = "/MagnetismFiles/IsingModel/Validation/IdentityKLD.png" height="450">
   </center>
   <p>
     Note that the simulated distribution more closely approaches the theoretical distribution for higher values of \(\beta\). Additionally, note how the distributions diverge around the critical value of \(\beta\), demonstrating the difficulty in using the Metropolis-Hastings algorithm around the phase transition. Around the critical point, the correlation length of the system diverges, making it difficult to capture the behavior of the system using local updates. However, the next section discusses the use of cluster aglorithms to combat the "critical slowing down" and other inefficiencies stemming from slow updates.
