@@ -268,7 +268,7 @@ Additionally, as each lattice site can be occupied by one of two spins, it is qu
     Both of the plots demonstrate a strong argeement between the simulation and theory across a range of temperatures. In order to confirm that my implementation of the Metropolis-Hastings algorithm approaches the desired equilibrium distribution, we can compare the relative occurences of each state in the simulation to the theoretical values. As the whole state space of microstates are available in the simulation, we need to map any state with an identity, \(i \gt 255\), to its ones' complement, \(i^* \lt 256\), in order to match the theoretical distribution over the reduced state space. The following plots compare the theoretical and simulated values across a comprehensive range of \(\beta\) values:
   </p>
   <center>
-  <img src = "/MagnetismFiles/IsingModel/Validation/Identities.png" height="500">
+  <img src = "/MagnetismFiles/IsingModel/Validation/Identities.png" height="800">
   </center>
   <p>
     On each the plots, the simulated probabilities of each micostate tend to cluster near the corresponding theoretical probabilities. However, the plots illustrate a trend of the simulation fitting the theory more accurately with increasing \(\beta\), which is confirmed by an analysis of the Kullback–Leibler divergence as a function of \(\beta\).
