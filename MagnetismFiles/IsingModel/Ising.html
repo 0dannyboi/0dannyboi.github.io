@@ -68,18 +68,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 <body>
 
 <!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
-    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-theme-l1">Logo</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">About</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Values</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">News</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Clients</a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white">Partners</a>
-  </div>
-</div>
+
 
 <!-- Sidebar -->
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
@@ -87,10 +76,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#BasicDef">Definitions</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Canon">Canonical Ensemble</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#MCMC">MCMC Methods</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Verify">Algorithm Verification</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Wolff">Wolff Algorithm</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Sample">Sample Configurations</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Phase">Phase Transition</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Renorm">Renormalization</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#References">References</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -102,10 +96,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <div class="w3-row w3-padding-64">
     <div class="w3-container">
       <center><h1 class="w3-text-teal">Square Lattice Ising Model</h1></center>
-      <p>The Ising Model is one of the earliest treatments of ferromagnetism in statistical mechanics. The model, although first proposed by Wilhelm Lenz in 1920, takes its name from one of Lenz's students, Ernest Ising,  who made headway formalizing the theory describing the  1-dimensional model.</p>
-      <center><h3 class = "w3-text-teal">Basic Definitions</h3></center>
+      <p>The Ising Model is one of the earliest treatments of ferromagnetism in statistical mechanics. Although the model was first proposed by Wilhelm Lenz in 1920, it takes its name from one of Lenz's students, Ernest Ising,  who made headway formalizing the 1-dimensional model.</p>
+      <a id="BasicDef"><center><h3 class = "w3-text-teal">Basic Definitions</h3></center></a>
       <p>
-        Although many variations of this model exist, I will consider the model characterized by a square lattice of spins which can either be in the state \(1\) (spin-up) or \(-1\) (spin-down). Each spin is coupled to its nearest neighbors (above, below, left, right) with a constant, \(J_{i,j}\). In general cases, the coupling depends on the specific pair of spins, however this value will be the same for all pairs of spins in the model. The table below demonstrates how a (3x3) lattice may be populated by the two spin states.
+        Although many variations of this model exist, I will consider the model characterized by a square lattice of spins which can either be in the state \(1\) (spin-up) or \(-1\) (spin-down). Each spin is coupled to its nearest neighbors (above, below, left, right) with a constant, \(J_{i,j}\). In general cases, the coupling depends on the specific pair of spins, however this value will be the same for all pairs of spins in the model. The table below demonstrates one of the ways a \(3\times3\) lattice may be populated by the two spin states.
       </p>
       <center>
       <table class="myTable">
@@ -127,19 +121,19 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       </table>
       </center>
       <p>
-        Classically, the magnetization, \(M\), of a solid is the volume density of magnetic dipole moments. Here, we will define the absolute magnetization, \(M\), of an \(N \times N\) configuration to be the absolute value of the average spin, \( \sigma_i \), per site.
+        Classically, the magnetization, \(M\), of a solid is defined as the volume density of magnetic dipole moments. Here, we will define the absolute magnetization, \(M\), of an \(N \times N\) configuration to be the absolute value of the average spin, \( \sigma_i \), per site.
         \[ M = \left| \frac{1}{N^2} \sum_{i = 0}^{N^2} \sigma_i \right| \]
-Additionally, the expression for the energy of our configuration in an external field, \(h\) is:
+Additionally, the expression for the energy of our configuration in an external longitudinal field, \(h\) is:
         \[ E = -J \sum_{i,j} \sigma_i \sigma_j - h \sum_{i} \sigma_i \]
-        There are a few interesting cases that can be observed:
+        From the equation above, we can predict at least three interesting cases:
         
         <ol>
-          <li>J = 0. The energy is minimized by spins aligning with an external field. The coupling between neighboring spins does not contribute to the energy. We expect to observe paramagnetic ordering of the system.</li>
-          <li>J &lt 0. Again, the energy is minimized by spins aligning with an external field. However, the coupling between neighboring spins does contribute to the energy, and is minimized by neighboring spins opposing each other. We expect to observe antiferromagnetic ordering of the system.</li>
+          <li>J = 0. The energy is minimized by spins aligning with an external field. The coupling (or lack of coupling) between neighboring spins does not contribute to the energy. We expect to observe paramagnetic ordering of the system.</li>
+          <li>J &lt 0. Again, the energy is minimized by spins aligning with an external field. However, the coupling between neighboring spins does contribute to the energy, and is minimized by neighboring spins opposing each other. We expect the system to display antiferromagnetic ordering.</li>
           <li>J &gt 0.(The case we will consider.) Once more, the energy is minimized by spins aligning with an external field. However, the coupling between neighboring spins does contribute to the energy, and is minimized by neighboring spins aligning with each other. We expect to observe ferromagnetic ordering of the system.</li>
           </ol>
-      However, we will be considering the case where there is no external field:
-      \[ E = -J \sum_{i, j} \sigma_i \sigma_j \]
+      However, we will be considering the simplified case where there is no external field:
+      <a id="Canon">\[ E = -J \sum_{i, j} \sigma_i \sigma_j \]</a>
       </p>
     <center><h3 class = "w3-text-teal">The Canonical Ensemble</h3></center>
     <p>
@@ -147,7 +141,7 @@ Additionally, the expression for the energy of our configuration in an external 
       \[ \frac{1}{T} = \left( \frac{\partial S}{\partial U}\right)_{N, V} \]
 Additionally, the entropy, \(S\), for a macrostate, \( \mu \), is defined in terms of the number of microstates associated with it: the multiplicity, \(\Omega\).
       \[ S(\mu) = k_B \ln(\Omega(\mu)) \]
-In order to study the behavior of the system across different temperature scales, we will consider our spin lattice to be in thermal equilibrium with a heat reservoir at a temperature \(T\). The combination of the heat bath and spin lattice form a canonical ensemble.
+In order to study the behavior of the system across different temperature scales, we will consider our spin lattice to be in thermal equilibrium with a large heat reservoir at a temperature \(T\). The combination of the heat bath and spin lattice form a canonical ensemble when allowed to exchange energy with each other.
     </p>
     <center>
     <table class = "myTable">
@@ -192,8 +186,8 @@ We can Taylor expand the entropy about \(U_0\) to first order taking \(\epsilon_
       \[Z = \sum_i e^{-\frac{\epsilon_i}{k_B T}} \]
     </div>
     <p>
-      As the Ising Model can be described through a canonical ensemble, the probability of certain configurations of spins are determined by their respective energies for any temperature. As a result, this leads to a special symmetry in the system. If each spin is flipped (multiplied by -1), the sign of the total of all spins changes (and the total's magnitude is the same), while the energy of the configuration remains the same.
-      \[ E' = -J \sum_{i, j} (-\sigma_i) (-\sigma_j) = -J \sum_{i, j} \sigma_i \sigma_j = E \]
+      As the Ising Model can be described through a canonical ensemble, the probability of certain configurations of spins are determined by their respective energies for any temperature. The Hamiltonian of the system (in the absence of an external field) exhibits Z2 symmetry as the energy of the system is solely determined by the alignment of neighboring spins. If each spin is flipped (multiplied by -1), the sign of the total of all spins changes (and the absolute value of the total is the same), while the energy of the configuration remains the same.
+      <a id = 'MCMC'>\[ E' = -J \sum_{i, j} (-\sigma_i) (-\sigma_j) = -J \sum_{i, j} \sigma_i \sigma_j = E \]</a>
     </p>
     <center><h3 class = "w3-text-teal">Markov Chain Monte Carlo Methods</h3></center>
     <p>
@@ -233,7 +227,7 @@ We can Taylor expand the entropy about \(U_0\) to first order taking \(\epsilon_
     \[ \pi_x p_{x \xrightarrow{} y} = P(x) A(\Delta E_{x \xrightarrow{} y}) = \frac{e^{- \beta x}}{Z} \exp{\left( -\beta \Delta E_{x \xrightarrow{} y} \right)} = \frac{\exp(- \beta y)}{Z} \]
     For the reverse process, \(\Delta E_{y \xrightarrow{} x} = -\Delta E_{x \xrightarrow{} y}\) so that \(\Delta E_{y \xrightarrow{} x} \lt 0\). Therefore, this process is always accepted. We then find that:
     \[ \pi_y p_{y \xrightarrow{} x} = P(y) A(\Delta E_{y \xrightarrow{} x}) = \frac{\exp(-\beta y)}{Z} \left(1 \right) =  \frac{\exp(-\beta y)}{Z} = \pi_x p_{x \xrightarrow{} y} \]
-    And we have shown that the Metropolis-Hastings Algorithm satisfies detailed balance.
+    <a id = "Verify">And we have shown that the Metropolis-Hastings Algorithm satisfies detailed balance.</a>
     </p>
   <center><h3 class = "w3-text-teal">Verifying the Algorithm</h3></center>
   <p>
@@ -257,10 +251,10 @@ Additionally, as each lattice site can be occupied by one of two spins, it is qu
   <center>
   <div class ="row">
     <div class = "column">
-      <img src = "/MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png" height="400">
+      <img src = "/MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/EnergyBetaSimTheory.png?raw=true';" height="400">
     </div>
       <div class = "column">
-      <img src = "/MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png" height="400">
+      <img src = "/MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/MagBetaSimTheory.png?raw=true';" height="400">
     </div>
   </div>
   </center>
@@ -268,16 +262,17 @@ Additionally, as each lattice site can be occupied by one of two spins, it is qu
     Both of the plots demonstrate a strong agreement between the simulation and theory across a range of temperatures. In order to confirm that my implementation of the Metropolis-Hastings algorithm approaches the desired equilibrium distribution, we can compare the relative occurences of each state in the simulation to the theoretical values. As the whole state space of microstates are available in the simulation, we need to map any state with an identity, \(i \gt 255\), to its ones' complement, \(i^* \lt 256\), in order to match the theoretical distribution over the reduced state space. The following plots compare the theoretical and simulated values across a comprehensive range of \(\beta\) values:
   </p>
   <center>
-  <img src = "/MagnetismFiles/IsingModel/Validation/Identities.png" height="600">
+  <img src = "/MagnetismFiles/IsingModel/Validation/Identities.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/Identities.png?raw=true';" height="600">
   </center>
   <p>
-    On each of the plots, the simulated probabilities of each microstate tend to cluster near the corresponding theoretical probabilities. However, the plots illustrate a trend of the simulation fitting the theory more accurately with increasing \(\beta\), which is confirmed by an analysis of the Kullback–Leibler divergence as a function of \(\beta\).
+    On each of the plots, the simulated probabilities of each microstate tend to cluster near the corresponding theoretical probabilities. However, the plots illustrate a trend of the simulation fitting the theory more accurately with increasing \(\beta\), which is confirmed by an analysis of the Kullback–Leibler divergence as a function of \(\beta\). The KL divergence allows us to quantify how "far" the simulated probability distribution, \(q\), is from the theoretical distribution \(p\). In the case of a discrete distribution, the expression for KL divergence is:
+    \[D_{KL} = \sum_k p_k \ln \left( \frac{p_k}{q_k} \right)\]
   </p>
       <center>
-  <img src = "/MagnetismFiles/IsingModel/Validation/IdentityKLD.png" height="450">
+  <img src = "/MagnetismFiles/IsingModel/Validation/IdentityKLD.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/IdentityKLD.png?raw=true';" height="450">
   </center>
   <p>
-    Note that the simulated distribution more closely approaches the theoretical distribution for higher values of \(\beta\). Additionally, note how the distributions diverge around the critical value of \(\beta\), demonstrating the difficulty in using the Metropolis-Hastings algorithm around the phase transition. Around the critical point, the correlation length of the system diverges, making it difficult to capture the behavior of the system using local updates. However, the next section discusses the use of cluster aglorithms to combat the "critical slowing down" and other inefficiencies stemming from slow updates.
+    Note that the simulated distribution more closely approaches the theoretical distribution for higher values of \(\beta\), as demonstrated by the drop in KL divergence. Additionally, note how the distributions diverge around the critical value of \(\beta\), demonstrating the difficulty in using the Metropolis-Hastings algorithm around the phase transition. Around the critical point, the correlation length of the system diverges, making it difficult to capture the behavior of the system using local updates. However, the next section discusses the use of cluster aglorithms to combat the "critical slowing down" and other inefficiencies stemming <a id = "Wolff">from slow updates.</a>
   </p>
   <center><h3 class = "w3-text-teal">Improving Efficiency with the Wolff Algorithm</h3></center>
   <p>
@@ -290,7 +285,77 @@ Additionally, as each lattice site can be occupied by one of two spins, it is qu
         <li>Repeat step 2 once for each site added to the cluster until no more sites are added.</li>
         <li>Flip the spins of each site in the cluster.</li>
         </ol>
+  <p>
+    In addition to improved sampling around the critical point, the Wolff algorithm allows for a reduction in the number of time steps needed to reach a trajectory representative of the Boltzmann distribution. The figure below compares the evolution of \(M\) from an identical random initial state using the Wolff and Metropolis-Hastings algorithms. Note that the Wolff algorithm reached 90% of \(\langle M_{\beta=0.4} \rangle\) at 14 updates, while the MH algorithm took 833 updates.
+  </p>
+  <center><img src = "/MagnetismFiles/IsingModel/Validation/Transient.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/Transient.png?raw=true';" height="400"></center>
+  <p>
+    Additionally, note the reduction in  autocorrelation times for the Wolff Algorithm:
+  </p>
+  <center><img src = "/MagnetismFiles/IsingModel/Validation/Autocorrelation.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/Autocorrelation.png?raw=true';" height="400"></center>
+  <p>
+    <a id ="Sample">Thanks to these improvements in efficiency, I will be using the Wolff algorithm for much of the remaining the investigations.</a>
+  </p>
+  <center><h3 class = 'w3-text-teal'>Sample Configurations</h3></center>
+  The following snapshots for different values of \(\beta\) illustrate the effect of temperature on the system. Each \(81 \times 81\) lattice was configured with the same initial state followed by 20 Wolff updates and 100 sweeps of Metropolis updates. For this simulation time scale, we can see the increasing disorder with temperature as the uniformly magnetized state disappears with decreasing \(\beta\). Then larger domains appear and are replaced with smaller domains until the state looks random.
+  <p>
+  <center><img src = "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/SnapshotConfigurations.png?raw=true" height = "650"></center>
+  </p>
+  <a id="Phase"></a>
+  <br><br>
+  <center><h3 class = "w3-text-teal">Demonstrating a Phase Transition</h3></center>
+  <p>
+    In order to model the behavior of the system over a large range of temperatures, I used the Wolff algorithm to simulate a 41 x 41 grid over the range \(0 \leq \beta \leq 1\). The plot below illustrates the resulting energy and magnetization curves with the error bars denoting the standard deviation.
+  </p>
+  <center><img src = "/MagnetismFiles/IsingModel/Validation/Results41By41.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/Results41By41.png?raw=true';" height="400"></center>
+  <p>
+    Note that as \(\beta \xrightarrow{} \infty\) (\(T \xrightarrow{} 0\)), the absolute magnetization tends towards 1, indicating a large-scale ordering of the spins. In the opposite limit, the disappearance of any large-scale ordering is suggested as \(\langle M \rangle \sim 0\).
+  </p>
+  <p>
+    In order to demonstrate the presence of a phase transition, we can look for a divergence in the specific heat, \(C_v\). For second-order phase transitions, the correlation length of the system greatly increases around the critical temperature. As a result, the influence of thermal fluctuations becomes larger. By working with the definition of the specific heat,
+    \[C_V = \frac{d \langle E \rangle}{d T}\]
+    we can arrive at the following result from the fluctuation-dissipation theorem (which is simpler to use for numerical simulations):
+    \[C_V =  \frac{\langle E^2 \rangle - \langle E \rangle ^2}{k_B T^2}\]
+  </p>
+  <center><img src = "/MagnetismFiles/IsingModel/Validation/SpecificHeat41By41.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/SpecificHeat41By41.png?raw=true';" height="400"></center>
+  <p>
+    The specific heat appears to peak near \(\beta_C\) between \(\beta = 0.44\) and \(\beta = 0.45\). Which closely aligns with the exact solution of \(\beta_C  = \frac{\ln(1 + \sqrt{2})}{2} \approx 0.44069\).
+  </p>
+  <p>
+    As the spins in the system can couple with an external field, \(h\), we can gain additional insight into the critical behavior of the system by manipulating the strength of the (weak) external field. Recall the full form of the Hamiltonian for our isotropic Ising model:
+   \[ E = -J \sum_{i,j} \sigma_i \sigma_j - h \sum_{i} \sigma_i \]
+    We can use the magnetic susceptibility, \(\chi\) to study the response of our order parameter to external perturbations.
+    \[\chi = \frac{d \langle M \rangle}{d h} \biggm\lvert_{h=0} \]
+   Then, for a sufficiently small interval, \(0 \lt h \lt \delta\), we can use the first order expansion:
+    \[\langle M(h') \rangle \approx \left (\frac{d \langle M \rangle}{d h} \biggm\lvert_{h=0}\right) h' + \langle M(0) \rangle\]
+  </p>
+  <p>
+    I approximated the susceptibility across a range of \(\beta\) values by performing a linear fit of 50 values of \(\langle M(h) \rangle\) for \(0 \leq h \lt 0.1\). A plot containing some of the resulting fits is shown below for a few illustrative values of \(\beta\).
+  </p>
+  <center><img src = "/MagnetismFiles/IsingModel/Validation/LLAChi.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/LLAChi.png?raw=true';" height="400"></center>
+  <center><img src = "/MagnetismFiles/IsingModel/Validation/Susceptibility17By17_6.png" alt = "Error" onerror="this.src='https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Validation/Susceptibility17By17_6.png?raw=true';" height="400"></center>
+  <a id ="Renorm"></a>
+  <br><br>
+    <center><h3 class = "w3-text-teal">Renormalization Group</h3></center>
+    <p>
+      In order to get a sense of the system's properties across multiple length scales, we can use renormalization group methods such as "blocking" neighboring spins into groups, forming a smaller lattice with different properties. I grouped spins into \((9 \times 9)\) blocks with a new spin equal to the spin value shared by the majority of spins in each block. The image below (by Javier Rodríguez Laguna) illustrates the concept using a \((2 \times 2)\) grouping.
+      <center><img src = "https://upload.wikimedia.org/wikipedia/commons/8/8d/Rgkadanoff.png" height = 200></center>
+      For a range of \(\beta\) values, a function \(g\) was computed by interpolating the values of \(\langle M^2(\beta) \rangle\) for the \(9 \times 9\) grid. The corresponding renormalized square magnetization values, \(\langle M_{RG}^2(\beta) \rangle\), from the larger grid were used as input for the function. The fixed points of the function, corresponding to values of beta which are mapped to itself, occur where \(g(\beta)\) intersects with \(f(\beta)=\beta\). We can see a fixed point at the critical temperature and one at \(\beta = 0\). At these temperatures, the statistics of the renormalized state look similar to an Ising system of the same dimensions. As \(g'(\beta_C) \approx 2.581 > 0\), the fixed point at the critical temperature is unstable, and repeated iterations of \(g\) look very different depending on if \(\beta \) &lt \(\beta_c \) or  \(\beta \) &gt \(\beta_c \). An example flow corresponding to \(g^n(\beta)\) for \(\beta \) &lt \(\beta_c \) (in purple) approaches 0. On the other hand, a flow for \(\beta \) &gt \(\beta_c \)  (in orange) diverges towards \(\infty\), approaching the uniformly magnetized state characteristic of \(T = 0\).
+      <center><img src="https://raw.githubusercontent.com/0dannyboi/0dannyboi.github.io/master/MagnetismFiles/IsingModel/Validation/renormalization.png" height="500"></center>
+  </p>
     </div>
+  <a id="References"></a>
+<div class="w3-card" style="background: LightSalmon;">
+  <center><h3>References</h3></center>
+   <ol>
+      <li>
+         <p>Kittel, C., &amp; Krömer, H. (1980) <cite>Thermal Physics</cite>. 2nd edn. New York: W.H. Freeman and Company.</p>
+      </li>
+      <li>
+         <p>Metropolis, N. <i>et al </i> (1953) Equation of state calculations by Fast Computing Machines’, <cite>The Journal of Chemical Physics</cite>, 21(6)</p>
+      </li>
+   </ol>
+  </div>
     
   </div>
 
