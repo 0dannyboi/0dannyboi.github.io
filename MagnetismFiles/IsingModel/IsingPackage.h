@@ -425,8 +425,6 @@ public:
         if (initialState.empty()){
 		    initialState = randomState();
         }
-        //setState(initialState);
-		//configure();
         double averaging = static_cast<double>(Navg * (NSteps - startCollect) * spinCount);
         ofstream outputFile(fileName);
         if (outputFile.is_open()){
