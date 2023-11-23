@@ -1,152 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Danny Foster</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
 </style>
 </head>
-<body class="w3-light-grey">
+<body>
 
-<!-- w3-content defines a container for fixed size centered content, 
-and is wrapped around the whole page content, except for the footer in this example -->
-<div class="w3-content" style="max-width:1400px">
 
 <!-- Header -->
-<header class="w3-container w3-center w3-padding-32"> 
-  <h1><b>Danny Foster</b></h1>
-  <p>Welcome to my journey learning how to model and analyze the world!</p>
+<header class="w3-container w3-red w3-center" style="padding:60px 16px">
+  <h1 class="w3-margin w3-jumbo">Danny Foster</h1>
+  <img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/FinalCollage.png?raw=true" width="700">
+  <p class="w3-xlarge">Project Portfolio</p>
 </header>
 
-<!-- Grid -->
-<div class="w3-row">
-
-<!-- Blog entries -->
-<div class="w3-col l8 s12">
-  <!-- Blog entry -->
-  <div class="w3-card-4 w3-margin w3-white">
-    <img src="/collage_web.png" alt="Nature" style="width:100%">
-    <div class="w3-container">
-      <h3><b>About This Page</b></h3>
-    </div>
-
-    <div class="w3-container">
-      <p>    
-         I believe computational modeling has been an indispensable tool in cementing my understanding of physical phenomena and mathematical concepts. 
-         Before I started learning Python, I viewed coding as a tool that was only accessible to developers maintaining a website or the software engineers 
-         keeping my laptop running. I also pictured physics research as a cross-talk between experimentalists and theorists carefully refining their models. 
-         However, after tinkering around with some simple code I wrote to model elastic collisions, I realized the utility of computation when my velocity 
-         histograms tended towards the Maxwell-Boltzmann distribution that I learned about in thermal physics. Although I wasn't entirely sure what to do with my
-         future, I quickly realized that I wanted it to be where computation and physics overlap. As a result, much of this codebase contains numerical procedures
-        in Python and Mathematica I wrote to help me gain more intuition for the problem sets I worked through.
-          
-      </p>
-      <p> 
-          I am also interested in computational physics as a research tool in and of itself. Not only has computation made it possible to study specific results in 
-          exotic fields like quantum chromodynamics and numerical relativity, but it has also helped formalize general concepts like chaos and ergodicity.
-      </p>
-      
-       <p>  
-          The rest of this page showcases the code I used to analyze data collected from lab coursework or public data sets. These experiences provided me with practice 
-          cleaning data, finding 'good' questions to investigate, and presenting findings in a concise and informative form. In these cases, I focus more on algorithms and techniques.
-          </p>
-      
-      <p>  
-          The links to the right organize the projects by a general category based on content.  </p>
-    </div>
-  </div>
-<!-- END BLOG ENTRIES -->
-</div>
-
-<!-- Introduction menu -->
-<div class="w3-col l4">
-  <!-- About Card -->
-  <div class="w3-card w3-margin w3-margin-top">
-  
-    <div class="w3-container w3-white">
-      <h4><b>About Me</b></h4>
-      <p> I graduated with a BS in physics from the University of Illinois at Urbana-Champaign (UIUC) in December 2022. 
-          Along the way, I have worked on a variety of mathematical, physical, and statistical problems that challenged me
-          to become more flexible with my problem-solving techniques. </p>
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1><a href="https://github.com/0dannyboi/0dannyboi.github.io/tree/master/QuantumFolder/Projects"> Quantum Information</a></h1>
+      <h5 class="w3-padding-32">Projects simulating simple quantum algorithms.
+        <ul>
+          <li><a href = "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/Projects/SimpleQuantumUnitary.py"> Circuit Description To Unitary Matrix </a></li>
+          <li> <a href= "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/Projects/Symbolic_QPE_Demo.ipynb">Quantum Phase Estimation explored visually in iPython notebook</a> </li>
+        </ul>
         
-      <p> I have a passion for learning how the world around me works. To that end, I am always trying to learn more: whether it is physics or
-          how I can improve my computational 
-          workflow. Previous research includes an REU with Northern Illinois University's ATLAS group comparing simulation and 
-          measurements in the search for diphoton + heavy flavor production. Additional research with the Hoffmann Group at UIUC simulating spin wave 
-          modes in a nanodot as a part of a study of
-          artificial spin ice.  </p>
-      <p>  
-          Current interests include quantum computing, magnetic materials, condensed matter, and data science. 
-          Intern in the Wolfram|Alpha Scientific Content Department at Wolfram Research.
-      </p>
-    </div>
-  </div><hr>
-  
-  <!-- Posts -->
-  <div class="w3-card w3-margin">
-    <div class="w3-container w3-padding">
-      <h4>Project Categories</h4>
-    </div>
-    <ul class="w3-ul w3-hoverable w3-white">
-      <li class="w3-padding-16">
-        <img src="MagnetismFiles/DotEigenMode.png" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"> <a href="https://github.com/0dannyboi/0dannyboi.github.io/tree/master/MagnetismFiles">Magnetism</a> </span><br>
-        <br>
-        <br>
-        <span>Code covering analysis of hysteresis data, micromagnetic simulations, and the Ising model.</span>
-      </li>
-      <li class="w3-padding-16">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Double_slit_interference.png" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"> <a href="https://0dannyboi.github.io/labwork">Experiments</a> </span><br>
-        <br>
-        <br>
-        <span>A showcase of presentations summarizing a couple of experiments from lab coursework.</span>
-      </li>
-      <li class="w3-padding-16">
-        <img src="/QuantumFolder/ket.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"> <a href="https://github.com/0dannyboi/0dannyboi.github.io/tree/master/QuantumFolder/Projects">Quantum</a> </span><br>
-        <br>
-        <br>
-        <span>Projects related to quantum computing and quantum mechanics.</span>
-      </li>
-      <li class="w3-padding-16">
-        <img src="/wheresthebif.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"> <a href="https://0dannyboi.github.io/DynamicalSystems">Dynamical Systems</a> </span><br>
-        <br>
-        <br>
-        <span>Simulations of how discrete and continuous systems evolve under the repeated application of a set of rules.</span>
-      </li>
-      <li class="w3-padding-16">
-        <img src="/Distribution.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
-        <span class="w3-large"> <a href="https://github.com/0dannyboi/0dannyboi.github.io/tree/master/DataProjects">Data</a> </span><br>
-        <br>
-        <br>
-        <span>Projects related to data visualization, statistics, machine learning, and web scraping.</span>
-      </li>
-    </ul>
-  </div>
-  <hr> 
- 
+      </h5>
 
-  
-<!-- END Introduction Menu -->
+    </div>
+
+    <div class="w3-third w3-center">
+      <img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/Projects/MyKet.png?raw=true" height = "200" >
+    </div>
+  </div>
 </div>
 
-<!-- END GRID -->
-</div><br>
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <img src="https://images.freeimages.com/clg/images/35/358814/oscilloscope-clip-art_f.jpg" width="200">
+    </div>
 
-<!-- END w3-content -->
+    <div class="w3-twothird">
+      <h1><a href="https://0dannyboi.github.io/labwork">Laboratory Coursework Presentations</a></h1>
+      <h5 class="w3-padding-32">A sample of presentations I gave for two modern physics experiments: Mossbauer spectroscopy and the optical pumping of rubidium.</h5>
+    </div>
+  </div>
+</div>
+
+ <!-- Third Grid -->
+  <div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1><a href="https://0dannyboi.github.io/DiscreteDynamicalSystems"> Dynamical Systems</a></h1>
+      <h5 class="w3-padding-32">A basic Python tool that can be used to numerically and symbolically analyze the behavior of discrete dynamical systems.</h5>
+
+    </div>
+
+    <div class="w3-third w3-center">
+      <img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/wheresthebif.png?raw=true" height = "200" >
+    </div>
+  </div>
+</div>
+ 
+ <!-- Fourth Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/LLG.gif?raw=true" width="200">
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Magnetism</h1>
+      <h5 class="w3-padding-32"><ul>
+        <li><a href="https://0dannyboi.github.io/MagnetismFiles/IsingModel/Ising.html">Ising Model</a> <a href="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/IsingPackage.h"> (C++ code)</a> &nbsp<img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/MagnetismFiles/IsingModel/Ising2.png?raw=true" height=75></li>
+        <br>
+        <li><a href ="https://demonstrations.wolfram.com/PrecessionOfMagnetizationUsingTheLandauLifshitzEquation/">Wolfram Demonstration: Damping and Precession in Landau-Lifshitz Equation</a> &nbsp <img src="https://demonstrations.wolfram.com/PrecessionOfMagnetizationUsingTheLandauLifshitzEquation/img/popup_3.png" height=125></li>
+        
+      </ul></h5>
+    </div>
+  </div>
+</div>
+  
+  <!-- Fifth Grid -->
+  <div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Miscellaneous</h1>
+      <h5 class="w3-padding-32">
+        <ul>
+          <li><a href = "https://0dannyboi.github.io/Sudoku.html"> Sudoku Solving Webpage </a></li>
+          <li> <a href= "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/DataProjects/ClimateClustering.ipynb">K-Means Clustering of Cities by Climate Data</a> </li>
+        </ul>
+        
+      </h5>
+
+    </div>
+
+    <div class="w3-third w3-center">
+    </div>
+  </div>
+</div>
+  
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    
 </div>
 
 <!-- Footer -->
-<footer class="w3-container w3-dark-grey w3-padding-32 w3-margin-top">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">  
+ <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
 
 </body>
 </html>
-
