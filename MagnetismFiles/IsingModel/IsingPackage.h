@@ -1,7 +1,10 @@
 #ifndef ISING_PACKAGE_H
 #define ISING_PACKAGE_H
 
-#include "running_stat.h"
+// Implementation of Welford's Algorithm courtesy of John D. Cook, 
+// see https://www.johndcook.com/blog/standard_deviation/
+#include "running_stat.h" 
+
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
