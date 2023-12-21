@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>VQE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+.myTable {
+ margin: auto;
+ border-collapse: collapse;
+}
+.mytd {
+ position: relative;
+ text-align: center;
+ height: 25px;
+ width: 25px;
+ border: 1px solid black;
+}
+  .hb {
+ position: relative;
+ text-align: center;
+ height: 100px;
+ width: 100px;
+ border: 1px solid black;
+ background:salmon;
+  }
+  .mce {
+ position: relative;
+ text-align: center;
+ height: 25px;
+ width: 25px;
+ border: 1px solid black;
+ background: LightGray;
+   .row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+} 
+   
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#BasicDef">Definitions</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Ham">Hamiltionians in Pauli Basis</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Var">Variational Method</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#VQE">VQE Algorithm</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Imp">Implementing the Algorithm</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Circ">Circuit Simulation</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#X">\(\langle X_i \rangle\) Circuit</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Z">\(\langle Z_i Z_{i+1} \rangle\) Circuit</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Param">Parameter Space</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#GSE">Ground State</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#References">References</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-container">
+      <center><h1 class="w3-text-teal">Applying a Variational Quantum Eigensolver to <br> Transverse Field Ising Model</h1></center>
+      <a id="BasicDef"><center><h3 class = "w3-text-teal">Basic Definitions</h3></center></a>
+      <p>
+       The variational quantum eigensolver (VQE) provides a quantum algorithm to estimate eigenvalues for problems including solving the Schrodinger equation for a system's ground state energy.
+      </p>
+      <a id = "Ham"><center><h3 class = "w3-text-teal">Hamiltonians in Pauli Basis</h3></center></a>
+    <p>
+      The set of Pauli Operators \(\{\mathbb{1}, \sigma_x, \sigma_y, \sigma_z\}\) form a basis for the space of \( 2 \times 2 \) matrices. We can expand an arbitrary Hamiltonian, \(\cal{H}\), as a sum of the following products of operators over each subspace the operator acts on:
+      \[\mathcal{H} = \sum_{i \alpha} h^{i}_{\alpha} \sigma_{\alpha}^{i} + \sum_{ij \alpha \beta} h^{ij}_{\alpha \beta} \sigma_{\alpha}^{i} \sigma_{\beta}^{j} + \ldots\]
+      Using the notation of Peruzzo et al., h is a real number and the Greek letter indices specify the Pauli operator. The superscripts denote the subspace an operator acts on. For some state, \(\ket{\psi}\), the expectation value of the Hamiltonian can be written as:
+      \[\langle \mathcal{H} \rangle = \sum_{i \alpha} h^{i}_{\alpha} \langle \sigma_{\alpha}^{i} \rangle + \sum_{ij \alpha \beta} h^{ij}_{\alpha \beta} \langle  \sigma_{\alpha}^{i} \sigma_{\beta}^{j} \rangle + \ldots\]
+      This decomposition applies to any Hamiltonian, however it is most natural for spin Hamiltonians. It becomes more difficult to express Fermionic Hamiltonians in this basis, for example, because a mapping (Jordan-Wigner Transformation) between spin operators and creation/annihilation operators must be used. However, one Hamiltonian that is expressed simply in the Pauli operator basis is the Transverse Field Ising Model (TFIM). The Hamiltonian for a 1D chain of spins with nearest-neighbor couplings, \(J\), and a coupling to an external field, \(h\) is as follows:
+      \[\mathcal{H} = -J \sum_{i} \sigma_z^{i} \sigma_z^{i+1} -h \sum_{i} \sigma_x^{i}\]
+    </p>
+    Here, the system is subject to the competing interactions of the nearest-neighbor coupling resulting from \(\sigma_z\) and the coupling to the transverse field from \(\sigma_x\).
+      
+      <a id="Var"><center><h3 class = "w3-text-teal">Variational Method</h3></center></var>
+    <p>
+      Suppose a Hamiltonian, \(\mathcal{H}\), has a set of eigenvalues, \(E_i\), and eigenstates \(\ket{\psi_i}\), such that \(\mathcal{H} \ket{\psi_i} = E_i \ket{\psi_i}\). Additionally, as \(\mathcal{H}\) is Hermitian, its eigenvectors with different eigenvalues are orthogonal. We can express \(\mathcal{H}\) as:
+      \[\mathcal{H} = \sum_{i} E_i \ket{\psi_i} \bra{\psi_i}\]
+      Where \(E_0\) is the ground state energy. Additionally, an arbitrary state, \(\ket{\phi}\) can be expanded in the eigenbasis as:
+      \[\ket{\phi} = \sum_j \alpha_j \ket{\psi_i}\]
+      The expectation value of \(\mathcal{H}\) for \(\ket{\phi}\) is:
+      \[\langle \mathcal{H} \rangle = \bra{\phi} \mathcal{H} \ket{\phi} = \sum_j \left[\alpha_j^{*} \bra{\psi_j} \left( \sum_{i} E_i \ket{\psi_i} \bra{\psi_i} \right) \alpha_j \ket{\psi_j}\right] = \sum_{i,j} E_i |\alpha_j|^2 \delta_{i,j} = E_0 |\alpha_0|^2 + \sum_{i > 0} E_i |\alpha_i|^2\]
+      As \(E_i\) is bounded below by \(E_0\) and \(|\alpha_i|^2 \ge 0\), the following expression must be true:
+      \[E_0 \le \bra{\phi} \mathcal{H} \ket{\phi}\]
+      For certain problems, it may be beneficial to introduce an ansatz state that depends on a particular parameter, \(\theta\). In such a case, the expression above holds for all \(\theta\) as:
+      \[E_0 \le \bra{\phi(\theta)} \mathcal{H} \ket{\phi(\theta)}\]
+      allowing for a minimization problem.
+    </p>
+      <a id="VQE"><center><h4 class = "w3-text-teal">VQE Algorithm</h4></center></a>
+    <p>
+      The VQE provides an efficient algorithm to find the ground state energy using a quantum processor and a classical optimizer. First an ansatz state is prepared with respect to a certain parameter. Then, the expectation value of the subterms in the Hamiltonian are computed using quantum hardware. Finally, a classical processor computes the estimation value using the expectation values of the subterms and attempts to optimize the result by preparing a new ansatz.
+      </p>
+      <center><img src="https://i.stack.imgur.com/nhC1j.jpg" width=500></center>
+      <center><h9>Courtesy of <a href="https://arxiv.org/pdf/1304.3061.pdf">Peruzzo et al.</a></h9></center>
+      <a id = "Imp"><center><h3 class = "w3-text-teal">Implementing the Algorithm</h3></a>
+    <img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/Screenshot%202023-12-20%20230326.png?raw=true" width=200>
+  </center>
+  <p>
+  The above diagram illustrates the coupling, \(J \sigma_z\), between the spins with periodic boundary conditions in the presence of a transverse field, \(h \sigma_x\) . The Hamiltonian can be expanded into each of its subterms as:
+    \[\mathcal{H} = -J \left[\sigma_z^0 \sigma_z^1 + \sigma_z^1 \sigma_z^2 + \sigma_z^3 \sigma_z^0 \right] - h \left[ \sigma_x^0 + \sigma_x^1 + \sigma_x^2 + \sigma_x^3\right]
+    \]
+    We can write the expectation value of the above as a linear combination of the two terms:
+    \[\langle \mathcal{H} \rangle = -J \sum \langle \hat{Z}_i \hat{Z}_j \rangle -h \sum \langle \hat{X}_i \rangle\]
+  Now, we can try to estimate the ground state energy using an ansatz state that is a function of some parameter, \(\theta\). The first term, \(-J \sum \langle \hat{Z}_i \hat{Z}_j \rangle\), is minimized by overlapping \(\sigma_z\) eigenstates. On the other hand, the second term, \(-h \sum \langle \hat{X}_i \rangle\), is minimized by \(\sigma_x\) eigenstates. Using some classical intuiton, we can argue that a ground state configuration would be some 'intermediate' state, \(\ket{\phi}\) between the \(\sigma_z\) and \(\sigma_x\) eigenstates. Additionally, we will assume the ground state for \(\mathcal{H}\) also admits the form:
+    \[\ket{\psi(\theta)} = \ket{\phi} \otimes \ket{\phi} \otimes \ket{\phi} \otimes \ket{\phi}\]
+  </p>
+  <p>
+    One class of trial functions, \(\ket{\phi(\theta)}\), which matches the conditions above are trigonometric functions. In my circuit, I realized such a state by using a Hadamard gate followed by a rotation about the y-axis.
+    <center><img src = "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/AnsatzPreparation.png?raw=true" height=400></center>
+    The resulting state is
+    \[ \ket{\psi} = \left(\frac{1}{\sqrt{2}}\left[\left(\cos\left(\frac{\theta}{2}\right) - \sin\left(\frac{\theta}{2}\right)\right)\ket{0} + \left(\cos\left(\frac{\theta}{2}\right) + \sin\left(\frac{\theta}{2}\right)\right)\ket{1} \right] \right)^{\otimes ~ 4}\]
+  </p>
+  <p>
+    By computing the expectation values for the x terms, we find:
+    \[\sum \langle X_i \rangle = 4 \bra{\phi(\theta)} \sigma_x \ket{\phi(\theta)} = 4 \cos(\theta)\]
+    Similarly for the z terms:
+    \[\sum \langle \hat{Z}_i \hat{Z}_j \rangle = 4 (\bra{\phi(\theta)} \sigma_x \ket{\phi(\theta)})^2 = 4 \sin^2(\theta)\]
+    Putting the terms together, we end up with the following expectation value function of \(\mathcal{H}\):
+    \[
+    \langle \mathcal{H} \rangle = -4 J \sin^2(\theta) - 4 h \cos(\theta)
+    \]
+    
+  </p>
+      <a id="Circ"><center><h3 class = "w3-text-teal">Circuit Simulation</h3></center></a>
+  <p>
+    In order to simulate the circuit, I first created 8 dictionaries that each map one of the 16 basis states to an expectation value of one of the Pauli matrix terms in the Hamiltonian. After each measurement, an average will be computed for the expectation values. As an example, consider the following table of expectation values for the term \(\langle \sigma_z^0 \sigma_z^1 \rangle\):
+    </p>
+      <center>
+    <table>
+  <tr>
+    <th>State</th>
+    <th>\(\langle \sigma_z^0 \sigma_z^1 \rangle\)</th>
+  </tr>
+  <tr>
+    <td>\(\ket{0000}\)</td>
+    <td> 1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{0001}\)</td>
+    <td>1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{0010}\)</td>
+    <td>1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{0011}\)</td>
+    <td>1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{0100}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{0101}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{0110}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{0111}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1000}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1001}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1010}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1011}\)</td>
+    <td>-1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1100}\)</td>
+    <td>1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1101}\)</td>
+    <td>1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1110}\)</td>
+    <td>1.0</td>
+  </tr>
+  <tr>
+    <td>\(\ket{1111}\)</td>
+    <td>1.0</td>
+  </tr>
+</table>
+      </center>
+      <a id="X"><center><h4 class = "w3-text-teal">\(\langle X_i \rangle\) Circuit</h4></center></a>
+  <p>
+    The \(\langle X_i \rangle\) term is the total of each individual expectation value given by \(\langle \sigma_x^i \rangle\). In order to compute this value, the ansatz state is prepared with the circuit above and an \(X\) gate is applied to the qubit \(q_i\). In order to perform measurements in the basis of \(\sigma_x\) eigenstates, a Hadamard gate is applied to each qubit before measurement. The resulting circuit corresponding to \(q_0\) is shown below. Note that I reverse the ordering of the bits from Qiskit's default of little endian to my convention of big endian.
+  </p>
+      <center><img src = "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/x_0_expectation_circuit.png?raw=true" height=400></center>
+ 
+ 
+      <a id="Z"><center><h4 class = "w3-text-teal">\(\langle Z_i Z_{i+1} \rangle\) Circuit</h4></center></a>
+  <p>
+    Again, the \(\langle Z_i Z_{i+1} \rangle\) term is the total of each individual expectation value given by \(\langle \sigma_z^i \sigma_z^{i+1} \rangle\). In order to compute this value, the ansatz state is prepared and a \(Z\) gate is applied to the qubits \(q_i\) and \(q_{i+1}\). We are already in the basis of \(\sigma_z\) eigenstates, so no additional change of basis needs to be performed. The resulting circuit corresponding to \(q_0\) is shown below. Again, I reverse the qubit ordering.
+  </p>
+      <center><img src = "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/sigma_z_1_expectation.png?raw=true" height=400></center>
+
+      <a id="Param"><center><h4 class = "w3-text-teal">Expectation Values Over the Parameter Space</h4></center></a>
+      <p>
+        Recal that the Hamiltonian's expectation value can be broken down into a \(Z\) term and an \(X\) term as:
+        \[
+    \langle \mathcal{H} \rangle = -4 J \langle Z_i Z_{i+1} \rangle - 4 h \langle X_i \rangle
+    \]
+      We can store the results for \(Z\) and \(X\) as a function of our parameter, \(\theta\) in a single set of measurements. These measurements can then be used to estimate the ground state energy for any set of \(J\) and \(h\), limiting the need to run multiple times on a quantum computer. The plot below shows the expectation values for the \(Z\) and \(X\) as a function of the parameter. A noisy simulation was performed in Qiskit with 400 shots for each value of the parameter tested.
+      </p>
+      <center><img src ="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/VQEExpectationVals.png?raw=true" height=450></center>
+      
+      <a id="GSE"><center><h4 class = "w3-text-teal">Approximation of Ground State Energy</h4></center></a>
+      Using the results above, the VQE was evaluated over a range of \(h\) values for a constant \(J = 1\) by numerically finding the parameter which minimizes the function \(\langle \mathcal{H} \rangle = -4 J \langle Z_i Z_{i+1} \rangle - 4 h \langle X_i \rangle\). Note that the VQE recovers the general form of the exact solution, returining estimates of the ground state energy which are greater than the exact solution.
+       <center><img src ="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/VQEGSE.png?raw=true" height=450></center>
+     
+    </div>
+  <a id="References"></a>
+<div class="w3-card" style="background: LightSalmon;">
+  <center><h3>References</h3></center>
+   <ol>
+      <li>
+         <a href="https://arxiv.org/abs/1304.3061"><p>Peruzzo, A. <i>et al </i> (2013) A variational eigenvalue solver on a quantum processor, <cite>Nature Communications.</cite></p></a>
+      </li>
+   </ol>
+  </div>
+    
+  </div>
+
+ 
+
+
+
+  <!-- Pagination -->
+  
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>
