@@ -100,7 +100,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       <center><h1 class="w3-text-teal">Applying a Variational Quantum Eigensolver to <br> Transverse Field Ising Model</h1></center>
       <a id="BasicDef"><center><h3 class = "w3-text-teal">Basic Definitions</h3></center></a>
       <p>
-       The variational quantum eigensolver (VQE) provides a quantum algorithm to estimate eigenvalues for problems including solving the Schrodinger equation for a system's ground state energy.
+       The variational quantum eigensolver (VQE) provides a quantum algorithm to estimate eigenvalues for problems, including solving the Schrodinger equation for a system's ground state energy.
       </p>
       <a id = "Ham"><center><h3 class = "w3-text-teal">Hamiltonians in Pauli Basis</h3></center></a>
     <p>
@@ -108,7 +108,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       \[\mathcal{H} = \sum_{i \alpha} h^{i}_{\alpha} \sigma_{\alpha}^{i} + \sum_{ij \alpha \beta} h^{ij}_{\alpha \beta} \sigma_{\alpha}^{i} \sigma_{\beta}^{j} + \ldots\]
       Using the notation of Peruzzo et al., h is a real number and the Greek letter indices specify the Pauli operator. The superscripts denote the subspace an operator acts on. For some state, \(\ket{\psi}\), the expectation value of the Hamiltonian can be written as:
       \[\langle \mathcal{H} \rangle = \sum_{i \alpha} h^{i}_{\alpha} \langle \sigma_{\alpha}^{i} \rangle + \sum_{ij \alpha \beta} h^{ij}_{\alpha \beta} \langle  \sigma_{\alpha}^{i} \sigma_{\beta}^{j} \rangle + \ldots\]
-      This decomposition applies to any Hamiltonian, however it is most natural for spin Hamiltonians. It becomes more difficult to express Fermionic Hamiltonians in this basis, for example, because a mapping (Jordan-Wigner Transformation) between spin operators and creation/annihilation operators must be used. However, one Hamiltonian that is expressed simply in the Pauli operator basis is the Transverse Field Ising Model (TFIM). The Hamiltonian for a 1D chain of spins with nearest-neighbor couplings, \(J\), and a coupling to an external field, \(h\) is as follows:
+      This decomposition applies to any Hamiltonian, however, it is most natural for spin Hamiltonians. It becomes more difficult to express Fermionic Hamiltonians in this basis, for example, because a mapping (Jordan-Wigner Transformation) between spin operators and creation/annihilation operators must be used. However, one Hamiltonian that is expressed simply in the Pauli operator basis is the Transverse Field Ising Model (TFIM). The Hamiltonian for a 1D chain of spins with nearest-neighbor couplings, \(J\), and a coupling to an external field, \(h\) is as follows:
       \[\mathcal{H} = -J \sum_{i} \sigma_z^{i} \sigma_z^{i+1} -h \sum_{i} \sigma_x^{i}\]
     </p>
     Here, the system is subject to the competing interactions of the nearest-neighbor coupling resulting from \(\sigma_z\) and the coupling to the transverse field from \(\sigma_x\).
@@ -129,7 +129,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     </p>
       <a id="VQE"><center><h4 class = "w3-text-teal">VQE Algorithm</h4></center></a>
     <p>
-      The VQE provides an efficient algorithm to find the ground state energy using a quantum processor and a classical optimizer. First an ansatz state is prepared with respect to a certain parameter. Then, the expectation value of the subterms in the Hamiltonian are computed using quantum hardware. Finally, a classical processor computes the estimation value using the expectation values of the subterms and attempts to optimize the result by preparing a new ansatz.
+      The VQE provides an efficient algorithm to find the ground state energy using a quantum processor and a classical optimizer. First, an ansatz state is prepared with respect to a certain parameter. Then, the expectation value of the subterms in the Hamiltonian are computed using quantum hardware. Finally, a classical processor computes the estimation value using the expectation values of the subterms and attempts to optimize the result by preparing a new ansatz.
       </p>
       <center><img src="https://i.stack.imgur.com/nhC1j.jpg" width=500></center>
       <center><h9>Courtesy of <a href="https://arxiv.org/pdf/1304.3061.pdf">Peruzzo et al.</a></h9></center>
@@ -146,7 +146,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     \[\ket{\psi(\theta)} = \ket{\phi} \otimes \ket{\phi} \otimes \ket{\phi} \otimes \ket{\phi}\]
   </p>
   <p>
-    One class of trial functions, \(\ket{\phi(\theta)}\), which matches the conditions above are trigonometric functions. In my circuit, I realized such a state by using a Hadamard gate followed by a rotation about the y-axis.
+    One class of trial functions, \(\ket{\phi(\theta)}\), which matches the conditions above, are trigonometric functions. In my circuit, I realized such a state by using a Hadamard gate followed by a rotation about the y-axis.
     <center><img src = "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/AnsatzPreparation.png?raw=true" height=400></center>
     The resulting state is
     \[ \ket{\psi} = \left(\frac{1}{\sqrt{2}}\left[\left(\cos\left(\frac{\theta}{2}\right) - \sin\left(\frac{\theta}{2}\right)\right)\ket{0} + \left(\cos\left(\frac{\theta}{2}\right) + \sin\left(\frac{\theta}{2}\right)\right)\ket{1} \right] \right)^{\otimes ~ 4}\]
@@ -154,7 +154,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <p>
     By computing the expectation values for the x terms, we find:
     \[\sum \langle X_i \rangle = 4 \bra{\phi(\theta)} \sigma_x \ket{\phi(\theta)} = 4 \cos(\theta)\]
-    Similarly for the z terms:
+    Similarly, for the z terms:
     \[\sum \langle \hat{Z}_i \hat{Z}_j \rangle = 4 (\bra{\phi(\theta)} \sigma_x \ket{\phi(\theta)})^2 = 4 \sin^2(\theta)\]
     Putting the terms together, we end up with the following expectation value function of \(\mathcal{H}\):
     \[
@@ -240,7 +240,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       </center>
       <a id="X"><center><h4 class = "w3-text-teal">\(\langle X_i \rangle\) Circuit</h4></center></a>
   <p>
-    The \(\langle X_i \rangle\) term is the total of each individual expectation value given by \(\langle \sigma_x^i \rangle\). In order to compute this value, the ansatz state is prepared with the circuit above and an \(X\) gate is applied to the qubit \(q_i\). In order to perform measurements in the basis of \(\sigma_x\) eigenstates, a Hadamard gate is applied to each qubit before measurement. The resulting circuit corresponding to \(q_0\) is shown below. Note that I reverse the ordering of the bits from Qiskit's default of little endian to my convention of big endian.
+    The \(\langle X_i \rangle\) term is the total of each individual expectation value given by \(\langle \sigma_x^i \rangle\). In order to compute this value, the ansatz state is prepared with the circuit above, and an \(X\) gate is applied to the qubit \(q_i\). In order to perform measurements in the basis of \(\sigma_x\) eigenstates, a Hadamard gate is applied to each qubit before measurement. The resulting circuit corresponding to \(q_0\) is shown below. Note that I reverse the ordering of the bits from Qiskit's default of little endian to my convention of big endian.
   </p>
       <center><img src = "https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/x_0_expectation_circuit.png?raw=true" height=400></center>
  
@@ -253,11 +253,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
       <a id="Param"><center><h4 class = "w3-text-teal">Expectation Values Over the Parameter Space</h4></center></a>
       <p>
-        Recal that the Hamiltonian's expectation value can be broken down into a \(Z\) term and an \(X\) term as:
+        Recall that the Hamiltonian's expectation value can be broken down into a \(Z\) term and an \(X\) term as:
         \[
     \langle \mathcal{H} \rangle = -4 J \langle Z_i Z_{i+1} \rangle - 4 h \langle X_i \rangle
     \]
-      We can store the results for \(Z\) and \(X\) as a function of our parameter, \(\theta\) in a single set of measurements. These measurements can then be used to estimate the ground state energy for any set of \(J\) and \(h\), limiting the need to run multiple times on a quantum computer. The plot below shows the expectation values for the \(Z\) and \(X\) as a function of the parameter. A noisy simulation was performed in Qiskit with 400 shots for each value of the parameter tested.
+      We can store the results for \(Z\) and \(X\) as a function of our parameter, \(\theta\), in a single set of measurements. These measurements can then be used to estimate the ground state energy for any set of \(J\) and \(h\), limiting the need to run multiple times on a quantum computer. The plot below shows the expectation values for the \(Z\) and \(X\) as a function of the parameter. A noisy simulation was performed in Qiskit with 400 shots for each value of the parameter tested.
       </p>
       <center><img src ="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/VQEExpectationVals.png?raw=true" height=450></center>
       
