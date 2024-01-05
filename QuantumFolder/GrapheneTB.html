@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Graphene TB Model</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+.myTable {
+ margin: auto;
+ border-collapse: collapse;
+}
+.mytd {
+ position: relative;
+ text-align: center;
+ height: 25px;
+ width: 25px;
+ border: 1px solid black;
+}
+  .hb {
+ position: relative;
+ text-align: center;
+ height: 100px;
+ width: 100px;
+ border: 1px solid black;
+ background:salmon;
+  }
+  .mce {
+ position: relative;
+ text-align: center;
+ height: 25px;
+ width: 25px;
+ border: 1px solid black;
+ background: LightGray;
+   .row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+} 
+   
+  }
+
+pre.code {
+  white-space: pre-wrap;
+  background: #F5F5F5;
+}
+pre.code::before {
+  counter-reset: listing;
+}
+pre.code code {
+  counter-increment: listing;
+}
+pre.code code::before {
+  content: counter(listing) "|   ";
+  display: inline-block;
+  width: 8em;         /* now works */
+  padding-left: auto; /* now works */
+  margin-left: auto;  /* now works */
+  text-align: right;  /* now works */
+}
+
+ .pykw{
+  color: green;
+  font-weight: bold;
+  }
+  
+  .pynum{
+    color: green;
+  }
+  
+  .pyop{
+    color: #BF40BF;
+    font-weight: bold;
+  }
+  
+  .pyfunc{
+    color: blue;
+  }
+  
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#BasicDef">Graphene</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#TB">Tight Binding</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Analytic">Analytical Solution</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#CodeBase">Code</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Numer">Numerical Solution</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#References">References</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-container">
+      <center><h1 class="w3-text-teal">Computing Graphene Band Structure through Tight Binding Model</h1></center>
+      <a id="BasicDef"><center><h3 class = "w3-text-teal">Graphene</h3></center></a>
+      <p>
+        Graphene is an allotrope of carbon that displays a wide range of exotic properties because of its crystal structure. Reminiscent of a honeycomb, each of the atoms in a monolayer sheet of graphene has three nearest-neighbor atoms. Each unit cell in the lattice is unchanged by a transformation along the lattice vectors \(\vec{a}_1 = \langle 1, 0 \rangle\) and \(\vec{a}_2 = \langle \frac{1}{2}, \frac{\sqrt{3}}{2} \rangle \). The hexagonal (honeycomb) lattice can be constructed by overlaying two triangular sublattices separated by the vector \(\tau = \langle 0, \frac{1}{\sqrt{3}} \rangle\) as shown below
+      </p>
+      <center>
+      <img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/graphene_lattice.png?raw=true" height="450">
+      </center>
+      Each site on the lattice can be defined by a tuple, \(((n_1, n_2),l)\), with a corresponding position, \(\vec{r} = n_1 \vec{a}_1 + n_2 \vec{a}_2 + l \vec{\tau}\). Here \(l\) denotes which sublattice contains the site, \(0 \leq n_1 \lt N_1\) is an index corresponding to the x location of a unit cell, and \(0 \leq n_2 \lt N_2\) is an index corresponding to the y location of a unit cell on a grid of \(N_1 \times N_2\) unit cells. Additionally, we can define the reciprocal lattice vectors, \((\vec{b}_1, \vec{b}_2)\) through their relation with the real space lattice vectors:
+      \[\vec{a}_i \cdot \vec{b}_j = \delta_{ij} \frac{2 \pi}{N_i}\]
+      We then find that the corresponding basis is \({\vec{b}_1 = \frac{2 \pi}{N_1}\langle 1, \frac{-1}{\sqrt{3}}\rangle}\) and \({\vec{b}_2 = \frac{2 \pi}{N_2}\langle 0, \frac{2}{\sqrt{3}}\rangle}\).
+      <a id="TB"><center><h3 class = "w3-text-teal">Tight Binding</h3></center></a>
+      <p>
+        The potential within the lattice displays the following periodicity for each lattice vector, \(\vec{R}\), 
+        \(\hat{V}(\vec{r}) =\hat{V}(\vec{r} + \vec{R}) \). Bloch's theorem states that the solutions to Schrodinger's equation in such a potential admit the form:
+        \[\psi(\vec{r}) = e^{i \vec{k} \cdot \vec{r}} u(\vec{r})\]
+        where \(u(\vec{r})\) is a function with the same periodicity as the lattice, and \(e^{i \vec{k} \cdot \vec{r}}\) describes plane waves. For this model, we will assume that electrons are held sufficiently close to each of the atoms that the solution can be approximately expressed in terms of the atomic orbitals. For this model, we can expand the solutions in the orthonormal basis of localized orbitals provided by the Wannier functions, \(\Phi_m\) as:
+        \[
+        \psi_{m,\vec{k}}(\vec{r}) = \frac{1}{\sqrt{N}}          \sum_{\vec{R}_n} \Phi_m(\vec{R}_n, \vec{r}) e^{i \vec{k} \cdot \vec{R}_n}
+        \]
+        The only nonzero terms in the Hamiltonian are the energy associated with  "hopping" between nearest neighbors:
+        
+        \[ 
+        H = -t \sum_{i,j}^{N_1, N_2} \left[ \ket{i, j, 0)} \bra{i, j,1} + \ket{i, j, 0)} \bra{i, j - 1,1} + \ket{i, j, 0)} \bra{i+1, j-1,1} \right] + \text{h.c.}
+        \]
+        Lastly, we can easily compute the dispersion relation by computing \(H_k = F^{\dagger} H F\), the Hamiltonian transformed into momentum space. This new matrix will be block-diagonal, where the eigenvalues of the \(i^{th}\) \(2 \times 2\) block along the diagonal correspond to the energies of the \(i^{th}\) site in the reciprocal lattice.
+        The matrix, \(F\) that performs this trasformation is given by:
+        \[ F_{i,j} = \frac{1}{\sqrt{N_1 N_2}}\langle i;\vec{R} |j; \vec{k}\rangle = \frac{1}{\sqrt{N_1 N_2}} \delta_{l_i, l_j} e^{i \vec{k_j} \cdot \vec{r_i}}\]
+      </p>
+      <a id="Analytic"><center><h4 class = "w3-text-teal">Analytical Solution</h4></center></a>
+      <p>
+      Working in the framework of second quantization, we can define cration and annihilation operators for the orbitals around atoms in sites \(A\) and \(B\) as \(A(\vec{R})\) and \(B(\vec{R})\) that satisfy the following anticommutation relations:
+     \[\{A(\vec{R}), A^{\dagger}(\vec{R}')\} = \{B(\vec{R}), B^{\dagger}(\vec{R}')\} = \delta_{\vec{R} \vec{R}'}\]
+      \[\{A(\vec{R}), A(\vec{R}')\} = \{B(\vec{R}), B(\vec{R}')\} = \{A(\vec{R}), B(\vec{R}')\} = \{A(\vec{R}), B^{\dagger}(\vec{R}')\} = 0\]
+        The second quantization Hamiltonian can be expressed in terms of the vectors, \(\vec{\delta}\), linking neighboring atoms:
+        \[H = -t \sum_{\vec{R}, \vec{\delta}} A^{\dagger}(\vec{R})B(\vec{R} + \vec{\delta}) + \text{h.c.}\]
+        Where the vectors \(\vec{\delta}_i\) are given by:
+        \[\vec{\delta}_1 = \langle 0, \frac{1}{\sqrt{3}} \rangle\]
+        \[\vec{\delta}_2 = \langle \frac{1}{2\sqrt{3}}, \frac{-1}{2} \rangle\]
+        \[\vec{\delta}_3 = \langle \frac{-1}{2\sqrt{3}}, \frac{-1}{2} \rangle\]
+        Converting the real-space operators to momentum space, we have:
+        \[A(\vec{R}) = \frac{1}{\sqrt{N}} \sum_{\vec{k}} A(\vec{k}) e^{i \vec{k} \cdot \vec{R}}\]
+        \[B(\vec{R}) = \frac{1}{\sqrt{N}} \sum_{\vec{k}} B(\vec{k}) e^{i \vec{k} \cdot \vec{R}}\]
+        Where the sum over \(\vec{k}\) is summed over the first Brillouin zone.
+      </p>
+      <p>
+        Some algebra brings us to the following k-space Hamiltonian:
+        \[H = -t \sum_{\vec{k},\vec{\delta}} e^{i \vec{k} \cdot \vec{\delta}} A^{\dagger}(\vec{k})B(\vec{k}) + \text{h.c.}\]
+        We can introduce the term \(\psi(\vec{k}) = \langle A(\vec{k}), B(\vec{k}) \rangle\) to rewrite \(H\) as:
+        \[H = \sum_{\vec{k}} \psi^{\dagger}(\vec{k}) h(\vec{k}) \psi(\vec{k}) \]
+        Where the matrix \(h\) is given by:
+        \[h = \begin{pmatrix}
+        0 & f(\vec{k})\\
+        f^{*}(\vec{k}) & 0
+        \end{pmatrix}\]
+        We can diagonalize h to find the corresponding energy eigenvalues, \(E_+\) and \(E_-\). Such that:
+        \[E_{\pm} = \pm |f(\vec{k})|\]
+        Where \(f(\vec{k})\) is given by:
+        \[f(\vec{k}) = -t \sum_{\vec{\delta}} e^{i \vec{k} \cdot \vec{\delta}}\]
+        For our lattice, we find:
+        \[E = \pm t \sqrt{1 + 4 \cos\left (\frac{1}{2} k_x \right) \cos \left(\frac{\sqrt{3}}{2} k_y \right) + 4 \cos^{2}\left (\frac{1}{2} k_x \right)}\]
+        We find that there are two points where the band gap goes to zero, \(E_+(\vec{k}) = E_-(\vec{k})\), at the points:
+        \[K = \frac{2\pi}{3} \langle 1, \sqrt{3} \rangle\]
+        \[K' = \frac{4\pi}{3} \langle 1, 0 \rangle\]
+        
+      </p>
+      <center><img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/first_brillouin_zone.png?raw=true" height=400><h5>Path through three of the highly symmetric points in the first Brillouin shown in orange.</h5></center>
+      <a id="CodeBase"><center><h3 class = "w3-text-teal">Code</h3></center></a>
+    <p>
+      First, we need a function to return the neighbors nearest to the type A atom, located at the position \(i \vec{a_1} + j \vec{a_2}\) on a grid with \(N_1\) columns and \(N_2\) rows. For a cell indexed by \((i, j)\), we will add the label 0 to the type A atom, and 1 to the type B atom.
+      <pre class="code">
+<code><span class="pykw">def</span> <span class = "pyfunc">HexNeighbors</span>(i, j, N1, N2):</code>
+<code>    label <span class="pyop">=</span> ((i, j), <span class="pynum">0</span>)</code>
+<code>    upper_neighbor <span class="pyop">=</span> ((i, j), <span class="pynum">1</span>)</code>
+<code>    bottom_left_neighbor <span class="pyop">=</span> ((i, (j - <span class="pynum">1</span>) <span class="pyop">%</span> N2), <span class="pynum">1</span>)</code>
+<code>    bottom_right_neighbor <span class="pyop">=</span> (((i + <span class="pynum">1</span>) <span class="pyop">%</span> N1, (j - <span class="pynum">1</span>) <span class="pyop">%</span> N2), <span class="pynum">1</span>)</code>
+<code>    <span class="pykw">return</span> upper_neighbor, bottom_left_neighbor, bottom_right_neighbor</code>
+</pre>
+      The following function will convert the coordinates of a site into the corresponding index:
+      <pre class="code">
+<code><span class="pykw">def</span>  <span class = "pyfunc">HexLabelToIndex</span>(label, N1, N2):</code>
+<code>    ((a, b), c) <span class="pyop">=</span> label</code>
+<code>    <span class="pykw">return</span> c <span class="pyop">+</span> <span class="pynum">2</span> <span class="pyop">*</span> b <span class="pyop">+</span> <span class="pynum">2</span> <span class="pyop">*</span> N2 <span class="pyop">*</span> a</code>
+</pre>
+Using these two functions, it is straightforward to define \(H\) in the real space:
+<pre class="code">
+<code><span class="pykw">def</span> <span class="pyfunc">GrapheneHamiltonian</span>(N1, N2, t):</code>
+<code>    dim <span class="pyop">=</span> <span class="pynum">2</span> <span class="pyop">*</span> N1 <span class="pyop">*</span> N2</code>
+<code>    H <span class="pyop">=</span> np.zeros((dim, dim))</code>
+<code>    <span class="pykw">for</span> i <span class="pykw">in</span> <span class="pyfunc">range</span>(N1):</code>
+<code>        <span class="pykw">for</span> j <span class="pykw">in</span> <span class="pyfunc">range</span>(N2):</code>
+<code>            base_label <span class="pyop">=</span> ((i, j), <span class="pynum">0</span>)</code>
+<code>            ind <span class="pyop">=</span> <span class="pyfunc">HexLabelToIndex</span>(base_label, N1, N2)</code>
+<code>            my_neighbors <span class="pyop">=</span> [<span class="pyfunc">HexLabelToIndex</span>(label, N1, N2) <span class="pykw">for</span></code>
+<code>                            label <span class="pykw">in</span> <span class="pyfunc">HexNeighbors</span>(i, j, N1, N2)]</code>
+<code>            <span class="pykw">for</span> n <span class="pykw">in</span> my_neighbors:</code>
+<code>                H[ind, n] <span class="pyop">=</span> t</code>
+<code>                H[n, ind] <span class="pyop">=</span> t</code>
+<code>    <span class="pykw">return</span> H</code>
+</pre>
+    
+    
+  Before we can code the function to transform the real-space Hamiltonian to reciprocal space, \(H^k = F^{\dagger} H F\), we need a function to convert the row and column index of a site in real space to the lattice position.
+      
+      <pre class="code">
+<code><span class="pykw">def</span> <span class="pyfunc">HexIndexToR</span>(index, N1, N2):</code>
+<code>    cv <span class="pyop">=</span> index <span class="pyop">%</span> <span class="pynum">2</span></code>
+<code>    bv <span class="pyop">=</span> (index<span class="pyop">//</span><span class="pynum">2</span>) <span class="pyop">%</span> N2</code>
+<code>    av <span class="pyop">=</span> index <span class="pyop">//</span> (<span class="pynum">2</span> <span class="pyop">*</span> N2)</code>
+<code>    a <span class="pyop">=</span> np.array([<span class="pynum">1</span>, <span class="pynum">0</span>])</code>
+<code>    b <span class="pyop">=</span> np.array([<span class="pynum">1</span>/<span class="pynum">2</span>, np.sqrt(<span class="pynum">3</span>)/<span class="pynum">2</span>])</code>
+<code>    tau <span class="pyop">=</span> np.array([<span class="pynum">0</span>, <span class="pynum">1</span>/np.sqrt(<span class="pynum">3</span>)])</code>
+<code>    <span class="pykw">return</span> np.dot([av, bv, cv], [a, b, tau])</code>
+</pre>
+
+      Similarly, we need to be able to convert an index from the reciprocal lattice to a corresponding \(\vec{k}\) vector:
+      <pre class="code">
+<code><span class="pykw">def</span> <span class="pyfunc">HexIndexToK</span>(index, N1, N2):</code>
+<code>    n <span class="pyop">=</span> (index<span class="pyop">//</span><span class="pynum">2</span>) <span class="pyop">%</span> N2</code>
+<code>    m <span class="pyop">=</span> index <span class="pyop">//</span> (2 <span class="pyop">*</span> N2)</code>
+<code>    b1 <span class="pyop">=</span> <span class="pynum">2</span> <span class="pyop">*</span> np.pi / N1 <span class="pyop">*</span> np.array([<span class="pynum">1</span>, <span class="pynum">-1</span>/<span class="pyfunc">np.sqrt</span>(<span class="pynum">3</span>)])</code>
+<code>    b2 <span class="pyop">=</span> <span class="pynum">2</span> <span class="pyop">*</span> np.pi / N2 <span class="pyop">*</span> np.array([<span class="pynum">0</span>, <span class="pynum">2</span>/<span class="pyfunc">np.sqrt</span>(<span class="pynum">3</span>)])</code>
+<code>    <span class="pykw">return</span> b1 <span class="pyop">*</span> m <span class="pyop">+</span> b2 <span class="pyop">*</span> n</code>
+</pre>
+      Now, we have the ingredients for a function returning the unitary matrix, \(F\), that enacts a transformation to momentum space:
+      
+      <pre class="code">
+<code><span class="pykw">def</span> <span class="pyfunc">GrapheneF</span>(N1, N2):</code>
+<code>    prefactor <span class="pyop">=</span> <span class="pynum">1</span> <span class="pyop">/</span> (np.sqrt(N1 <span class="pyop">*</span> N2))</code>
+<code>    dim <span class="pyop">=</span> <span class="pynum">2</span> <span class="pyop">*</span> N1 <span class="pyop">*</span> N2</code>
+<code>    H <span class="pyop">=</span> np.zeros((dim, dim), dtype<span class="pyop">=</span>complex)</code>
+<code>    <span class="pykw">for</span> i <span class="pykw">in</span> <span class="pyfunc">range</span>(dim):</code>
+<code>        sigma_prime <span class="pyop">=</span> (i <span class="pyop">%</span> <span class="pynum">2</span>)</code>
+<code>        r_i <span class="pyop">=</span> <span class="pyfunc">HexIndexToR</span>(i, N1, N2)</code>
+<code>        <span class="pykw">for</span> j <span class="pykw">in</span> <span class="pyfunc">range</span>(dim):</code>
+<code>            sigma <span class="pyop">=</span> (j <span class="pyop">%</span> <span class="pynum">2</span>)</code>
+<code>            k_j <span class="pyop">=</span> <span class="pyfunc">HexIndexToK</span>(j, N1, N2)</code>
+<code>            <span class="pykw">if</span> (sigma <span class="pyop">==</span> sigma_prime):</code>
+<code>                H[i, j] <span class="pyop">=</span> prefactor <span class="pyop">*</span> np.exp(<span class="pynum">1j</span> <span class="pyop">*</span> np.dot(k_j, r_i))</code>
+<code>    <span class="pykw">return</span> H</code>
+</pre>
+    </p>
+    <a id="Numer"><center><h3 class = "w3-text-teal">Numerical Solution</h3></center></a>
+      <p>
+        We will find a numerical solution for \(t=1\) on a \(27 \times 27\) lattice. The following plot illustrates the two bands:
+        <center>
+      <img src="https://raw.githubusercontent.com/0dannyboi/0dannyboi.github.io/master/QuantumFolder/graphene_3d_band_structure.png" height="450">
+      </center>
+        And the following plot illustrates the band gap, \(E_+ - E_-\):
+        <center><img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/graphene_full_angle_band_gap.png?raw=true" height = "450"></center>
+      </p>
+    <p>
+      Lastly, we can show the band structure through a highly symmetric path in k-space:
+      <center><img src="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/sym_path.png?raw=true" height = "350"></center>
+    </p>
+    </div>
+  <a id="References"></a>
+<div class="w3-card" style="background: LightSalmon;">
+  <center><h3>References</h3></center>
+   <ol>
+      <li>
+         <p>Anthony J. Leggett <a href="https://web.physics.ucsb.edu/~phys123B/w2015/leggett-lecture.pdf"><cite>Lecture 5: Graphene: Electronic band structure and Dirac fermions
+           </cite></a>.</p>
+      </li>
+      <li>
+         <p>Bryan Clark. <a href="https://clark.physics.illinois.edu/html/TI/Overview.html"><cite>Computing In Physics Lecture Notes
+           </cite></a>. Topological Insulators.</p>
+      </li>
+   </ol>
+  </div>
+    
+  </div>
+
+ 
+
+
+
+  <!-- Pagination -->
+  
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>
