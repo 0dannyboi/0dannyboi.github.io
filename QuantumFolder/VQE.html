@@ -129,7 +129,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     </p>
       <a id="VQE"><center><h4 class = "w3-text-teal">VQE Algorithm</h4></center></a>
     <p>
-      The VQE provides an efficient algorithm to find the ground state energy using a quantum processor and a classical optimizer. First, an ansatz state is prepared with respect to a certain parameter. Then, the expectation value of the subterms in the Hamiltonian are computed using quantum hardware. Finally, a classical processor computes the estimation value using the expectation values of the subterms and attempts to optimize the result by preparing a new ansatz.
+      The VQE provides an efficient algorithm to find the ground state energy using a quantum processor and a classical optimizer. First, an ansatz state is prepared with respect to a certain parameter. Then, the expectation value of the subterms in the Hamiltonian is computed using quantum hardware. Finally, a classical processor computes the estimation value using the expectation values of the subterms and attempts to optimize the result by preparing a new ansatz.
       </p>
       <center><img src="https://i.stack.imgur.com/nhC1j.jpg" width=500></center>
       <center><h9>Courtesy of <a href="https://arxiv.org/pdf/1304.3061.pdf">Peruzzo et al.</a></h9></center>
@@ -142,7 +142,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     \]
     We can write the expectation value of the above as a linear combination of the two terms:
     \[\langle \mathcal{H} \rangle = -J \sum \langle \hat{Z}_i \hat{Z}_j \rangle -h \sum \langle \hat{X}_i \rangle\]
-  Now, we can try to estimate the ground state energy using an ansatz state that is a function of some parameter, \(\theta\). The first term, \(-J \sum \langle \hat{Z}_i \hat{Z}_j \rangle\), is minimized by overlapping \(\sigma_z\) eigenstates. On the other hand, the second term, \(-h \sum \langle \hat{X}_i \rangle\), is minimized by \(\sigma_x\) eigenstates. Using some classical intuiton, we can argue that a ground state configuration would be some 'intermediate' state, \(\ket{\phi}\) between the \(\sigma_z\) and \(\sigma_x\) eigenstates. Additionally, we will assume the ground state for \(\mathcal{H}\) also admits the form:
+  Now, we can try to estimate the ground state energy using an ansatz state that is a function of some parameter, \(\theta\). The first term, \(-J \sum \langle \hat{Z}_i \hat{Z}_j \rangle\), is minimized by overlapping \(\sigma_z\) eigenstates. On the other hand, the second term, \(-h \sum \langle \hat{X}_i \rangle\), is minimized by \(\sigma_x\) eigenstates. Using some classical intuition, we can argue that a ground state configuration would be some 'intermediate' state, \(\ket{\phi}\) between the \(\sigma_z\) and \(\sigma_x\) eigenstates. Additionally, we will assume the ground state for \(\mathcal{H}\) also admits the form:
     \[\ket{\psi(\theta)} = \ket{\phi} \otimes \ket{\phi} \otimes \ket{\phi} \otimes \ket{\phi}\]
   </p>
   <p>
@@ -262,7 +262,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       <center><img src ="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/VQEExpectationVals.png?raw=true" height=450></center>
       
       <a id="GSE"><center><h4 class = "w3-text-teal">Approximation of Ground State Energy</h4></center></a>
-      Using the results above, the VQE was evaluated over a range of \(h\) values for a constant \(J = 1\) by numerically finding the parameter which minimizes the function \(\langle \mathcal{H} \rangle = -4 J \langle Z_i Z_{i+1} \rangle - 4 h \langle X_i \rangle\). Note that the VQE recovers the general form of the exact solution, returining estimates of the ground state energy which are greater than the exact solution.
+      Using the results above, the VQE was evaluated over a range of \(h\) values for a constant \(J = 1\) by numerically finding the parameter which minimizes the function \(\langle \mathcal{H} \rangle = -4 J \langle Z_i Z_{i+1} \rangle - 4 h \langle X_i \rangle\). Note that the VQE recovers the general form of the exact solution, returning estimates of the ground state energy that are greater than the exact solution.
        <center><img src ="https://github.com/0dannyboi/0dannyboi.github.io/blob/master/QuantumFolder/VQEGSE.png?raw=true" height=450></center>
      
     </div>
