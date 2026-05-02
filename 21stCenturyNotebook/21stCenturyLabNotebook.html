@@ -128,6 +128,22 @@
         grid-template-columns: 1fr;
       }
     }
+
+    #ellie {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      width: 90px;
+      opacity: 0.85;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    #ellie:hover {
+      transform: scale(1.05);
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -135,7 +151,7 @@
     <h1>Lab Notebook Entry Builder</h1>
     <p>Low-friction research notes: motivation, setup, results, questions, and paths.</p>
   </header>
-
+  <img id="ellie" src="assets/ellie.png" alt="Ellie lab assistant">
   <main>
     <section>
       <h2>Entry Fields</h2>
