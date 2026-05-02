@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>21st-Century Lab Notebook</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      background: #f6f7f9;
+      color: #1f2937;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 1.5rem 2rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.7rem;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    section {
+      background: white;
+      border-radius: 14px;
+      padding: 1.25rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      font-weight: 650;
+      margin-top: 1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0.65rem;
+      font: inherit;
+      background: white;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.7rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #374151;
+      margin-left: 0.5rem;
+    }
+
+    button.small {
+      margin-top: 0.5rem;
+      padding: 0.45rem 0.7rem;
+      font-size: 0.9rem;
+      background: #4b5563;
+    }
+
+    button.danger {
+      background: #b91c1c;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      background: #0f172a;
+      color: #e5e7eb;
+      padding: 1rem;
+      border-radius: 10px;
+      overflow-x: auto;
+      min-height: 500px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .hint {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .path-row {
+      display: grid;
+      grid-template-columns: 150px 1fr auto;
+      gap: 0.5rem;
+      align-items: center;
+      margin-top: 0.6rem;
+    }
+
+    .path-row button {
+      margin-top: 0;
+    }
+
+    @media (max-width: 800px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .path-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lab Notebook Entry Builder</h1>
+    <p>Low-friction research notes: motivation, setup, results, questions, and paths.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Entry Fields</h2>
+
+      <label>Date</label>
+      <input id="date" type="date" />
+
+      <label>Short experiment title</label>
+      <input id="title" placeholder="e.g. TFIM Binder scan at beta=8" />
+
+      <h3>Pre-Lab / Planning</h3>
+
+      <label>Motivation</label>
+      <textarea id="motivation" placeholder="What am I trying to understand? Why does this run/analysis matter?"></textarea>
+
+      <label>People / conversations</label>
+      <textarea id="people" placeholder="Who did I talk to? Who requested this simulation? What ideas came from meetings or hallway conversations?"></textarea>
+
+      <label>Papers / references that inspired this</label>
+      <textarea id="papers" placeholder="Paper titles, DOIs, arXiv links, notes, or citation keys"></textarea>
+
+      <label>Expected deliverables</label>
+      <textarea id="deliverables" placeholder="What trend, comparison, plot, parameter dependence, or qualitative behavior am I trying to establish?&#10;&#10;Example: Determine whether vortex dissipation increases monotonically with pin density, or whether there is an optimal pinning strength."></textarea>
+
+      <label>Paths</label>
+      <p class="hint">Add as many paths as needed: simulation code, analysis scripts, data folders, plots, configs, notes, etc.</p>
+      <div id="pathsContainer"></div>
+      <button class="small" onclick="addPathRow()" type="button">+ Add path</button>
+
+      <label>Parameters</label>
+      <textarea id="parameters" placeholder="N=60&#10;Q=100&#10;beta=8&#10;g=0.92"></textarea>
+
+      <label>Results / observations</label>
+      <textarea id="results" placeholder="What happened? What looked good/weird?"></textarea>
+
+      <label>Problems / bugs</label>
+      <textarea id="problems" placeholder="What went wrong or needs checking?"></textarea>
+
+      <label>Questions for meeting</label>
+      <textarea id="questions" placeholder="What should I ask my advisor/group?"></textarea>
+
+      <label>Next steps</label>
+      <textarea id="nextSteps" placeholder="- [ ] Try larger Q&#10;- [ ] Check finite-size effects"></textarea>
+
+      <button onclick="generateMarkdown()" type="button">Generate Markdown</button>
+      <button class="secondary" onclick="downloadMarkdown()" type="button">Download .md</button>
+      <p class="hint">This runs entirely in your browser. No server required.</p>
+    </section>
+
+    <section>
+      <h2>Markdown Preview</h2>
+      <pre id="output"></pre>
+    </section>
+
+    <section class="full-width">
+      <h2>How to use</h2>
+      <p>
+        Fill out the fields, generate markdown, then save the entry into your GitHub repo under something like
+        <code>lab_notes/2026-05-01_tfim_binder_scan.md</code>.
+      </p>
+      <p>
+        For plots, save thumbnails in <code>lab_notes/assets/</code> and add a path entry such as
+        <code>assets/2026-05-01_binder_scan.png</code>. You can also manually add a Markdown image link:
+      </p>
+      <pre>![Binder scan](assets/2026-05-01_binder_scan.png)</pre>
+    </section>
+  </main>
+
+  <script>
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById("date").value = today;
+
+    const defaultPaths = [
+      { type: "Simulation code", path: "" },
+      { type: "Analysis code", path: "" },
+      { type: "Data", path: "" }
+    ];
+
+    function value(id) {
+      return document.getElementById(id).value.trim();
+    }
+
+    function addPathRow(type = "Other", path = "") {
+      const container = document.getElementById("pathsContainer");
+      const row = document.createElement("div");
+      row.className = "path-row";
+
+      row.innerHTML = `
+        <select class="pathType">
+          <option>Simulation code</option>
+          <option>Analysis code</option>
+          <option>Data</option>
+          <option>Config / parameters</option>
+          <option>Plot / image</option>
+          <option>Notebook</option>
+          <option>Notes</option>
+          <option>Other</option>
+        </select>
+        <input class="pathValue" placeholder="/path/to/file_or_folder" />
+        <button class="small danger" onclick="removePathRow(this)" type="button">Remove</button>
+      `;
+
+      container.appendChild(row);
+      row.querySelector(".pathType").value = type;
+      row.querySelector(".pathValue").value = path;
+    }
+
+    function removePathRow(button) {
+      button.closest(".path-row").remove();
+      generateMarkdown();
+    }
+
+    function getPathsMarkdown() {
+      const rows = document.querySelectorAll(".path-row");
+      const lines = [];
+
+      rows.forEach(row => {
+        const type = row.querySelector(".pathType").value.trim();
+        const path = row.querySelector(".pathValue").value.trim();
+
+        if (path) {
+          lines.push(`- ${type}: \`${path}\``);
+        }
+      });
+
+      return lines.length ? lines.join("\n") : "";
+    }
+
+    function generateMarkdown() {
+      const date = value("date") || today;
+      const title = value("title") || "Untitled experiment";
+      const pathsMarkdown = getPathsMarkdown();
+
+      const markdown = `# ${date} — ${title}
+
+## Pre-Lab / Planning
+
+### Motivation
+${value("motivation") || ""}
+
+### People / Conversations
+${value("people") || ""}
+
+### Papers / References
+${value("papers") || ""}
+
+### Expected Deliverables
+${value("deliverables") || ""}
+
+## Setup / Paths
+${pathsMarkdown || ""}
+
+## Parameters
+\`\`\`
+${value("parameters") || ""}
+\`\`\`
+
+## Results / Observations
+${value("results") || ""}
+
+## Problems / Bugs
+${value("problems") || ""}
+
+## Questions for Meeting
+${value("questions") || ""}
+
+## Next Steps
+${value("nextSteps") || ""}
+`;
+
+      document.getElementById("output").textContent = markdown;
+      return markdown;
+    }
+
+    function slugify(text) {
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "") || "lab_note";
+    }
+
+    function downloadMarkdown() {
+      const markdown = generateMarkdown();
+      const date = value("date") || today;
+      const title = slugify(value("title"));
+      const filename = `${date}_${title}.md`;
+
+      const blob = new Blob([markdown], { type: "text/markdown" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    defaultPaths.forEach(item => addPathRow(item.type, item.path));
+    generateMarkdown();
+  </script>
+</body>
+</html>
